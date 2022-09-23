@@ -58,7 +58,7 @@
       encrypted = {
         enable = true;
         label = "cryptswap";
-        keyFile = "/mnt-root/secrets/keyfile.bin"; # During stage-1, the neededForBoot device is mounted under /mnt-root
+        keyFile = "/keyfile.bin"; # During stage-1, the neededForBoot device is mounted under /mnt-root
         blkDev = "/dev/disk/by-label/LUKSSWAP";
       };
     }];

@@ -6,7 +6,7 @@
   ];
 
   config = {
-    my.gnome-desktop.enable = true;
+    # my.gnome-desktop.enable = true;
     my.base = {
       enable = true;
       hostname = "x1c7";

@@ -32,8 +32,8 @@ select_device() {
 		SWAP_PARTITION="${device}p3"
 	else
 		ESP_PARTITION="${device}1"
-		ROOT_PARTITION="${device}1"
-		SWAP_PARTITION="${device}2"
+		ROOT_PARTITION="${device}2"
+		SWAP_PARTITION="${device}3"
 	fi
 	echo "ESP partition: ${ESP_PARTITION}"
 	echo "Root partition: ${ROOT_PARTITION}"
@@ -86,6 +86,7 @@ mount_partition() {
 
 	mkdir -p "${MOUNTPOINT}"/nix
 	mkdir -p "${MOUNTPOINT}"/persist
+	mkdir -p "${MOUNTPOINT}"/boot
 
 	mount -t btrfs -o compress-force=zstd,noatime,subvol=nix /dev/mapper/cryptroot "${MOUNTPOINT}"/nix
 	mount -t btrfs -o compress-force=zstd,noatime,subvol=persist /dev/mapper/cryptroot "${MOUNTPOINT}"/persist
@@ -121,4 +122,5 @@ select_device "$@"
 create_partition
 format_partition
 mount_partition
+create_keyfile
 nixos_install
