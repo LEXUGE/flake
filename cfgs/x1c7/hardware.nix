@@ -1,5 +1,8 @@
 { config, lib, pkgs, modulesPath, ... }:
-
+let
+  cryptroot-uuid = "CHANGEME";
+  cryptswap-uuid = "CHANGEME";
+in
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
@@ -44,7 +47,7 @@
 
   # CAUTION: change it using your device UUID
   boot.initrd.luks.devices."cryptroot".device =
-    "/dev/disk/by-label/LUKSROOT";
+    "/dev/disk/by-uuid/${cryptroot-uuid}";
 
   fileSystems."/boot/efi" = {
     label = "ESP";
@@ -59,7 +62,7 @@
         enable = true;
         label = "cryptswap";
         keyFile = "/keyfile.bin"; # During stage-1, the neededForBoot device is mounted under /mnt-root
-        blkDev = "/dev/disk/by-label/LUKSSWAP";
+        blkDev = "/dev/disk/by-uuid/${cryptswap-uuid}";
       };
     }];
 
