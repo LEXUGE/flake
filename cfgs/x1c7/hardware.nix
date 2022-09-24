@@ -17,6 +17,7 @@ in
   # /nix -> (LUKSROOT -> BTRFSROOT -> nix)
   # /persist -> (LUKSROOT -> BTRFSROOT -> persist)
   # /persist/home -> (LUKSROOT -> BTRFSROOT -> persist -> home)
+  # /boot (LUKSROOT -> BTRFSROOT -> boot)
   # Other files are mapped by impermanence
   #
   # Also there is an encrypted swap partition.
@@ -35,6 +36,8 @@ in
     device = "/dev/mapper/cryptroot";
     fsType = "btrfs";
     options = [ "subvol=persist" "noatime" "compress-force=zstd" ];
+    # /persist is needed for boot cause it has to be present when impermanence's activation script runs.
+    # otherwise it will be mounted after impermanence, which is unacceptable.
     neededForBoot = true;
   };
 
@@ -42,7 +45,7 @@ in
     device = "/dev/mapper/cryptroot";
     fsType = "btrfs";
     options = [ "subvol=boot" "noatime" "compress-force=zstd" ];
-    neededForBoot = true;
+    # neededForBoot = true;
   };
 
   # CAUTION: change it using your device UUID
@@ -69,4 +72,20 @@ in
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   # high-resolution display
   hardware.video.hidpi.enable = lib.mkDefault true;
+
+  hardware.enableAllFirmware = true;
+
+  # Update Intel CPU Microcode
+  hardware.cpu.intel.updateMicrocode = true;
+
+  # Intel UHD 620 Hardware Acceleration
+  hardware.opengl = {
+    enable = true;
+    extraPackages = with pkgs; [
+      vaapiIntel
+      vaapiVdpau
+      libvdpau-va-gl
+      intel-media-driver # only available starting nixos-19.03 or the current nixos-unstable
+    ];
+  };
 }

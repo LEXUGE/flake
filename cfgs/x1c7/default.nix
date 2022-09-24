@@ -3,13 +3,69 @@
     ./boot.nix
     ./hardware.nix
     ./networking.nix
+    ./i18n.nix
+    ./services.nix
   ];
 
   config = {
-    # my.gnome-desktop.enable = true;
+    my.gnome-desktop.enable = true;
     my.base = {
       enable = true;
       hostname = "x1c7";
+    };
+    my.home.ash.extraPackages = with pkgs; [
+      htop
+      qbittorrent
+      zoom-us
+      thunderbird-bin
+      pavucontrol
+      dnsperf
+      smartmontools
+      # Steam scaling seems to be broken, doing it manually
+      (runCommand "steam-hidpi"
+        {
+          nativeBuildInputs = [ makeWrapper ];
+        } ''
+        mkdir -p $out/bin
+        makeWrapper ${steam}/bin/steam $out/bin/steam --set GDK_SCALE 2
+        cp -r ${steam}/share $out/share/
+      '')
+    ];
+
+    # Fonts
+    fonts.fonts = with pkgs; [
+      noto-fonts
+      noto-fonts-cjk
+      noto-fonts-emoji
+      fira-code
+      fira-code-symbols
+    ];
+
+    environment.persistence."/persist" = {
+      directories = [
+        "/var/log"
+        "/var/lib"
+        "/var/cache"
+      ];
+      files = [
+        "/etc/machine-id"
+      ];
+      users.ash = {
+        directories = [
+          "Desktop"
+          "Documents"
+          "Downloads"
+          "Music"
+          "Pictures"
+          "Videos"
+          ".cache"
+          ".local"
+          ".mozilla"
+          ".ssh"
+          ".gnupg"
+          ".thunderbird"
+        ];
+      };
     };
 
     users = {
@@ -31,5 +87,7 @@
         };
       };
     };
+
+    system.stateVersion = "22.11";
   };
 }

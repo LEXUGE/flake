@@ -8,7 +8,18 @@
     # ZFS is currently broken on the latest kernel. Since we don't use it, it's fine to disable it.
     boot.supportedFilesystems = lib.mkForce [ "btrfs" "reiserfs" "vfat" "f2fs" "xfs" "ntfs" "cifs" ];
 
-    # home-manager.useUserPackages = true;
+    # Set internationalisation properties.
+    console = {
+      font = "Lat2-Terminus16";
+      useXkbConfig = true;
+    };
+    i18n = {
+      defaultLocale = "en_US.UTF-8";
+      inputMethod = {
+        enabled = "ibus";
+        ibus.engines = with pkgs.ibus-engines; [ libpinyin typing-booster ];
+    };
+  };
 
     isoImage.edition = "gnome";
 
@@ -49,6 +60,12 @@
       enable = true;
       hostname = "x1c7-img";
     };
+    my.home.nixos.extraPackages = with pkgs; [
+      htop
+      pavucontrol
+      dnsutils
+      smartmontools
+    ];
 
     environment.systemPackages = with pkgs; [
       (writeShellScriptBin "install-script"

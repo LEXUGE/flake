@@ -7,9 +7,19 @@
 
     # Programmable DNS component used in our systems
     dcompass.url = "github:compassd/dcompass";
+
+    # My emacs config
+    ash-emacs.url = "github:LEXUGE/emacs.d";
+
+    # Tool for NixOS on tmpfs
+    impermanence.url = "github:nix-community/impermanence";
+
+    # Home manager
+    home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, utils, dcompass, ... }@inputs: with utils.lib; let
+  outputs = { self, nixpkgs, utils, dcompass, impermanence, ash-emacs, home-manager }: with utils.lib; let
     lib = nixpkgs.lib;
 
     mkSystem = { name, extraMods ? [ ], extraOverlays ? [ ], system }: (lib.nixosSystem {
@@ -37,11 +47,14 @@
       extraMods = [
         nixosModules.clash
         nixosModules.base
+        nixosModules.home
         nixosModules.gnome-desktop
         nixosModules.dcompass
+        impermanence.nixosModules.impermanence
+        home-manager.nixosModules.home-manager
         ./cfgs/x1c7
       ];
-      extraOverlays = [ dcompass.overlays.default ];
+      extraOverlays = [ dcompass.overlays.default ash-emacs.overlay ];
       system = system.x86_64-linux;
     };
 
@@ -49,13 +62,15 @@
       name = "x1c7-img";
       extraMods = [
         nixosModules.clash
+        nixosModules.home
         nixosModules.base
         nixosModules.gnome-desktop
         nixosModules.dcompass
+        home-manager.nixosModules.home-manager
         ./cfgs/x1c7-img
         "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-base.nix"
       ];
-      extraOverlays = [ dcompass.overlays.default ];
+      extraOverlays = [ dcompass.overlays.default ash-emacs.overlay ];
       system = system.x86_64-linux;
     };
 
