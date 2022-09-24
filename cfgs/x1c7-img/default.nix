@@ -18,8 +18,8 @@
       inputMethod = {
         enabled = "ibus";
         ibus.engines = with pkgs.ibus-engines; [ libpinyin typing-booster ];
+      };
     };
-  };
 
     isoImage.edition = "gnome";
 
@@ -55,12 +55,16 @@
       };
     };
 
-    my.gnome-desktop.enable = true;
+    my.gnome-desktop = {
+      enable = true;
+      extraExcludePackages = [ pkgs.orca ];
+    };
     my.base = {
       enable = true;
       hostname = "x1c7-img";
     };
     my.home.nixos.extraPackages = with pkgs; [
+      firefox-wayland
       htop
       pavucontrol
       dnsutils

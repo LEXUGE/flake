@@ -36,18 +36,14 @@ in
     users = mkUserConfigs (n: c:
       { lib, ... }:
       let inherit (lib.hm.gvariant) mkTuple;
-      in {
+      in rec {
         # Use system stateVersion;
         home.stateVersion = config.system.stateVersion;
 
         # Home-manager settings.
         # User-layer packages
         home.packages = with pkgs;
-          (c.emacsPackages ++ optionals (gnomeEnable) [
-            ## Apps that must be present in GNOME
-            firefox-wayland
-            tdesktop
-          ]) ++ optionals (c.extraPackages != null) c.extraPackages;
+          c.emacsPackages ++ optionals (c.extraPackages != null) c.extraPackages;
 
         # Allow fonts to be discovered
         fonts.fontconfig.enable = true;
@@ -107,6 +103,8 @@ in
             tap-to-click = true;
             two-finger-scrolling-enabled = true;
           };
+          # Don't show welcome-dialog
+          "org/gnome/shell".welcome-dialog-last-shown-version = "9999999999";
           # Prefer dark mode
           "org/gnome/desktop/interface".color-scheme = "prefer-dark";
           # Don't suspend on power
@@ -131,9 +129,9 @@ in
           };
           # Favorite apps
           "org/gnome/shell" = {
-            favorite-apps = [
-              "firefox.desktop"
-              "telegramdesktop.desktop"
+            favorite-apps = lists.flatten [
+              (if (builtins.elem pkgs.firefox-wayland home.packages) then [ "firefox.desktop" ] else [ ])
+              (if (builtins.elem pkgs.tdesktop home.packages) then [ "telegramdesktop.desktop" ] else [ ])
               "org.gnome.Nautilus.desktop"
               "org.gnome.Terminal.desktop"
               "emacs.desktop"

@@ -54,7 +54,7 @@
         home-manager.nixosModules.home-manager
         ./cfgs/x1c7
       ];
-      extraOverlays = [ dcompass.overlays.default ash-emacs.overlay ];
+      extraOverlays = [ dcompass.overlays.default ash-emacs.overlays.default ];
       system = system.x86_64-linux;
     };
 
@@ -70,7 +70,7 @@
         ./cfgs/x1c7-img
         "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-base.nix"
       ];
-      extraOverlays = [ dcompass.overlays.default ash-emacs.overlay ];
+      extraOverlays = [ dcompass.overlays.default ash-emacs.overlays.default ];
       system = system.x86_64-linux;
     };
 

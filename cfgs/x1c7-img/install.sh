@@ -109,10 +109,10 @@ create_keyfile() {
 
 # NIXOS_INSTALL
 nixos_install() {
-	git clone https://github.com/LEXUGE/flake
+	echo "git clone https://github.com/LEXUGE/flake"
 
 	# Install NixOS. We don't need root password.
-	echo "nixos-install --flake \"./flake#x1c7\" --no-root-passwd"
+	echo "nixos-install --flake \"./flake#x1c7\" --no-root-passwd --no-channel-copy"
 
 	echo "Change config and run above command to finish"
 }

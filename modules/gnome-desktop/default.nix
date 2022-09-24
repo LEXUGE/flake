@@ -7,6 +7,11 @@ in {
       type = types.bool;
       default = false;
     };
+
+    extraExcludePackages = mkOption {
+      type = with types; listOf package;
+      default = [ ];
+    };
   };
 
   config = mkIf cfg.enable {
@@ -31,10 +36,10 @@ in {
 
     # Some of the GNOME Packages are unwanted
     programs.geary.enable = false;
-    environment.gnome.excludePackages = with pkgs.gnome3; [
-      epiphany
+    environment.gnome.excludePackages = with pkgs.gnome; [
+      epiphany # GNOME Web
       gnome-software
       gnome-characters
-    ];
+    ] ++ cfg.extraExcludePackages;
   };
 }
