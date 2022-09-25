@@ -11,10 +11,10 @@
 
     # My emacs config
     ash-emacs.url = "github:LEXUGE/emacs.d";
+    ash-emacs.inputs.nixos.follows = "nixpkgs";
 
     # Tool for NixOS on tmpfs
     impermanence.url = "github:nix-community/impermanence";
-    impermanence.inputs.nixpkgs.follows = "nixpkgs";
 
     # Home manager
     home-manager.url = "github:nix-community/home-manager";
