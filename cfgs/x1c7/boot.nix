@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }: {
   # Enable plymouth for better booting cosmetics
-  boot.plymouth.enable = true;
+  # Plymouth seems to falter GDM from starting up.
+  # boot.plymouth.enable = true;
 
   # Use Keyfile to unlock the root partition to avoid keying in twice.
   # Allow fstrim to work on it.

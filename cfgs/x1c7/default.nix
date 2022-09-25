@@ -44,6 +44,7 @@
     ];
 
     environment.persistence."/persist" = {
+      hideMounts = true;
       directories = [
         "/var/log"
         "/var/lib"
@@ -63,8 +64,9 @@
           ".cache"
           ".local"
           ".mozilla"
-          ".ssh"
-          ".gnupg"
+          { directory = ".gnupg"; mode = "0700"; }
+          { directory = ".ssh"; mode = "0700"; }
+          { directory = ".local/share/keyrings"; mode = "0700"; }
           ".thunderbird"
         ];
       };

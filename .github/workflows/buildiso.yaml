@@ -60,7 +60,7 @@ jobs:
         body: |
           This is an automated LiveCD build built on ${{ steps.date.outputs.date }}.
           The SHA-512 checksum of the image is ${{ steps.iso.outputs.x1c7-img-iso }}.
-          See [homepage](https://github.com/LEXUGE/nixos) for more information.
+          See [homepage](https://github.com/LEXUGE/flake) for more information.
         draft: false
         prerelease: false
     - name: Upload Release Asset
