@@ -44,19 +44,19 @@ select_device() {
 create_partition() {
 	wipefs -a "${device}"
 	# Set GPT scheme
-	parted "${device}" mklabel gpt &>/dev/null
+	parted "${device}" mklabel gpt
 	# Create ESP for /efi
-	parted "${device}" -- mkpart primary fat32 1MiB 512MiB &>/dev/null
-	parted "${device}" -- persist1 set 1 esp on &>/dev/null
+	parted "${device}" -- mkpart primary fat32 1MiB 512MiB
+	parted "${device}" -- set 1 esp on
 	# Create /
-	parted "${device}" -- mkpart primary 512MiB -24GiB &>/dev/null
+	parted "${device}" -- mkpart primary 512MiB -20GiB
 	# Create encrypted SWAP
-	parted "${device}" -- mkpart primary -24GiB 100% &>/dev/null
+	parted "${device}" -- mkpart primary -20GiB 100%
 }
 
 #FORMAT_PARTITION
 format_partition() {
-	mkfs.fat -n "ESP" -F32 "${ESP_PARTITION}" >/dev/null
+	mkfs.fat -n "ESP" -F32 "${ESP_PARTITION}"
 	echo "LUKS Setup for btrfs root"
 	cryptsetup luksFormat --type luks1 -s 512 -h sha512 -i 3000 "${ROOT_PARTITION}"
 	echo "Open btrfs root"
@@ -76,8 +76,8 @@ format_partition() {
 	cryptsetup luksFormat --type luks1 -s 512 -h sha512 -i 3000 "${SWAP_PARTITION}"
 	echo "Open btrfs root"
 	cryptsetup open "${SWAP_PARTITION}" cryptswap
-	mkswap /dev/mapper/cryptswap >/dev/null
-	swapon /dev/mapper/cryptswap >/dev/null
+	mkswap /dev/mapper/cryptswap
+	swapon /dev/mapper/cryptswap
 }
 
 #MOUNT_PARTITION
