@@ -5,9 +5,16 @@
   ];
 
   config = {
-    age.secrets.clash_config.file = ../../secrets/clash_config_img.age;
+    age.secrets.clash_config = {
+      file = ../../secrets/clash_config_img.age;
+      mode = "700";
+      owner = config.my.clash.clashUserName;
+    };
     # This is a dummy key in ISO image, we shall not worry about its security.
     age.identityPaths = [ ../../secrets/raw/img_key_ed25519 ];
+
+    # GPG agent that makes GPG work in LiveCD.
+    programs.gnupg.agent.enable = true;
 
     # ZFS is currently broken on the latest kernel. Since we don't use it, it's fine to disable it.
     boot.supportedFilesystems = lib.mkForce [ "btrfs" "reiserfs" "vfat" "f2fs" "xfs" "ntfs" "cifs" ];
