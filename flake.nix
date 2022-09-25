@@ -7,19 +7,25 @@
 
     # Programmable DNS component used in our systems
     dcompass.url = "github:compassd/dcompass";
+    dcompass.inputs.nixpkgs.follows = "nixpkgs";
 
     # My emacs config
     ash-emacs.url = "github:LEXUGE/emacs.d";
 
     # Tool for NixOS on tmpfs
     impermanence.url = "github:nix-community/impermanence";
+    impermanence.inputs.nixpkgs.follows = "nixpkgs";
 
     # Home manager
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Secrets management
+    agenix.url = "github:ryantm/agenix";
+    agenix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, utils, dcompass, impermanence, ash-emacs, home-manager }: with utils.lib; let
+  outputs = { self, nixpkgs, utils, dcompass, impermanence, ash-emacs, home-manager, agenix }: with utils.lib; let
     lib = nixpkgs.lib;
 
     mkSystem = { name, extraMods ? [ ], extraOverlays ? [ ], system }: (lib.nixosSystem {
@@ -52,6 +58,7 @@
         nixosModules.dcompass
         impermanence.nixosModules.impermanence
         home-manager.nixosModules.home-manager
+        agenix.nixosModules.age
         ./cfgs/x1c7
       ];
       extraOverlays = [ dcompass.overlays.default ash-emacs.overlays.default ];
@@ -67,6 +74,7 @@
         nixosModules.gnome-desktop
         nixosModules.dcompass
         home-manager.nixosModules.home-manager
+        agenix.nixosModules.age
         ./cfgs/x1c7-img
         "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-base.nix"
       ];
@@ -81,6 +89,12 @@
     {
       # Other than overlay, we have packages independently declared in flake.
       packages = (import ./pkgs { inherit lib pkgs; });
+
+      # devShell used to launch agenix env.
+      devShells.default = with import nixpkgs { inherit system; };
+        mkShell {
+          nativeBuildInputs = [ openssl agenix.defaultPackage.${system} ];
+        };
 
       apps = rec {
         fmt = utils.lib.mkApp {

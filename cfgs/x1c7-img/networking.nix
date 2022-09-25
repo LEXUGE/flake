@@ -11,6 +11,14 @@
     wifi.scanRandMacAddress = true;
   };
 
+  # Spin up clash
+  my.clash = {
+    enable = true;
+    redirPort = 7892; # This must be the same with the one in your clash.yaml
+    afterUnits = [ "dcompass.service" ];
+    configPath = config.age.secrets.clash_config.path;
+  };
+
   # Setup our local DNS
   my.dcompass = {
     enable = true;

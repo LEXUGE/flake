@@ -5,6 +5,10 @@
   ];
 
   config = {
+    age.secrets.clash_config.file = ../../secrets/clash_config_img.age;
+    # This is a dummy key in ISO image, we shall not worry about its security.
+    age.identityPaths = [ ../../secrets/raw/img_key_ed25519 ];
+
     # ZFS is currently broken on the latest kernel. Since we don't use it, it's fine to disable it.
     boot.supportedFilesystems = lib.mkForce [ "btrfs" "reiserfs" "vfat" "f2fs" "xfs" "ntfs" "cifs" ];
 
