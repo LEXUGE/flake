@@ -109,15 +109,18 @@ create_keyfile() {
 
 # NIXOS_INSTALL
 nixos_install() {
+	sudo -u nixos git clone https://github.com/LEXUGE/flake
+	sudo -u nixos gpg -o ash_ed25519 -d flake/secrets/raw/ash_ed25519.asc
+	mv ash_ed25519 /mnt/persist/secrets/
+
+	blkid -o list "${ROOT_PARTITION}"
+	blkid -o list "${SWAP_PARTITION}"
+
 	echo "YOU SHOULD DO THE FOLLOWING STEPS MANUALLY:"
 
-	echo "1. git clone https://github.com/LEXUGE/flake"
+	echo "1. Change UUIDs of your BTRFS root and swap partition accordingly in flake/cfgs/x1c7/hardware.nix"
 
-	echo "2. gpg -o /mnt/persist/secrets/ash_ed25519 -d flake/secrets/raw/ash_ed25519.asc"
-
-	echo "3. Run blkid and change UUIDs of your BTRFS root and swap partition accordingly in flake/cfgs/x1c7/hardware.nix"
-
-	echo "4. nixos-install --flake \"./flake#x1c7\" --no-root-passwd --no-channel-copy"
+	echo "2. nixos-install --flake \"./flake#x1c7\" --no-root-passwd --no-channel-copy"
 }
 
 # INSTALLATION
