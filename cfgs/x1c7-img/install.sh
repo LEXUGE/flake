@@ -70,7 +70,7 @@ format_partition() {
 	btrfs subvolume create "${MOUNTPOINT}"/persist/home
 	btrfs subvolume create "${MOUNTPOINT}"/boot
 
-	umount /mnt
+	umount ${MOUNTPOINT}
 
 	echo "LUKS Setup for 'SWAP' partition"
 	cryptsetup luksFormat --type luks1 -s 512 -h sha512 -i 3000 "${SWAP_PARTITION}"
@@ -110,8 +110,10 @@ create_keyfile() {
 # NIXOS_INSTALL
 nixos_install() {
 	sudo -u nixos git clone https://github.com/LEXUGE/flake
+
 	sudo -u nixos gpg -o ash_ed25519 -d flake/secrets/raw/ash_ed25519.asc
-	mv ash_ed25519 /mnt/persist/secrets/
+	mv ash_ed25519 ${MOUNTPOINT}/persist/secrets/
+	chmod 600 ${MOUNTPOINT}/persist/secrets/ash_ed25519
 
 	blkid -o list "${ROOT_PARTITION}"
 	blkid -o list "${SWAP_PARTITION}"
