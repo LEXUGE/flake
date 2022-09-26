@@ -69,6 +69,7 @@ format_partition() {
 	btrfs subvolume create "${MOUNTPOINT}"/persist
 	btrfs subvolume create "${MOUNTPOINT}"/persist/home
 	btrfs subvolume create "${MOUNTPOINT}"/boot
+	btrfs subvolume create "${MOUNTPOINT}"/.snapshots
 
 	umount ${MOUNTPOINT}
 
@@ -87,10 +88,12 @@ mount_partition() {
 	mkdir -p "${MOUNTPOINT}"/nix
 	mkdir -p "${MOUNTPOINT}"/persist
 	mkdir -p "${MOUNTPOINT}"/boot
+	mkdir -p "${MOUNTPOINT}"/.snapshots
 
 	mount -t btrfs -o compress-force=zstd,noatime,subvol=nix /dev/mapper/cryptroot "${MOUNTPOINT}"/nix
 	mount -t btrfs -o compress-force=zstd,noatime,subvol=persist /dev/mapper/cryptroot "${MOUNTPOINT}"/persist
 	mount -t btrfs -o compress-force=zstd,noatime,subvol=boot /dev/mapper/cryptroot "${MOUNTPOINT}"/boot
+	mount -t btrfs -o compress-force=zstd,noatime,subvol=.snapshots /dev/mapper/cryptroot "${MOUNTPOINT}"/.snapshots
 
 	mkdir -p "${MOUNTPOINT}"${ESP}
 	mount "${ESP_PARTITION}" "${MOUNTPOINT}"${ESP}
@@ -99,12 +102,12 @@ mount_partition() {
 #CREATE_KEYFILE
 create_keyfile() {
 	mkdir -p ${MOUNTPOINT}/persist/secrets/
+
 	dd bs=512 count=4 if=/dev/random of=${MOUNTPOINT}/persist/secrets/keyfile.bin iflag=fullblock
 	echo "Add key to btrfs root partition"
 	cryptsetup luksAddKey "${ROOT_PARTITION}" ${MOUNTPOINT}/persist/secrets/keyfile.bin
 	echo "Add key to swap partition"
 	cryptsetup luksAddKey "${SWAP_PARTITION}" ${MOUNTPOINT}/persist/secrets/keyfile.bin
-	chmod 600 ${MOUNTPOINT}/persist/secrets/keyfile.bin
 }
 
 # NIXOS_INSTALL
@@ -113,7 +116,9 @@ nixos_install() {
 
 	sudo -u nixos gpg -o ash_ed25519 -d flake/secrets/raw/ash_ed25519.asc
 	mv ash_ed25519 ${MOUNTPOINT}/persist/secrets/
-	chmod 600 ${MOUNTPOINT}/persist/secrets/ash_ed25519
+
+	# secrets folder not be accessible by anybody
+	chmod -R 600 ${MOUNTPOINT}/persist/secrets/
 
 	blkid -o list "${ROOT_PARTITION}"
 	blkid -o list "${SWAP_PARTITION}"

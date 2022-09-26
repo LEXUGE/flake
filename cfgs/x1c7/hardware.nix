@@ -18,6 +18,7 @@ in
   # /persist -> (LUKSROOT -> BTRFSROOT -> persist)
   # /persist/home -> (LUKSROOT -> BTRFSROOT -> persist -> home)
   # /boot (LUKSROOT -> BTRFSROOT -> boot)
+  # /.snapshots (LUKSROOT -> BTRFSROOT -> .snapshots)
   # Other files are mapped by impermanence
   #
   # Also there is an encrypted swap partition.
@@ -41,11 +42,16 @@ in
     neededForBoot = true;
   };
 
+  fileSystems."/.snapshots" = {
+    device = "/dev/mapper/cryptroot";
+    fsType = "btrfs";
+    options = [ "subvol=.snapshots" "noatime" "compress-force=zstd" ];
+  };
+
   fileSystems."/boot" = {
     device = "/dev/mapper/cryptroot";
     fsType = "btrfs";
     options = [ "subvol=boot" "noatime" "compress-force=zstd" ];
-    # neededForBoot = true;
   };
 
   boot.initrd.luks.devices."cryptroot" = {
