@@ -4,6 +4,8 @@
 
   # Don't suspend if lid is closed with computer on power.
   services.logind.lidSwitchExternalPower = "lock";
+  # Hybrid-sleep to survive through critical power level.
+  services.logind.lidSwitch = "hybrid-sleep";
 
   # Enable GNU Agent in order to make GnuPG works.
   programs.gnupg.agent.enable = true;

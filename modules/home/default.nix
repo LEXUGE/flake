@@ -4,6 +4,11 @@ with lib;
 
 let
   gnomeEnable = config.services.xserver.desktopManager.gnome.enable;
+  # Gtk3 applications don't obey dark mode settings in gsettings, so let's do it manually.
+  gtkSettings = pkgs.writeText "gtk-settings.ini" ''
+    [Settings]
+    gtk-application-prefer-dark-theme = true
+  '';
   cfg = config.my.home;
   mkUserConfigs = f: (attrsets.mapAttrs (n: c: (f n c)) cfg);
 in
@@ -143,6 +148,7 @@ in
 
         # Handwritten configs
         home.file = {
+          ".config/gtk-3.0/settings.ini".source = gtkSettings;
           ".emacs.d/init.el".source = "${pkgs.ash-emacs-source}/init.el";
           ".emacs.d/elisp/".source = "${pkgs.ash-emacs-source}/elisp";
         };
