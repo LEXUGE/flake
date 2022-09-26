@@ -48,8 +48,21 @@ in
     # neededForBoot = true;
   };
 
-  boot.initrd.luks.devices."cryptroot".device =
-    "/dev/disk/by-uuid/${cryptroot-uuid}";
+  boot.initrd.luks.devices."cryptroot" = {
+    device =
+      "/dev/disk/by-uuid/${cryptroot-uuid}";
+    keyFile = "/keyfile.bin";
+    allowDiscards = true;
+    fallbackToPassword = true;
+  };
+
+  # Manually decrypt swap partition to avoid decryption AFTER resuming in stage-1
+  boot.initrd.luks.devices."cryptswap" = {
+    device =
+      "/dev/disk/by-uuid/${cryptswap-uuid}";
+    keyFile = "/keyfile.bin";
+    fallbackToPassword = true;
+  };
 
   fileSystems."/boot/efi" = {
     label = "ESP";
@@ -59,16 +72,7 @@ in
   swapDevices =
     [{
       device = "/dev/mapper/cryptswap";
-      encrypted = {
-        enable = true;
-        label = "cryptswap";
-        keyFile = "/keyfile.bin"; # During stage-1, the neededForBoot device is mounted under /mnt-root
-        blkDev = "/dev/disk/by-uuid/${cryptswap-uuid}";
-      };
     }];
-
-  # Hibernation doesn't seem to work
-  # boot.resumeDevice = "/dev/mapper/cryptswap";
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   # high-resolution display
