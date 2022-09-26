@@ -1,7 +1,7 @@
 { config, lib, pkgs, modulesPath, ... }:
 let
-  cryptroot-uuid = "CHANGEME";
-  cryptswap-uuid = "CHANGEME";
+  cryptroot-uuid = "8f35ef6b-4dc4-48da-8389-bd2380571174";
+  cryptswap-uuid = "116969f1-050c-42d3-886a-6bad84990cb8";
 in
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
@@ -48,7 +48,6 @@ in
     # neededForBoot = true;
   };
 
-  # CAUTION: change it using your device UUID
   boot.initrd.luks.devices."cryptroot".device =
     "/dev/disk/by-uuid/${cryptroot-uuid}";
 
@@ -59,7 +58,6 @@ in
 
   swapDevices =
     [{
-      # CAUTION: change it using your device UUID
       device = "/dev/mapper/cryptswap";
       encrypted = {
         enable = true;
@@ -68,6 +66,9 @@ in
         blkDev = "/dev/disk/by-uuid/${cryptswap-uuid}";
       };
     }];
+
+  # Hibernation doesn't seem to work
+  # boot.resumeDevice = "/dev/mapper/cryptswap";
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   # high-resolution display

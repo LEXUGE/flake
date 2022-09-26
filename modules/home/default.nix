@@ -103,6 +103,8 @@ in
             tap-to-click = true;
             two-finger-scrolling-enabled = true;
           };
+          # Enable dynamic workspacing
+          "org/gnome/mutter".dynamic-workspaces = true;
           # Don't show welcome-dialog
           "org/gnome/shell".welcome-dialog-last-shown-version = "9999999999";
           # Prefer dark mode

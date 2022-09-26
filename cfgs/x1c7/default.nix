@@ -73,10 +73,17 @@
           ".cache"
           ".local"
           ".mozilla"
+          ".thunderbird"
+          ".config/qBittorrent"
           { directory = ".gnupg"; mode = "0700"; }
           { directory = ".ssh"; mode = "0700"; }
           { directory = ".local/share/keyrings"; mode = "0700"; }
-          ".thunderbird"
+        ];
+        files = [
+          # Commands history
+          ".zsh_history"
+          # Git credentials
+          ".git-credentials"
         ];
       };
     };
