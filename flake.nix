@@ -6,8 +6,8 @@
     utils.url = "github:numtide/flake-utils";
 
     # Programmable DNS component used in our systems
+    # Don't follow as it may invalidate the cache
     dcompass.url = "github:compassd/dcompass";
-    dcompass.inputs.nixpkgs.follows = "nixpkgs";
 
     # My emacs config
     ash-emacs.url = "github:LEXUGE/emacs.d";
@@ -32,7 +32,13 @@
       inherit system;
       modules = [
         ./cfgs/${name}
-        { nixpkgs.overlays = [ self.overlays.default ] ++ extraOverlays; }
+        {
+          nixpkgs.overlays = [ self.overlays.default ] ++ extraOverlays;
+          nix.settings = {
+            substituters = [ "https://dcompass.cachix.org" ];
+            trusted-public-keys = [ dcompass.publicKey ];
+          };
+        }
       ] ++ extraMods;
     });
   in
