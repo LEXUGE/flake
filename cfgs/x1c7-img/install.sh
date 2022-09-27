@@ -28,12 +28,12 @@ select_device() {
 	done
 	if [ "$1" = "-n" ]; then
 		ESP_PARTITION="${device}p1"
-		ROOT_PARTITION="${device}p2"
-		SWAP_PARTITION="${device}p3"
+		SWAP_PARTITION="${device}p2"
+		ROOT_PARTITION="${device}p3"
 	else
 		ESP_PARTITION="${device}1"
-		ROOT_PARTITION="${device}2"
-		SWAP_PARTITION="${device}3"
+		SWAP_PARTITION="${device}2"
+		ROOT_PARTITION="${device}3"
 	fi
 	echo "ESP partition: ${ESP_PARTITION}"
 	echo "Root partition: ${ROOT_PARTITION}"
@@ -48,10 +48,10 @@ create_partition() {
 	# Create ESP for /efi
 	parted "${device}" -- mkpart primary fat32 1MiB 512MiB
 	parted "${device}" -- set 1 esp on
-	# Create /
-	parted "${device}" -- mkpart primary 512MiB -20GiB
 	# Create encrypted SWAP
-	parted "${device}" -- mkpart primary -20GiB 100%
+	parted "${device}" -- mkpart primary 512MiB 20.5GiB
+	# Create /
+	parted "${device}" -- mkpart primary 20.5GiB 100%
 }
 
 #FORMAT_PARTITION
