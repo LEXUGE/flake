@@ -38,121 +38,143 @@ in
   };
 
   config.home-manager = {
-    users = mkUserConfigs (n: c:
-      { lib, ... }:
-      let inherit (lib.hm.gvariant) mkTuple;
-      in rec {
-        # Use system stateVersion;
-        home.stateVersion = config.system.stateVersion;
+    users = mkMerge [
+      (mkUserConfigs (n: c:
+        { lib, ... }:
+        let inherit (lib.hm.gvariant) mkTuple;
+        in rec {
+          # Use system stateVersion;
+          home.stateVersion = config.system.stateVersion;
 
-        # Home-manager settings.
-        # User-layer packages
-        home.packages = with pkgs;
-          c.emacsPackages ++ optionals (c.extraPackages != null) c.extraPackages;
+          # Home-manager settings.
+          # User-layer packages
+          home.packages = with pkgs;
+            c.emacsPackages ++ optionals (c.extraPackages != null) c.extraPackages;
 
-        # Allow fonts to be discovered
-        fonts.fontconfig.enable = true;
-
-        # Package settings
-        programs = {
-          # GnuPG
-          gpg = {
-            enable = true;
-            settings = { throw-keyids = false; };
+          # Set default editor
+          home.sessionVariables = {
+            EDITOR = "emacs";
           };
 
-          # Git
-          git = {
-            enable = true;
-            userName = "Harry Ying";
-            userEmail = "lexugeyky@outlook.com";
-            signing = {
-              signByDefault = true;
-              key = "0xAE53B4C2E58EDD45";
-            };
-            extraConfig = {
-              credential = { helper = "store"; };
-              pull.ff = "only"; # Use fast-forward only for git pull.
-            };
-          };
+          # Allow fonts to be discovered
+          fonts.fontconfig.enable = true;
 
-          # zsh
-          zsh = {
-            enable = true;
-            # This would make C-p, C-n act exactly the same as what up/down arrows do.
-            initExtra = ''
-              bindkey "^P" up-line-or-search
-              bindkey "^N" down-line-or-search
-            '';
-            envExtra = "";
-            defaultKeymap = "emacs";
-            oh-my-zsh = {
+          # Package settings
+          programs = {
+            # GnuPG
+            gpg = {
               enable = true;
-              theme = "agnoster";
-              plugins = [ "git" ];
+              settings = { throw-keyids = false; };
             };
-          };
-        };
 
-        # Setting GNOME Dconf settings
-        dconf.settings = mkIf (gnomeEnable) {
-          # Input sources
-          "org/gnome/desktop/input-sources".sources = map mkTuple [
-            [ "xkb" "us" ]
-            [ "ibus" "libpinyin" ]
-            [ "ibus" "typing-booster" ]
-          ];
-          # Touchpad settings
-          "org/gnome/desktop/peripherals/touchpad" = {
-            disable-while-typing = false;
-            tap-to-click = true;
-            two-finger-scrolling-enabled = true;
-          };
-          # Enable dynamic workspacing
-          "org/gnome/mutter".dynamic-workspaces = true;
-          # Don't show welcome-dialog
-          "org/gnome/shell".welcome-dialog-last-shown-version = "9999999999";
-          # Prefer dark mode
-          "org/gnome/desktop/interface".color-scheme = "prefer-dark";
-          # Don't suspend on power
-          "org/gnome/settings-daemon/plugins/power".sleep-inactive-ac-type =
-            "nothing";
-          # Always show logout
-          "org/gnome/shell".always-show-log-out = true;
-          # Keybindings
-          "org/gnome/settings-daemon/plugins/media-keys".custom-keybindings = [
-            "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
-          ];
-          "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" =
-            {
-              binding = "<Super>Return";
-              command = "kgx";
-              name = "Open Terminal";
+            # Git
+            git = {
+              enable = true;
+              userName = "Harry Ying";
+              userEmail = "lexugeyky@outlook.com";
+              signing = {
+                signByDefault = true;
+                key = "0xAE53B4C2E58EDD45";
+              };
+              extraConfig = {
+                credential = { helper = "store"; };
+                pull.ff = "only"; # Use fast-forward only for git pull.
+              };
             };
-          "org/gnome/desktop/wm/keybindings" = {
-            close = [ "<Shift><Super>q" ];
-            show-desktop = [ "<Super>d" ];
-            toggle-fullscreen = [ "<Super>f" ];
+
+            # zsh
+            zsh = {
+              enable = true;
+              # This would make C-p, C-n act exactly the same as what up/down arrows do.
+              initExtra = ''
+                bindkey "^P" up-line-or-search
+                bindkey "^N" down-line-or-search
+              '';
+              envExtra = "";
+              defaultKeymap = "emacs";
+              oh-my-zsh = {
+                enable = true;
+                theme = "agnoster";
+                plugins = [ "git" ];
+              };
+            };
           };
-          # Favorite apps
-          "org/gnome/shell" = {
-            favorite-apps = lists.flatten [
-              (if (builtins.elem pkgs.firefox-wayland home.packages) then [ "firefox.desktop" ] else [ ])
-              (if (builtins.elem pkgs.tdesktop home.packages) then [ "telegramdesktop.desktop" ] else [ ])
-              "org.gnome.Nautilus.desktop"
-              "org.gnome.Terminal.desktop"
-              "emacs.desktop"
+
+          # Setting GNOME Dconf settings
+          dconf.settings = mkIf (gnomeEnable) {
+            # Input sources
+            "org/gnome/desktop/input-sources".sources = map mkTuple [
+              [ "xkb" "us" ]
+              [ "ibus" "libpinyin" ]
+              [ "ibus" "typing-booster" ]
             ];
+            # Touchpad settings
+            "org/gnome/desktop/peripherals/touchpad" = {
+              disable-while-typing = false;
+              tap-to-click = true;
+              two-finger-scrolling-enabled = true;
+            };
+            # Enable dynamic workspacing
+            "org/gnome/mutter".dynamic-workspaces = true;
+            # Don't show welcome-dialog
+            "org/gnome/shell".welcome-dialog-last-shown-version = "9999999999";
+            # Prefer dark mode
+            "org/gnome/desktop/interface".color-scheme = "prefer-dark";
+            # Don't suspend on power
+            "org/gnome/settings-daemon/plugins/power".sleep-inactive-ac-type =
+              "nothing";
+            # Always show logout
+            "org/gnome/shell".always-show-log-out = true;
+            # Keybindings
+            "org/gnome/settings-daemon/plugins/media-keys".custom-keybindings = [
+              "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+            ];
+            "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" =
+              {
+                binding = "<Super>Return";
+                command = "kgx";
+                name = "Open Terminal";
+              };
+            "org/gnome/desktop/wm/keybindings" = {
+              close = [ "<Shift><Super>q" ];
+              show-desktop = [ "<Super>d" ];
+              toggle-fullscreen = [ "<Super>f" ];
+            };
+            # Favorite apps
+            "org/gnome/shell" = {
+              favorite-apps = lists.flatten [
+                (if (builtins.elem pkgs.firefox-wayland home.packages) then [ "firefox.desktop" ] else [ ])
+                (if (builtins.elem pkgs.tdesktop home.packages) then [ "telegramdesktop.desktop" ] else [ ])
+                "org.gnome.Nautilus.desktop"
+                "org.gnome.Terminal.desktop"
+                "emacs.desktop"
+              ];
+            };
           };
-        };
 
-        # Handwritten configs
-        home.file = {
-          ".config/gtk-3.0/settings.ini".source = gtkSettings;
-          ".emacs.d/init.el".source = "${pkgs.ash-emacs-source}/init.el";
-          ".emacs.d/elisp/".source = "${pkgs.ash-emacs-source}/elisp";
-        };
-      });
+          # Configure uniform UI for QT apps.
+          qt = {
+            enable = true;
+            platformTheme = "gnome";
+            style = {
+              package = pkgs.adwaita-qt;
+              name = "adwaita-dark";
+            };
+          };
+
+          # Handwritten configs
+          home.file = {
+            ".config/gtk-3.0/settings.ini".source = gtkSettings;
+            ".emacs.d/init.el".source = "${pkgs.ash-emacs-source}/init.el";
+            ".emacs.d/elisp/".source = "${pkgs.ash-emacs-source}/elisp";
+          };
+        }))
+
+      (mkUserConfigs (n: c: {
+        # GNOME and other wayland DEs use systemd sessionvariables to launch GUI apps. Therefore, it's necessary to set it.
+        systemd.user.sessionVariables = config.home-manager.users.${n}.home.sessionVariables;
+      }))
+    ];
     useGlobalPkgs = true;
   };
 }

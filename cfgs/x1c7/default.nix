@@ -21,6 +21,8 @@
       enable = true;
       hostname = "x1c7";
     };
+
+    # home-manager.users.ash.systemd.user.sessionVariables = config.home-manager.users.ash.home.sessionVariables;
     my.home.ash.extraPackages = with pkgs; [
       firefox-wayland
       tdesktop
