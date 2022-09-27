@@ -77,7 +77,8 @@ in
                 key = "0xAE53B4C2E58EDD45";
               };
               extraConfig = {
-                credential = { helper = "store"; };
+                # To make sure Git don't complain about impermanence's bind mount.
+                credential = { helper = "store --file=\"$HOME/.git_creds_dir/.git-credentials\""; };
                 pull.ff = "only"; # Use fast-forward only for git pull.
               };
             };

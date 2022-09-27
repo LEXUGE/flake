@@ -5,17 +5,10 @@
     ./networking.nix
     ./i18n.nix
     ./services.nix
+    ./security.nix
   ];
 
   config = {
-    age.secrets.clash_config = {
-      file = ../../secrets/clash_config_x1c7.age;
-      mode = "700";
-      owner = config.my.clash.clashUserName;
-    };
-    # This is a dummy key in ISO image, we shall not worry about its security.
-    age.identityPaths = [ "/persist/secrets/ash_ed25519" ];
-
     my.gnome-desktop.enable = true;
     my.base = {
       enable = true;
@@ -77,21 +70,19 @@
           ".mozilla"
           ".thunderbird"
           ".config/qBittorrent"
+          # Both git-credentials and zsh_hist_dir doesn't seem to play well with impermanence
+          { directory = ".git_creds_dir"; mode = "0700"; }
           { directory = ".zsh_hist_dir"; mode = "0700"; }
           { directory = ".gnupg"; mode = "0700"; }
           { directory = ".ssh"; mode = "0700"; }
           { directory = ".local/share/keyrings"; mode = "0700"; }
-        ];
-        files = [
-          # Git credentials
-          ".git-credentials"
         ];
       };
     };
 
     # Otherwise tmp will be a normal folder created on boot, which is capped by total size of /
     boot.tmpOnTmpfs = true;
-    boot.tmpOnTmpfsSize = "70%";
+    boot.tmpOnTmpfsSize = "65%";
 
     users = {
       mutableUsers = false;
