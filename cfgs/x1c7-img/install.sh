@@ -118,7 +118,7 @@ nixos_install() {
 	mv ash_ed25519 ${MOUNTPOINT}/persist/secrets/
 
 	# secrets folder not be accessible by anybody
-	chmod -R 600 ${MOUNTPOINT}/persist/secrets/
+	chmod 700 ${MOUNTPOINT}/persist/secrets/
 
 	blkid -o list "${ROOT_PARTITION}"
 	blkid -o list "${SWAP_PARTITION}"

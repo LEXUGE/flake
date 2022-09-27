@@ -97,6 +97,11 @@ in
                 theme = "agnoster";
                 plugins = [ "git" ];
               };
+              history = {
+                # zsh seems to replace the .zsh_history file everytime which is not great with impermanence
+                # we create a folder for it to play within.
+                path = "$HOME/.zsh_hist_dir/.zsh_history";
+              };
             };
           };
 
