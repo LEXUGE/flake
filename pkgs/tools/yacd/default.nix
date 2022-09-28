@@ -2,12 +2,12 @@
 
 stdenv.mkDerivation rec {
   pname = "yacd";
-  version = "0.2.14";
+  version = "0.3.6";
 
   src = fetchzip {
     url =
       "https://github.com/haishanh/yacd/releases/download/v${version}/yacd.tar.xz";
-    sha256 = "sha256-q5U3XwYb9gwpxPzqhXC8UkDTSUY5291AOZDexNRMFHM=";
+    sha256 = "sha256-vjt67cE9HUc+G2XyPR+IZPgVvjizatQVqIyxeUUAJow=";
   };
 
   installPhase = ''

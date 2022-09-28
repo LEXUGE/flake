@@ -25,6 +25,7 @@
       thunderbird-bin
       pavucontrol
       dnsperf
+      dnsutils
       smartmontools
       # Steam scaling seems to be broken, doing it manually
       (runCommand "steam-hidpi"
@@ -99,7 +100,7 @@
           # video - light control
           # libvirtd - virtual manager controls.
           # docker - Docker control
-          extraGroups = [ "wheel" "networkmanager" ];
+          extraGroups = [ "wheel" "networkmanager" "wireshark" ];
         };
       };
     };

@@ -17,7 +17,6 @@
   # Spin up clash
   my.clash = {
     enable = true;
-    redirPort = 7892; # This must be the same with the one in your clash.yaml
     afterUnits = [ "dcompass.service" ];
     configPath = config.age.secrets.clash_config.path;
   };
@@ -65,7 +64,7 @@
                  }
 
                  pub async fn route(upstreams, inited, ctx, query) {
-                   if query.first_question?.qtype == "AAAA" { return blackhole(query); }
+                   // if query.first_question?.qtype == "AAAA" { return blackhole(query); }
 
                    if inited.domain.0.contains(query.first_question?.qname) {
                      query.push_opt(ClientSubnet::new(u8(15), u8(0), IpAddr::from_str("58.220.0.0")?).to_opt_data())?;
@@ -75,7 +74,9 @@
                    }
                  }
               '';
-      address = "0.0.0.0:53";
+      # SO_REUSEADDR not set, causing clash TPROXY to fail
+      # More info: https://github.com/Dreamacro/clash/issues/616
+      address = "127.0.0.1:53";
       verbosity = "warn";
     };
   };

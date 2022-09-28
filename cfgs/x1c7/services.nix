@@ -57,4 +57,12 @@
       };
     };
   };
+
+  programs.wireshark = {
+    enable = true;
+    package = pkgs.wireshark-qt;
+  };
+
+  # Required to enable completion somehow.
+  programs.zsh.enable = true;
 }
