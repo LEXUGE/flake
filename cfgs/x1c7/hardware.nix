@@ -1,7 +1,7 @@
 { config, lib, pkgs, modulesPath, ... }:
 let
-  cryptroot-uuid = "190f8240-e3db-4913-aea6-a131c227cf37";
-  cryptswap-uuid = "c0174060-eba9-4be9-aa93-2c2864fb22eb";
+  cryptroot-uuid = "3c03d81c-6a7d-447d-8a20-19cfe33079f6";
+  cryptswap-uuid = "4604a91b-5347-4371-a841-d9535ac1dc3d";
 in
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
