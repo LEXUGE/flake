@@ -114,6 +114,14 @@ in
               [ "ibus" "libpinyin" ]
               [ "ibus" "typing-booster" ]
             ];
+            "com/github/libpinyin/ibus-libpinyin/libpinyin" = {
+              # Don't suggest English words
+              english-candidate = false;
+              # Use comma and period to flip pages
+              comma-period-page = true;
+              # Don't use minus or equal to flip pages
+              minus-equal-page = true;
+            };
             # Touchpad settings
             "org/gnome/desktop/peripherals/touchpad" = {
               disable-while-typing = false;

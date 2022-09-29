@@ -65,4 +65,7 @@
 
   # Required to enable completion somehow.
   programs.zsh.enable = true;
+
+  # Scrub btrfs to protect data integraty
+  services.btrfs.autoScrub.enable = true;
 }
