@@ -1,6 +1,6 @@
 { pkgs, lib, config, ... }: {
   # Set your time zone.
-  time.timeZone = "Asia/Shanghai";
+  time.timeZone = "Europe/London";
 
   # Select internationalisation properties.
   console = {
