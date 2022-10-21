@@ -84,7 +84,11 @@ in
   # high-resolution display
   hardware.video.hidpi.enable = lib.mkDefault true;
 
-  hardware.enableAllFirmware = true;
+  # Seems like unar is broken on unstable which causes facetimehd to break
+  # https://github.com/NixOS/nixpkgs/pull/196916
+  # Using redistributable for now
+  # hardware.enableAllFirmware = true;
+  hardware.enableRedistributableFirmware = true;
 
   # Update Intel CPU Microcode
   hardware.cpu.intel.updateMicrocode = true;
