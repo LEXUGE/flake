@@ -35,8 +35,8 @@
         {
           nixpkgs.overlays = [ self.overlays.default ] ++ extraOverlays;
           nix.settings = {
-            substituters = [ "https://dcompass.cachix.org" ];
-            trusted-public-keys = [ dcompass.publicKey ];
+            substituters = [ "https://dcompass.cachix.org" "https://nix-community.cachix.org" ];
+            trusted-public-keys = [ dcompass.publicKey "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" ];
           };
         }
       ] ++ extraMods;
