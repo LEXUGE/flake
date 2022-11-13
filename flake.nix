@@ -17,7 +17,9 @@
     impermanence.url = "github:nix-community/impermanence";
 
     # Home manager
-    home-manager.url = "github:nix-community/home-manager";
+    # Broken due to https://github.com/nix-community/home-manager/pull/3405
+    # home-manager.url = "github:nix-community/home-manager";
+    home-manager.url = "github:NickCao/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Secrets management
