@@ -4,6 +4,7 @@
     mode = "700";
     owner = config.my.clash.clashUserName;
   };
+
   # secret key decrypted on install
   age.identityPaths = [ "/persist/secrets/ash_ed25519" ];
 }
