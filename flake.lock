@@ -134,15 +134,15 @@
         "utils": "utils_2"
       },
       "locked": {
-        "lastModified": 1668070287,
-        "narHash": "sha256-7TVbG1Ziu9fIs3NBDYk1rzCJKoD0TWb/O1GIoxU6UxQ=",
-        "owner": "NickCao",
+        "lastModified": 1669453847,
+        "narHash": "sha256-jcnhFP/JpvTR/ilGudbBz5c+OIxHTmMlx/TxPSqv564=",
+        "owner": "LEXUGE",
         "repo": "home-manager",
-        "rev": "8e09277cb0e13d21437b9c46530a7adbcc391831",
+        "rev": "c90636ebcd9a80257812c151b3c01a27bb61a103",
         "type": "github"
       },
       "original": {
-        "owner": "NickCao",
+        "owner": "LEXUGE",
         "repo": "home-manager",
         "type": "github"
       }
