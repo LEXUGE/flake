@@ -55,6 +55,7 @@
 
   # activation script that signs grub and related files
   # This is run after the GRUB install
+  # The script removes all signatures, resign, and verify the signature for each grub image, fwupd image, and kernels.
   system.activationScripts.sbsign = {
     text = ''
       sign () {
@@ -72,9 +73,14 @@
         sign $x
       done
     '';
-    # we need decrypted keys to sign images and kernels
+    # we need agenix to decrypt secureboot keys to sign images and kernels
     deps = [ "agenix" ];
   };
 
+  # Make sure grub uses copies of kernels and initramdisk rather than nix store so that we could sign those images using the above activation script.
+  boot.loader.grub.copyKernels = true;
+
+  # This seems to be needed to make grub complete verification on modules and etc.
+  # See also: https://bbs.archlinux.org/viewtopic.php?id=267944
   boot.loader.grub.extraGrubInstallArgs = [ "--modules=tpm" "--disable-shim-lock" ];
 }
