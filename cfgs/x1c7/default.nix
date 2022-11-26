@@ -85,7 +85,7 @@
 
     # Otherwise tmp will be a normal folder created on boot, which is capped by total size of /
     boot.tmpOnTmpfs = true;
-    boot.tmpOnTmpfsSize = "65%";
+    boot.tmpOnTmpfsSize = "80%";
 
     users = {
       mutableUsers = false;

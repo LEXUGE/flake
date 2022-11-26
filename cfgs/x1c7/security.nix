@@ -7,4 +7,7 @@
 
   # secret key decrypted on install
   age.identityPaths = [ "/persist/secrets/ash_ed25519" ];
+
+  # Lockdown kernel modules
+  my.base.lockdownKernel = true;
 }

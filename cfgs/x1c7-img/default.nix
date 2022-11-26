@@ -82,6 +82,7 @@
     my.base = {
       enable = true;
       hostname = "x1c7-img";
+      lockdownKernel = true;
     };
     my.home.nixos.extraPackages = with pkgs; [
       firefox-wayland

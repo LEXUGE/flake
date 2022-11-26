@@ -38,8 +38,8 @@
         {
           nixpkgs.overlays = [ self.overlays.default ] ++ extraOverlays;
           nix.settings = {
-            substituters = [ "https://dcompass.cachix.org" "https://nix-community.cachix.org" ];
-            trusted-public-keys = [ dcompass.publicKey "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" ];
+            substituters = [ "https://dcompass.cachix.org" "https://nix-community.cachix.org" "https://lexuge.cachix.org" ];
+            trusted-public-keys = [ dcompass.publicKey "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" self.publicKey ];
           };
         }
       ] ++ extraMods;
@@ -93,6 +93,8 @@
 
     # ISO image entry point
     x1c7-img = nixosConfigurations.x1c7-img.config.system.build.isoImage;
+
+    publicKey = "lexuge.cachix.org-1:RRFg8AxcexeBd33smnmcayMLU6r2wbVKbZHWtg2dKnY=";
   } // eachSystem [ system.x86_64-linux ] (system:
     let pkgs = nixpkgs.legacyPackages.${system}; in
     {
