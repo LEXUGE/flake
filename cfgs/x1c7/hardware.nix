@@ -52,6 +52,8 @@ in
     device = "/dev/mapper/cryptroot";
     fsType = "btrfs";
     options = [ "subvol=boot" "noatime" "compress-force=zstd" ];
+    # mark this as needed for boot so that sbsignall can sign all the kernel images and binaries in /boot
+    neededForBoot = true;
   };
 
   boot.initrd.luks.devices."cryptroot" = {

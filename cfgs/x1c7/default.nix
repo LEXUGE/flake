@@ -1,5 +1,6 @@
 { config, pkgs, ... }: {
   imports = [
+    ./secureboot.nix
     ./boot.nix
     ./hardware.nix
     ./networking.nix
@@ -17,6 +18,8 @@
 
     # home-manager.users.ash.systemd.user.sessionVariables = config.home-manager.users.ash.home.sessionVariables;
     my.home.ash.extraPackages = with pkgs; [
+      tpm2-tools
+      sbctl
       firefox-wayland
       tdesktop
       htop
@@ -100,7 +103,8 @@
           # video - light control
           # libvirtd - virtual manager controls.
           # docker - Docker control
-          extraGroups = [ "wheel" "networkmanager" "wireshark" ];
+          # tss - TPM2 control
+          extraGroups = [ "wheel" "networkmanager" "wireshark" "tss" ];
         };
       };
     };
