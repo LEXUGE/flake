@@ -158,7 +158,7 @@ in
             "org/gnome/shell" = {
               favorite-apps = lists.flatten [
                 (if (builtins.elem pkgs.firefox-wayland home.packages) then [ "firefox.desktop" ] else [ ])
-                (if (builtins.elem pkgs.tdesktop home.packages) then [ "telegramdesktop.desktop" ] else [ ])
+                (if (builtins.elem pkgs.tdesktop home.packages) then [ "org.telegram.desktop.desktop" ] else [ ])
                 "org.gnome.Nautilus.desktop"
                 "org.gnome.Terminal.desktop"
                 "emacs.desktop"
