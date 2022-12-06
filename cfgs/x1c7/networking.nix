@@ -28,8 +28,6 @@
     settings = {
       cache_size = 1024;
       upstreams = {
-        captive_portals = { hybrid = [ "juneyao" ]; };
-
         domestic = { hybrid = [ "feic" "ali" "aliudp" ]; };
 
         secure = { hybrid = [ "cloudflare" "quad9" ]; };
@@ -39,8 +37,6 @@
         aliudp = { udp = { addr = "223.5.5.6:53"; }; };
 
         ali = { tls = { domain = "dns.alidns.com"; max_reuse = 100; reuse_timeout = 5000; addr = "223.6.6.6:853"; }; };
-
-        juneyao = { udp = { addr = "172.19.248.1:53"; }; };
 
         cloudflare = {
           https = {
@@ -61,8 +57,8 @@
       };
       script = ''pub async fn init() {
                    let domain = Domain::new()
-                                  .add_file("${pkgs.chinalist}/google.china.raw.txt")?
-                                  .add_file("${pkgs.chinalist}/apple.china.raw.txt")?
+                                  // .add_file("${pkgs.chinalist}/google.china.raw.txt")?
+                                  // .add_file("${pkgs.chinalist}/apple.china.raw.txt")?
                                   .add_file("${pkgs.chinalist}/accelerated-domains.china.raw.txt")?.seal();
 
                    Ok(#{"domain": Utils::Domain(domain)})
@@ -71,17 +67,11 @@
                  pub async fn route(upstreams, inited, ctx, query) {
                    // if query.first_question?.qtype == "AAAA" { return blackhole(query); }
 
-                   let resp = if inited.domain.0.contains(query.first_question?.qname) {
+                   if inited.domain.0.contains(query.first_question?.qname) {
                      query.push_opt(ClientSubnet::new(u8(15), u8(0), IpAddr::from_str("58.220.0.0")?).to_opt_data())?;
                      upstreams.send_default("domestic", query).await
                    } else {
                      upstreams.send("secure", CacheMode::Persistent, query).await
-                   };
-
-                   if resp?.header.rcode.to_str() == "NXDOMAIN" {
-                     upstreams.send_default("captive_portals", query).await
-                   } else {
-                     resp
                    }
                  }
               '';
