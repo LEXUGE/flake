@@ -18,6 +18,7 @@
 
     # home-manager.users.ash.systemd.user.sessionVariables = config.home-manager.users.ash.home.sessionVariables;
     my.home.ash.extraPackages = with pkgs; [
+      minecraft
       tor-browser-bundle-bin
       tpm2-tools
       sbctl
