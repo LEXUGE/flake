@@ -21,6 +21,10 @@
     ash-emacs.url = "github:LEXUGE/emacs.d";
     ash-emacs.inputs.nixos.follows = "nixpkgs";
 
+    # SecureBoot Management
+    lanzaboote.url = "github:nix-community/lanzaboote";
+    lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
+
     # Tool for NixOS on tmpfs
     impermanence.url = "github:nix-community/impermanence";
 
@@ -36,7 +40,7 @@
     agenix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, utils, dcompass, impermanence, ash-emacs, home-manager, agenix, disko, jovian }: with utils.lib; let
+  outputs = { self, nixpkgs, utils, dcompass, impermanence, ash-emacs, home-manager, agenix, disko, jovian, lanzaboote }: with utils.lib; let
     lib = nixpkgs.lib;
 
     mkSystem = { name, extraMods ? [ ], extraOverlays ? [ ], system }: (lib.nixosSystem {
@@ -105,6 +109,7 @@
         impermanence.nixosModules.impermanence
         home-manager.nixosModules.home-manager
         agenix.nixosModules.age
+        lanzaboote.nixosModules.lanzaboote
         "${jovian}/modules"
       ];
       extraOverlays = [

@@ -7,10 +7,17 @@ in {
       type = types.bool;
       default = false;
     };
+
+    enableGaming = mkOption {
+      type = types.bool;
+      default = false;
+    };
   };
 
   config = mkIf cfg.enable {
     jovian.devices.steamdeck.enable = true;
+
+    jovian.steam.enable = cfg.enableGaming;
 
     # Sounds are set up by Jovian NixOS
     hardware.pulseaudio.enable = lib.mkIf

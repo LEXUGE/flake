@@ -9,7 +9,7 @@
         partitions = [
           # ESP
           {
-            name = "ESP";
+            name = "esp";
             type = "partition";
             start = "0";
             end = "1G";
@@ -22,20 +22,22 @@
           }
           # Swap
           {
-            name = "SWAP";
+            name = "swap";
             type = "partition";
             start = "1G";
-            end = "17G";
-            part-type = "primary";
+            end = "22G";
             content = {
-              type = "swap";
-              randomEncryption = true;
+              type = "luks";
+              name = "cryptswap";
+              content = {
+                type = "swap";
+              };
             };
           }
           {
-            name = "primary";
+            name = "raw-pool-root-1";
             type = "partition";
-            start = "17G";
+            start = "22G";
             end = "100%";
             content = {
               type = "lvm_pv";
@@ -53,7 +55,7 @@
         format = "gpt";
         partitions = [
           {
-            name = "primary";
+            name = "raw-pool-root-2";
             type = "partition";
             start = "0";
             end = "100%";
@@ -74,23 +76,25 @@
         root = {
           type = "lvm_lv";
           size = "100%FREE";
-          # use LVM striping with 2 stripes and 4 KiB each
-          extraArgs = "-i 2 -I 4";
           content = {
-            type = "btrfs";
-            subvolumes = {
-              # Mountpoints inferred from subvolume name
-              "/persist" = {
-                mountOptions = [ "compress=zstd" "noatime" ];
-              };
-              "/persist/home" = {
-                mountOptions = [ "compress=zstd" "noatime" ];
-              };
-              "/nix" = {
-                mountOptions = [ "compress=zstd" "noatime" ];
-              };
-              "/.snapshots" = {
-                mountOptions = [ "compress=zstd" "noatime" ];
+            type = "luks";
+            name = "cryptroot";
+            content = {
+              type = "btrfs";
+              subvolumes = {
+                # Mountpoints inferred from subvolume name
+                "/persist" = {
+                  mountOptions = [ "compress=zstd" "noatime" ];
+                };
+                "/persist/home" = {
+                  mountOptions = [ "compress=zstd" "noatime" ];
+                };
+                "/nix" = {
+                  mountOptions = [ "compress=zstd" "noatime" ];
+                };
+                "/.snapshots" = {
+                  mountOptions = [ "compress=zstd" "noatime" ];
+                };
               };
             };
           };

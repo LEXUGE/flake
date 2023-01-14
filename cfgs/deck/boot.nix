@@ -8,6 +8,8 @@
   # boot.initrd.secrets = { "/keyfile.bin" = "/persist/secrets/keyfile.bin"; };
 
   # Use systemd and default ESP setup (i.e. /boot as ESP)
+  # This is disabled because lanzaboote will be in use
+  # See also ./secureboot.nix
   boot.loader = {
     systemd-boot.enable = true;
   };
@@ -19,4 +21,21 @@
   };
 
   fileSystems."/persist".neededForBoot = true;
+
+  swapDevices =
+    [{
+      device = "/dev/mapper/cryptswap";
+    }];
+
+  boot.initrd.luks.devices."cryptroot" = {
+    # keyFile = "/keyfile.bin";
+    allowDiscards = true;
+    fallbackToPassword = true;
+  };
+
+  # Manually decrypt swap partition to avoid decryption AFTER resuming in stage-1
+  boot.initrd.luks.devices."cryptswap" = {
+    # keyFile = "/keyfile.bin";
+    fallbackToPassword = true;
+  };
 }
