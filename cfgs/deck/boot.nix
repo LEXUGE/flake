@@ -7,9 +7,6 @@
   # Allow fstrim to work on it.
   # boot.initrd.secrets = { "/keyfile.bin" = "/persist/secrets/keyfile.bin"; };
 
-  # Use systemd and default ESP setup (i.e. /boot as ESP)
-  # This is disabled because lanzaboote will be in use
-  # See also ./secureboot.nix
   boot.loader = {
     systemd-boot.enable = true;
   };
