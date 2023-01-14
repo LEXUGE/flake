@@ -8,10 +8,11 @@
     disabledPlugins = [ "sap" ];
   };
 
+  # There is no lid switch on steam deck, the default behavior is satisfactory enough
   # Don't suspend if lid is closed with computer on power.
-  services.logind.lidSwitchExternalPower = "lock";
+  # services.logind.lidSwitchExternalPower = "lock";
   # suspend-then-hibernate to survive through critical power level.
-  services.logind.lidSwitch = "suspend-then-hibernate";
+  # services.logind.lidSwitch = "suspend-then-hibernate";
 
   ### Sound and graphics
   # Enable sound.

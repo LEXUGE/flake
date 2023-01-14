@@ -3,9 +3,11 @@
   # Plymouth seems to falter GDM from starting up.
   # boot.plymouth.enable = true;
 
-  # Use Keyfile to unlock the root partition to avoid keying in twice.
-  # Allow fstrim to work on it.
-  # boot.initrd.secrets = { "/keyfile.bin" = "/persist/secrets/keyfile.bin"; };
+  # Enable firmwares otherwise we couldn't boot!
+  hardware.enableAllFirmware = true;
+
+  # Needed for systemd-cryptenroll
+  boot.initrd.systemd.enable = true;
 
   boot.loader = {
     systemd-boot.enable = true;
@@ -24,15 +26,16 @@
       device = "/dev/mapper/cryptswap";
     }];
 
+  # fallBackToPassword is implied by systemd-initrd
   boot.initrd.luks.devices."cryptroot" = {
     # keyFile = "/keyfile.bin";
     allowDiscards = true;
-    fallbackToPassword = true;
+    # fallbackToPassword = true;
   };
 
   # Manually decrypt swap partition to avoid decryption AFTER resuming in stage-1
-  boot.initrd.luks.devices."cryptswap" = {
-    # keyFile = "/keyfile.bin";
-    fallbackToPassword = true;
-  };
+  # boot.initrd.luks.devices."cryptswap" = {
+  #   keyFile = "/keyfile.bin";
+  #   fallbackToPassword = true;
+  # };
 }

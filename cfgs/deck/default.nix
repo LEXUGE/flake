@@ -61,6 +61,7 @@
         dnsutils
         smartmontools
         bless
+        steamdeck-firmware
       ];
 
       # Fonts
@@ -94,8 +95,6 @@
             ".cache"
             ".local"
             ".mozilla"
-            ".thunderbird"
-            ".config/qBittorrent"
             # Both git-credentials and zsh_hist_dir doesn't seem to play well with impermanence
             { directory = ".git_creds_dir"; mode = "0700"; }
             { directory = ".zsh_hist_dir"; mode = "0700"; }
@@ -114,10 +113,10 @@
         mutableUsers = false;
         users = {
           root.hashedPassword =
-            "$6$1OTuo6NhaigjwWOa$XDYQv8oqvsVdOc8hW3d96O5hcqD0248PVUBXyXLmKhd9p/ylCWJjjfW2ge6drWk1WAZwnBRdJrkY4tKWasUgd/";
+            "$6$oNsoXzCopc6uxli4$vthBqdTNXtq8MWlWRHRGe6QZUMb7CtPWaTdXSOKszeTAtmjG5zE/JPd7F668VTiuOUtpiy1oy061N0LlxjtHD1";
           ash = {
             hashedPassword =
-              "$6$5uqzmikO2CCpZYUU$gzu6r4Kz9Eik5tzZ.sXL2G/R1Bb8No/zLV5tGCqnDG5cYrfbAgXtNWX.JCrX4yFCQ714cSWYUCBSsI2eWDZiQ1";
+              "$6$9eHZAnDRJqI73yOW$U5M4eILep/jiQwzQfX7B44vFGNpFGaun7x0b1JMmC5.DK0Kwm2dIf.30sM9u5x5ySzezKmIlFOGxIiG66SIW5/";
             shell = pkgs.zsh;
             isNormalUser = true;
             # wheel - sudo
