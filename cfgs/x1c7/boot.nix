@@ -21,4 +21,6 @@
       enableCryptodisk = true;
     };
   };
+
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 }

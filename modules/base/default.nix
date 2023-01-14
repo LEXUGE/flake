@@ -21,8 +21,6 @@ in
       {
         networking.hostName = cfg.hostname;
 
-        boot.kernelPackages = pkgs.linuxPackages_latest;
-
         # Support NTFS
         boot.supportedFilesystems = [ "ntfs" ];
 

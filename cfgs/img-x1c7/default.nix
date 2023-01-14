@@ -5,6 +5,8 @@
   ];
 
   config = {
+    boot.kernelPackages = pkgs.linuxPackages_latest;
+
     age.secrets.clash_config = {
       file = ../../secrets/clash_config_img.age;
       mode = "700";
@@ -81,12 +83,11 @@
     };
     my.base = {
       enable = true;
-      hostname = "x1c7-img";
+      hostname = "img";
     };
     my.home.nixos.extraPackages = with pkgs; [
       firefox-wayland
       htop
-      pavucontrol
       dnsutils
       smartmontools
     ];

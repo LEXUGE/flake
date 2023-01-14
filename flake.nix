@@ -9,6 +9,14 @@
     # Don't follow as it may invalidate the cache
     dcompass.url = "github:compassd/dcompass";
 
+    # Declarative Disk Management
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Steam-deck experience on NixOS
+    jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
+    jovian.flake = false;
+
     # My emacs config
     ash-emacs.url = "github:LEXUGE/emacs.d";
     ash-emacs.inputs.nixos.follows = "nixpkgs";
@@ -28,7 +36,7 @@
     agenix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, utils, dcompass, impermanence, ash-emacs, home-manager, agenix }: with utils.lib; let
+  outputs = { self, nixpkgs, utils, dcompass, impermanence, ash-emacs, home-manager, agenix, disko, jovian }: with utils.lib; let
     lib = nixpkgs.lib;
 
     mkSystem = { name, extraMods ? [ ], extraOverlays ? [ ], system }: (lib.nixosSystem {
@@ -68,7 +76,6 @@
         impermanence.nixosModules.impermanence
         home-manager.nixosModules.home-manager
         agenix.nixosModules.age
-        ./cfgs/x1c7
       ];
       extraOverlays = [
         dcompass.overlays.default
@@ -83,8 +90,33 @@
       system = system.x86_64-linux;
     };
 
-    nixosConfigurations.x1c7-img = mkSystem {
-      name = "x1c7-img";
+    diskoConfigurations.deck = (import ./cfgs/deck/disk.nix { });
+
+    nixosConfigurations.deck = mkSystem {
+      name = "deck";
+      extraMods = [
+        nixosModules.clash
+        nixosModules.base
+        nixosModules.home
+        nixosModules.gnome-desktop
+        nixosModules.dcompass
+        disko.nixosModules.disko
+        nixosModules.steamdeck
+        impermanence.nixosModules.impermanence
+        home-manager.nixosModules.home-manager
+        agenix.nixosModules.age
+        "${jovian}/modules"
+      ];
+      extraOverlays = [
+        dcompass.overlays.default
+        ash-emacs.overlays.default
+        (import "${jovian}/overlay.nix")
+      ];
+      system = system.x86_64-linux;
+    };
+
+    nixosConfigurations.img-x1c7 = mkSystem {
+      name = "img-x1c7";
       extraMods = [
         nixosModules.clash
         nixosModules.home
@@ -93,15 +125,41 @@
         nixosModules.dcompass
         home-manager.nixosModules.home-manager
         agenix.nixosModules.age
-        ./cfgs/x1c7-img
         "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-base.nix"
       ];
-      extraOverlays = [ dcompass.overlays.default ash-emacs.overlays.default ];
+      extraOverlays = [
+        dcompass.overlays.default
+        ash-emacs.overlays.default
+      ];
+      system = system.x86_64-linux;
+    };
+
+    nixosConfigurations.img-deck = mkSystem {
+      name = "img-deck";
+      extraMods = [
+        nixosModules.clash
+        nixosModules.home
+        nixosModules.base
+        nixosModules.gnome-desktop
+        nixosModules.dcompass
+        nixosModules.steamdeck
+        disko.nixosModules.disko
+        home-manager.nixosModules.home-manager
+        agenix.nixosModules.age
+        "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-base.nix"
+        "${jovian}/modules"
+      ];
+      extraOverlays = [
+        dcompass.overlays.default
+        ash-emacs.overlays.default
+        (import "${jovian}/overlay.nix")
+      ];
       system = system.x86_64-linux;
     };
 
     # ISO image entry point
-    x1c7-img = nixosConfigurations.x1c7-img.config.system.build.isoImage;
+    imgs.x1c7 = nixosConfigurations.img-x1c7.config.system.build.isoImage;
+    imgs.deck = nixosConfigurations.img-deck.config.system.build.isoImage;
 
     publicKey = "lexuge.cachix.org-1:RRFg8AxcexeBd33smnmcayMLU6r2wbVKbZHWtg2dKnY=";
   } // eachSystem [ system.x86_64-linux ] (system:
