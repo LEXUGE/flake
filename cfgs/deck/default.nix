@@ -71,6 +71,8 @@
         noto-fonts-emoji
         fira-code
         fira-code-symbols
+        # needed by steam to display CJK fonts
+        wqy_zenhei
       ];
 
       environment.persistence."/persist" = {
