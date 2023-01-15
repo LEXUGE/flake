@@ -5,6 +5,7 @@
     ./i18n.nix
     ./services.nix
     ./security.nix
+    ./secureboot.nix
   ];
 
   config =

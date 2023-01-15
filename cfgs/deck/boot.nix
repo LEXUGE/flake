@@ -9,9 +9,10 @@
   # Needed for systemd-cryptenroll
   boot.initrd.systemd.enable = true;
 
-  boot.loader = {
-    systemd-boot.enable = true;
-  };
+  # Handled by lanzaboote
+  # boot.loader = {
+  #   systemd-boot.enable = true;
+  # };
 
   # Create root on tmpfs
   fileSystems."/" = {
@@ -21,10 +22,11 @@
 
   fileSystems."/persist".neededForBoot = true;
 
-  swapDevices =
-    [{
-      device = "/dev/mapper/cryptswap";
-    }];
+  # Already handled by disko
+  # swapDevices =
+  #   [{
+  #     device = "/dev/mapper/cryptswap";
+  #   }];
 
   # fallBackToPassword is implied by systemd-initrd
   boot.initrd.luks.devices."cryptroot" = {

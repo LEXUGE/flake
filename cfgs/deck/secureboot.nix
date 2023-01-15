@@ -55,6 +55,9 @@
 
   boot.bootspec.enable = true;
 
+  # Lanzaboote should be the only bootloader
+  boot.loader.systemd-boot.enable = lib.mkForce false;
+
   boot.lanzaboote = {
     enable = true;
     publicKeyFile = config.age.secrets.secureboot_db_cert.path;
