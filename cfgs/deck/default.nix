@@ -65,6 +65,7 @@
         steamdeck-firmware
         yuzu
         steam-rom-manager
+        steam
       ];
 
       # Fonts
