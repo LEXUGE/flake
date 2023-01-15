@@ -63,6 +63,8 @@
         smartmontools
         bless
         steamdeck-firmware
+        yuzu
+        steam-rom-manager
       ];
 
       # Fonts
