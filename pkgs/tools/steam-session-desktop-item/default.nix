@@ -22,6 +22,7 @@ stdenv.mkDerivation rec {
       desktopName = "Steam Deck";
       genericName = "Steam Deck";
       exec = "steam-session";
+      icon = "steamicon.png";
       type = "Application";
       categories = [ "Application" ];
     })

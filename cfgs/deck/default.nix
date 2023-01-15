@@ -13,10 +13,10 @@
       # (must have secure boot and use Unified Kernel Image)
       pcrBanks = [
         0 # Core System Firmware executable code
-        2 # Extended or pluggable executable code (e.g., Option ROMs)
+        # 2 # Extended or pluggable executable code (e.g., Option ROMs)
         7 # Secure Boot state (full contents of PK/KEK/db + certificates used to validate each boot application)
-        12 # systemd-stub: Overridden kernel command line
-        13 # systemd-stub: System Extensions
+        # 12 # systemd-stub: Overridden kernel command line
+        # 13 # systemd-stub: System Extensions
       ];
 
       root = config.boot.initrd.luks.devices."cryptroot".device;
