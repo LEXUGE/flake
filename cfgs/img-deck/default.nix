@@ -83,12 +83,17 @@
       enable = true;
       hostname = "img";
     };
-    my.home.nixos.extraPackages = with pkgs; [
-      firefox-wayland
-      htop
-      dnsutils
-      smartmontools
-    ];
+    my.home.nixos = {
+      extraPackages = with pkgs; [
+        firefox-wayland
+        htop
+        dnsutils
+        smartmontools
+      ]; # Show screen keyboard
+      extraDconf = {
+        "org/gnome/desktop/a11y/applications".screen-keyboard-enabled = true;
+      };
+    };
     my.steamdeck.enable = true;
 
     disko.devices = (import ./../deck/disk.nix { });

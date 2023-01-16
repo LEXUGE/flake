@@ -23,6 +23,17 @@ in
             description =
               "Extra packages to install for user <literal>ash</literal>.";
           };
+
+          extraDconf = mkOption {
+            default = { };
+            description = "Extra dconf settings to specify";
+          };
+
+          extraFiles = mkOption {
+            default = { };
+            description = "Extra files to put in declaratively under the home dir";
+          };
+
           emacsPackages = mkOption {
             type = with types; listOf package;
             default = with pkgs; [
@@ -107,64 +118,65 @@ in
           };
 
           # Setting GNOME Dconf settings
-          dconf.settings = mkIf (gnomeEnable) {
-            # Input sources
-            "org/gnome/desktop/input-sources".sources = map mkTuple [
-              [ "xkb" "us" ]
-              [ "ibus" "libpinyin" ]
-              [ "ibus" "typing-booster" ]
-            ];
-            "com/github/libpinyin/ibus-libpinyin/libpinyin" = {
-              # Don't suggest English words
-              english-candidate = false;
-              # Use comma and period to flip pages
-              comma-period-page = true;
-              # Don't use minus or equal to flip pages
-              minus-equal-page = true;
-            };
-            # Touchpad settings
-            "org/gnome/desktop/peripherals/touchpad" = {
-              disable-while-typing = false;
-              tap-to-click = true;
-              two-finger-scrolling-enabled = true;
-            };
-            # Enable dynamic workspacing
-            "org/gnome/mutter".dynamic-workspaces = true;
-            # Don't show welcome-dialog
-            "org/gnome/shell".welcome-dialog-last-shown-version = "9999999999";
-            # Prefer dark mode
-            "org/gnome/desktop/interface".color-scheme = "prefer-dark";
-            # Don't suspend on power
-            "org/gnome/settings-daemon/plugins/power".sleep-inactive-ac-type =
-              "nothing";
-            # Always show logout
-            "org/gnome/shell".always-show-log-out = true;
-            # Keybindings
-            "org/gnome/settings-daemon/plugins/media-keys".custom-keybindings = [
-              "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
-            ];
-            "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" =
-              {
-                binding = "<Super>Return";
-                command = "kgx";
-                name = "Open Terminal";
-              };
-            "org/gnome/desktop/wm/keybindings" = {
-              close = [ "<Shift><Super>q" ];
-              show-desktop = [ "<Super>d" ];
-              toggle-fullscreen = [ "<Super>f" ];
-            };
-            # Favorite apps
-            "org/gnome/shell" = {
-              favorite-apps = lists.flatten [
-                (if (builtins.elem pkgs.firefox-wayland home.packages) then [ "firefox.desktop" ] else [ ])
-                (if (builtins.elem pkgs.tdesktop home.packages) then [ "org.telegram.desktop.desktop" ] else [ ])
-                "org.gnome.Nautilus.desktop"
-                "org.gnome.Terminal.desktop"
-                "emacs.desktop"
+          dconf.settings = mkIf (gnomeEnable)
+            ({
+              # Input sources
+              "org/gnome/desktop/input-sources".sources = map mkTuple [
+                [ "xkb" "us" ]
+                [ "ibus" "libpinyin" ]
+                [ "ibus" "typing-booster" ]
               ];
-            };
-          };
+              "com/github/libpinyin/ibus-libpinyin/libpinyin" = {
+                # Don't suggest English words
+                english-candidate = false;
+                # Use comma and period to flip pages
+                comma-period-page = true;
+                # Don't use minus or equal to flip pages
+                minus-equal-page = true;
+              };
+              # Touchpad settings
+              "org/gnome/desktop/peripherals/touchpad" = {
+                disable-while-typing = false;
+                tap-to-click = true;
+                two-finger-scrolling-enabled = true;
+              };
+              # Enable dynamic workspacing
+              "org/gnome/mutter".dynamic-workspaces = true;
+              # Don't show welcome-dialog
+              "org/gnome/shell".welcome-dialog-last-shown-version = "9999999999";
+              # Prefer dark mode
+              "org/gnome/desktop/interface".color-scheme = "prefer-dark";
+              # Don't suspend on power
+              "org/gnome/settings-daemon/plugins/power".sleep-inactive-ac-type =
+                "nothing";
+              # Always show logout
+              "org/gnome/shell".always-show-log-out = true;
+              # Keybindings
+              "org/gnome/settings-daemon/plugins/media-keys".custom-keybindings = [
+                "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+              ];
+              "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" =
+                {
+                  binding = "<Super>Return";
+                  command = "kgx";
+                  name = "Open Terminal";
+                };
+              "org/gnome/desktop/wm/keybindings" = {
+                close = [ "<Shift><Super>q" ];
+                show-desktop = [ "<Super>d" ];
+                toggle-fullscreen = [ "<Super>f" ];
+              };
+              # Favorite apps
+              "org/gnome/shell" = {
+                favorite-apps = lists.flatten [
+                  (if (builtins.elem pkgs.firefox-wayland home.packages) then [ "firefox.desktop" ] else [ ])
+                  (if (builtins.elem pkgs.tdesktop home.packages) then [ "org.telegram.desktop.desktop" ] else [ ])
+                  "org.gnome.Nautilus.desktop"
+                  "org.gnome.Terminal.desktop"
+                  "emacs.desktop"
+                ];
+              };
+            } // c.extraDconf);
 
           # Configure uniform UI for QT apps.
           qt = {
@@ -177,11 +189,11 @@ in
           };
 
           # Handwritten configs
-          home.file = {
+          home.file = ({
             ".config/gtk-3.0/settings.ini".source = gtkSettings;
             ".emacs.d/init.el".source = "${pkgs.ash-emacs-source}/init.el";
             ".emacs.d/elisp/".source = "${pkgs.ash-emacs-source}/elisp";
-          };
+          } // c.extraFiles);
         }))
 
       (mkUserConfigs (n: c: {

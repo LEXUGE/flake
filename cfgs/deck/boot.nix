@@ -1,7 +1,15 @@
 { config, lib, pkgs, ... }: {
-  # Enable plymouth for better booting cosmetics
-  # Plymouth seems to falter GDM from starting up.
-  # boot.plymouth.enable = true;
+  # needed by lanzaboote
+  boot.bootspec.enable = true;
+
+  # Lanzaboote should be the only bootloader
+  boot.loader.systemd-boot.enable = lib.mkForce false;
+
+  boot.lanzaboote = {
+    enable = true;
+    publicKeyFile = config.age.secrets.secureboot_db_cert.path;
+    privateKeyFile = config.age.secrets.secureboot_db_key.path;
+  };
 
   # Enable firmwares otherwise we couldn't boot!
   hardware.enableAllFirmware = true;
@@ -22,22 +30,11 @@
 
   fileSystems."/persist".neededForBoot = true;
 
-  # Already handled by disko
-  # swapDevices =
-  #   [{
-  #     device = "/dev/mapper/cryptswap";
-  #   }];
-
+  # LUKS device registration and swap registration are already handled by disko
   # fallBackToPassword is implied by systemd-initrd
   boot.initrd.luks.devices."cryptroot" = {
     # keyFile = "/keyfile.bin";
     allowDiscards = true;
     # fallbackToPassword = true;
   };
-
-  # Manually decrypt swap partition to avoid decryption AFTER resuming in stage-1
-  # boot.initrd.luks.devices."cryptswap" = {
-  #   keyFile = "/keyfile.bin";
-  #   fallbackToPassword = true;
-  # };
 }

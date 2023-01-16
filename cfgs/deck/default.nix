@@ -5,7 +5,6 @@
     ./i18n.nix
     ./services.nix
     ./security.nix
-    ./secureboot.nix
   ];
 
   config =
@@ -51,23 +50,29 @@
       };
 
       # home-manager.users.ash.systemd.user.sessionVariables = config.home-manager.users.ash.home.sessionVariables;
-      my.home.ash.extraPackages = with pkgs; [
-        protonup
-        minecraft
-        tor-browser-bundle-bin
-        sbctl
-        firefox-wayland
-        tdesktop
-        htop
-        dnsutils
-        smartmontools
-        bless
-        steamdeck-firmware
-        yuzu
-        steam-rom-manager
-        steam-session-desktop-item
-        # steam
-      ];
+      my.home.ash = {
+        extraPackages = with pkgs; [
+          protonup
+          minecraft
+          tor-browser-bundle-bin
+          sbctl
+          firefox-wayland
+          tdesktop
+          htop
+          dnsutils
+          smartmontools
+          bless
+          steamdeck-firmware
+          yuzu
+          steam-rom-manager
+          steam-session-desktop-item
+          # steam
+        ];
+        # Show screen keyboard
+        extraDconf = {
+          "org/gnome/desktop/a11y/applications".screen-keyboard-enabled = true;
+        };
+      };
 
       # Fonts
       fonts.fonts = with pkgs; [
