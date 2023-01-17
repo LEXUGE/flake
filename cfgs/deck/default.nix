@@ -39,21 +39,14 @@
     {
       disko.devices = (import ./disk.nix { });
 
-      my.steamdeck = {
-        enable = true;
-        enableGaming = true;
-        opensdUser = "ash";
-      };
       my.gnome-desktop.enable = true;
       my.base = {
         enable = true;
         hostname = "deck";
       };
 
-      # home-manager.users.ash.systemd.user.sessionVariables = config.home-manager.users.ash.home.sessionVariables;
       my.home.ash = {
         extraPackages = with pkgs; [
-          protonup
           minecraft
           tor-browser-bundle-bin
           sbctl
@@ -64,15 +57,28 @@
           smartmontools
           bless
           steamdeck-firmware
-          yuzu
-          steam-rom-manager
-          steam-session-desktop-item
-          # steam
         ];
         # Show screen keyboard
         extraDconf = {
           "org/gnome/desktop/a11y/applications".screen-keyboard-enabled = true;
         };
+      };
+
+      # Steamdeck config
+      my.steamdeck = {
+        enable = true;
+        opensd.user = "ash";
+        steam.enable = true;
+      };
+
+      # Setup the necessary game apps needed in deck user
+      home-manager.users.deck = {
+        home.packages = with pkgs; [
+          yuzu
+          steam-rom-manager
+          protonup
+        ];
+        home.stateVersion = config.system.stateVersion;
       };
 
       # Fonts
@@ -97,26 +103,32 @@
         files = [
           "/etc/machine-id"
         ];
-        users.ash = {
-          directories = [
-            "Desktop"
-            "Documents"
-            "Downloads"
-            "Music"
-            "Pictures"
-            "Videos"
-            ".cache"
-            ".local"
-            ".mozilla"
+        users = {
+          ash = {
+            directories = [
+              "Desktop"
+              "Documents"
+              "Downloads"
+              "Music"
+              "Pictures"
+              "Videos"
+              ".cache"
+              ".local"
+              ".mozilla"
+              # Both git-credentials and zsh_hist_dir doesn't seem to play well with impermanence
+              { directory = ".git_creds_dir"; mode = "0700"; }
+              { directory = ".zsh_hist_dir"; mode = "0700"; }
+              { directory = ".gnupg"; mode = "0700"; }
+              { directory = ".ssh"; mode = "0700"; }
+              { directory = ".local/share/keyrings"; mode = "0700"; }
+            ];
+          };
+          # Only keep steam and yuzu related stuff
+          deck.directories = [
             ".steam"
             ".config/yuzu"
             ".config/steam-rom-manager/userData"
-            # Both git-credentials and zsh_hist_dir doesn't seem to play well with impermanence
-            { directory = ".git_creds_dir"; mode = "0700"; }
-            { directory = ".zsh_hist_dir"; mode = "0700"; }
-            { directory = ".gnupg"; mode = "0700"; }
-            { directory = ".ssh"; mode = "0700"; }
-            { directory = ".local/share/keyrings"; mode = "0700"; }
+            ".local"
           ];
         };
       };

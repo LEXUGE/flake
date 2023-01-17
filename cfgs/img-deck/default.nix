@@ -96,7 +96,7 @@
     };
     my.steamdeck = {
       enable = true;
-      opensdUser = "nixos";
+      opensd.user = "nixos";
     };
 
     disko.devices = (import ./../deck/disk.nix { });
