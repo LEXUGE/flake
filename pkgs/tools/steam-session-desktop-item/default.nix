@@ -2,8 +2,16 @@
 , stdenv
 , makeDesktopItem
 , copyDesktopItems
+, writeShellScriptBin
 }:
 
+let
+  steam-session-wrapped = writeShellScriptBin "steam-session-wrapped" ''
+    sudo systemctl stop opensd
+    steam-session
+    sudo systemctl restart opensd
+  '';
+in
 stdenv.mkDerivation rec {
   pname = "steam-session-desktop-item";
   version = "0.1.0";
@@ -21,8 +29,8 @@ stdenv.mkDerivation rec {
       name = "steam-session";
       desktopName = "Steam Deck";
       genericName = "Steam Deck";
-      exec = "steam-session";
-      icon = "steamicon.png";
+      exec = "${steam-session-wrapped}/bin/steam-session-wrapped";
+      # icon = "steamicon.png";
       type = "Application";
       categories = [ "Application" ];
     })

@@ -42,6 +42,7 @@
       my.steamdeck = {
         enable = true;
         enableGaming = true;
+        opensdUser = "ash";
       };
       my.gnome-desktop.enable = true;
       my.base = {

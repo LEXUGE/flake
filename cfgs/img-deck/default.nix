@@ -94,7 +94,10 @@
         "org/gnome/desktop/a11y/applications".screen-keyboard-enabled = true;
       };
     };
-    my.steamdeck.enable = true;
+    my.steamdeck = {
+      enable = true;
+      opensdUser = "nixos";
+    };
 
     disko.devices = (import ./../deck/disk.nix { });
     # This is a LiveCD, please don't enable disk config in NixOS.
@@ -115,6 +118,8 @@
         (builtins.readFile config.system.build.mountScript))
     ];
 
-    users.users.nixos.shell = pkgs.zsh;
+    users.users.nixos = {
+      shell = pkgs.zsh;
+    };
   };
 }
