@@ -36,7 +36,7 @@ in {
 
       # Enable OpenSD service
       home-manager.users."${cfg.opensdUser}".systemd.user.services.opensd = {
-        Unit = {
+        Install = {
           WantedBy = [ "default.target" ];
         };
 
@@ -58,6 +58,7 @@ in {
       services.xserver.displayManager.defaultSession = "steam-wayland";
       services.xserver.displayManager.autoLogin.enable = true;
       services.xserver.displayManager.autoLogin.user = "deck";
+      services.xserver.displayManager.gdm.autoLogin.delay = 5;
     })
   ];
 }
