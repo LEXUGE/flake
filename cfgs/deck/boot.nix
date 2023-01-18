@@ -17,6 +17,9 @@
   # Needed for systemd-cryptenroll
   boot.initrd.systemd.enable = true;
 
+  # Clean tmp folder which is a btrfs subvol
+  boot.cleanTmpDir = true;
+
   # Handled by lanzaboote
   # boot.loader = {
   #   systemd-boot.enable = true;

@@ -25,7 +25,7 @@
             name = "swap";
             type = "partition";
             start = "1G";
-            end = "22G";
+            end = "9G";
             content = {
               type = "luks";
               name = "cryptswap";
@@ -37,7 +37,7 @@
           {
             name = "raw-pool-root-1";
             type = "partition";
-            start = "22G";
+            start = "9G";
             end = "100%";
             content = {
               type = "lvm_pv";
@@ -90,6 +90,9 @@
                   mountOptions = [ "compress=zstd" "noatime" ];
                 };
                 "/nix" = {
+                  mountOptions = [ "compress=zstd" "noatime" ];
+                };
+                "/tmp" = {
                   mountOptions = [ "compress=zstd" "noatime" ];
                 };
                 "/.snapshots" = {
