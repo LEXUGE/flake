@@ -68,9 +68,10 @@ in {
       };
 
       services.xserver.displayManager.defaultSession = "steam-wayland";
-      services.xserver.displayManager.autoLogin.enable = true;
-      services.xserver.displayManager.autoLogin.user = cfg.steam.user;
-      services.xserver.displayManager.gdm.autoLogin.delay = 5;
+      # Auto login doesn't seem necessary
+      # services.xserver.displayManager.autoLogin.enable = true;
+      # services.xserver.displayManager.autoLogin.user = cfg.steam.user;
+      # services.xserver.displayManager.gdm.autoLogin.delay = 5;
     })
   ];
 }
