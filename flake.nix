@@ -85,11 +85,11 @@
         dcompass.overlays.default
         ash-emacs.overlays.default
         # Patch `fwupdmgr security` to not report not enough info when kernel lockdown unavailable
-        (final: prev: {
-          fwupd = prev.fwupd.overrideAttrs (finalAttrs: prevAttrs: {
-            patches = prevAttrs.patches ++ [ ./misc/patches/fwupd-ignore-lockdown.patch ];
-          });
-        })
+        # (final: prev: {
+        #   fwupd = prev.fwupd.overrideAttrs (finalAttrs: prevAttrs: {
+        #     patches = prevAttrs.patches ++ [ ./misc/patches/fwupd-ignore-lockdown.patch ];
+        #   });
+        # })
       ];
       system = system.x86_64-linux;
     };
