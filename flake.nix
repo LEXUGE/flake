@@ -59,11 +59,14 @@
   in
   rec {
     # Use the default overlay to export all packages under ./pkgs
-    overlays.default = final: prev:
-      (import ./pkgs {
-        inherit (prev) lib;
-        pkgs = prev;
-      });
+    overlays = {
+      default = final: prev:
+        (import ./pkgs {
+          inherit (prev) lib;
+          pkgs = prev;
+          overlay = true;
+        });
+    };
 
     # Export modules under ./modules as NixOS modules
     nixosModules = (import ./modules { inherit lib; });
@@ -116,6 +119,7 @@
         dcompass.overlays.default
         ash-emacs.overlays.default
         (import "${jovian}/overlay.nix")
+
       ];
       system = system.x86_64-linux;
     };
@@ -171,7 +175,13 @@
     let pkgs = nixpkgs.legacyPackages.${system}; in
     {
       # Other than overlay, we have packages independently declared in flake.
-      packages = (import ./pkgs { inherit lib pkgs; });
+      packages = (import ./pkgs {
+        inherit lib;
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ self.overlays.default ];
+        };
+      });
 
       # devShell used to launch agenix env.
       devShells.default = with import nixpkgs { inherit system; };

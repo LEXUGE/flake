@@ -1,4 +1,4 @@
-{ lib, pkgs }:
+{ lib, pkgs, overlay ? false }:
 let
   listPackageRecursive = with builtins;
     dir:
@@ -7,7 +7,10 @@ let
         let path = dir + "/${name}";
         in if type == "directory" then
           if builtins.pathExists (path + "/default.nix") then
-            { "${name}" = (pkgs.callPackage path { }); }
+            if overlay then
+              { "${name}" = (pkgs.callPackage path { }); }
+            else
+              { "${name}" = pkgs."${name}"; }
           else
             listPackageRecursive path
         else
