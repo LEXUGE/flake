@@ -71,7 +71,8 @@ in {
 
       services.xserver.displayManager.autoLogin.enable = true;
       services.xserver.displayManager.autoLogin.user = cfg.steam.user;
-      services.xserver.displayManager.gdm.autoLogin.delay = 8;
+      # This is required because otherwise we have no way to log into deck using GNOME
+      services.xserver.displayManager.gdm.autoLogin.delay = 5;
     })
   ];
 }
