@@ -186,7 +186,7 @@
       # devShell used to launch agenix env.
       devShells.default = with import nixpkgs { inherit system; };
         mkShell {
-          nativeBuildInputs = [ openssl agenix.defaultPackage.${system} ];
+          nativeBuildInputs = [ openssl agenix.packages.${system}.default ];
         };
 
       apps = rec {
