@@ -65,7 +65,7 @@ jobs:
         name: lexuge
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
         # Don't push source or .iso files as they are pointless to take up precious cache space.
-        pushFilter: '(-source$|nixpkgs\.tar\.gz$|\.iso$|\-squashfs.img$)'
+        pushFilter: '(-source$|nixpkgs\.tar\.gz$|\.iso$|-squashfs.img$|crate-$)'
     - uses: cachix/cachix-action@v10
       with:
         name: dcompass

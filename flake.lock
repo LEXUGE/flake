@@ -102,11 +102,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1676486579,
-        "narHash": "sha256-CXqPOAxzwW6XJhgtBVY6HYEB/oxY2mVbuHpTAZvABsU=",
+        "lastModified": 1676487186,
+        "narHash": "sha256-S4Zy8a5zKmrZLra0X/+dD5//Dc87zNoHWox9ECfstw0=",
         "owner": "compassd",
         "repo": "dcompass",
-        "rev": "530d70e20945e8829ce20cc2ddff4d3f8c11f0c2",
+        "rev": "839a1798d4b0da0e1ddd68113c603c18c6ebee41",
         "type": "github"
       },
       "original": {
