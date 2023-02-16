@@ -38,12 +38,12 @@
     in
     {
       # Remove once https://github.com/NixOS/nixpkgs/pull/210896 is merged into unstable
-      systemd.package = pkgs.systemd.overrideAttrs (attrs: {
-        patches = attrs.patches ++ [ ../../misc/patches/systemd-tpm2-name-check.patch ];
-      });
-      boot.initrd.systemd.package = pkgs.systemdStage1.overrideAttrs (attrs: {
-        patches = attrs.patches ++ [ ../../misc/patches/systemd-tpm2-name-check.patch ];
-      });
+      # systemd.package = pkgs.systemd.overrideAttrs (attrs: {
+      #   patches = attrs.patches ++ [ ../../misc/patches/systemd-tpm2-name-check.patch ];
+      # });
+      # boot.initrd.systemd.package = pkgs.systemdStage1.overrideAttrs (attrs: {
+      #   patches = attrs.patches ++ [ ../../misc/patches/systemd-tpm2-name-check.patch ];
+      # });
 
 
       disko.devices = (import ./disk.nix { });
