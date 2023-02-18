@@ -63,16 +63,14 @@ in {
       users.users."${cfg.steam.user}" = {
         isNormalUser = true;
         extraGroups = [ "networkmanager" ];
-        # Allow the graphical user to login without password
-        hashedPassword = "";
+        hashedPassword = "$6$3CzXRRH.9GTAxZ2U$nG.C/YzFEKR7/SKWeGwEM9HvcNnSG655excCDR5YwpqOfzXw/zScsDmrBYJ8o1soN.yb4/BExdR0eG3xfJSEV0";
       };
 
       services.xserver.displayManager.defaultSession = "steam-wayland";
 
-      services.xserver.displayManager.autoLogin.enable = true;
-      services.xserver.displayManager.autoLogin.user = cfg.steam.user;
-      # This is required because otherwise we have no way to log into deck using GNOME
-      services.xserver.displayManager.gdm.autoLogin.delay = 5;
+      # services.xserver.displayManager.autoLogin.enable = true;
+      # services.xserver.displayManager.autoLogin.user = cfg.steam.user;
+      # services.xserver.displayManager.gdm.autoLogin.delay = 5;
     })
   ];
 }
