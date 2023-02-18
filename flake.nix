@@ -2,9 +2,9 @@
   description = "Deterministic Configurations";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     # We seem to have problem with mesa, let's pin it to 22.2
-    nixpkgs-mesa.url = "github:nixos/nixpkgs/97b8d9459f7922ce0e666113a1e8e6071424ae16";
+    nixpkgs.url = "github:nixos/nixpkgs/6dccdc458512abce8d19f74195bb20fdb067df50";
 
     utils.url = "github:numtide/flake-utils";
 
@@ -31,7 +31,6 @@
 
     # Tool for NixOS on tmpfs
     impermanence.url = "github:nix-community/impermanence";
-    impermanence.inputs.nixpkgs.follows = "nixpkgs";
 
     # Home manager
     # Broken due to https://github.com/nix-community/home-manager/pull/3405
@@ -45,7 +44,7 @@
     agenix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, utils, dcompass, impermanence, ash-emacs, home-manager, agenix, disko, jovian, lanzaboote, nixpkgs-mesa }: with utils.lib; let
+  outputs = { self, nixpkgs, utils, dcompass, impermanence, ash-emacs, home-manager, agenix, disko, jovian, lanzaboote }: with utils.lib; let
     lib = nixpkgs.lib;
 
     mkSystem = { name, extraMods ? [ ], extraOverlays ? [ ], system }: (lib.nixosSystem {
@@ -124,9 +123,6 @@
         dcompass.overlays.default
         ash-emacs.overlays.default
         (import "${jovian}/overlay.nix")
-        (final: prev: {
-          mesa = nixpkgs-mesa.legacyPackages."x86_64-linux".mesa;
-        })
       ];
       system = system.x86_64-linux;
     };
@@ -169,9 +165,6 @@
         dcompass.overlays.default
         ash-emacs.overlays.default
         (import "${jovian}/overlay.nix")
-        (final: prev: {
-          mesa = nixpkgs-mesa.legacyPackages."x86_64-linux".mesa;
-        })
       ];
       system = system.x86_64-linux;
     };
