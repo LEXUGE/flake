@@ -2,9 +2,9 @@
   description = "Deterministic Configurations";
 
   inputs = {
-    # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     # We seem to have problem with mesa, let's pin it to 22.2
-    nixpkgs.url = "github:nixos/nixpkgs/6dccdc458512abce8d19f74195bb20fdb067df50";
+    # nixpkgs.url = "github:nixos/nixpkgs/6dccdc458512abce8d19f74195bb20fdb067df50";
 
     utils.url = "github:numtide/flake-utils";
 
