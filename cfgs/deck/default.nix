@@ -101,7 +101,7 @@
         wqy_zenhei
       ];
 
-      environment.variables = {
+      jovian.steam.environment = {
         # Add Proton-GE
         STEAM_EXTRA_COMPAT_TOOLS_PATHS = "${pkgs.proton-ge}";
       };
