@@ -1,14 +1,7 @@
-{ lib, fetchzip, stdenv }:
+{ source, lib, fetchzip, stdenv }:
 
 stdenv.mkDerivation rec {
-  pname = "yacd";
-  version = "0.3.6";
-
-  src = fetchzip {
-    url =
-      "https://github.com/haishanh/yacd/releases/download/v${version}/yacd.tar.xz";
-    sha256 = "sha256-vjt67cE9HUc+G2XyPR+IZPgVvjizatQVqIyxeUUAJow=";
-  };
+  inherit (source) pname version src;
 
   installPhase = ''
     mkdir -p $out/bin

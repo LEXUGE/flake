@@ -8,6 +8,9 @@
 
     utils.url = "github:numtide/flake-utils";
 
+    nvfetcher.url = "github:berberman/nvfetcher";
+    nvfetcher.inputs.nixpkgs.follows = "nixpkgs";
+
     # Programmable DNS component used in our systems
     # Don't follow as it may invalidate the cache
     dcompass.url = "github:compassd/dcompass";
@@ -44,7 +47,7 @@
     agenix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, utils, dcompass, impermanence, ash-emacs, home-manager, agenix, disko, jovian, lanzaboote }: with utils.lib; let
+  outputs = { self, nixpkgs, utils, nvfetcher, dcompass, impermanence, ash-emacs, home-manager, agenix, disko, jovian, lanzaboote }: with utils.lib; let
     lib = nixpkgs.lib;
 
     mkSystem = { name, extraMods ? [ ], extraOverlays ? [ ], system }: (lib.nixosSystem {
@@ -57,6 +60,7 @@
             substituters = [ "https://dcompass.cachix.org" "https://nix-community.cachix.org" "https://lexuge.cachix.org" ];
             trusted-public-keys = [ dcompass.publicKey "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" self.publicKey ];
           };
+          nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
         }
       ] ++ extraMods;
     });
@@ -189,7 +193,7 @@
       # devShell used to launch agenix env.
       devShells.default = with import nixpkgs { inherit system; };
         mkShell {
-          nativeBuildInputs = [ openssl agenix.packages.${system}.default ];
+          nativeBuildInputs = [ openssl agenix.packages.${system}.default nvfetcher.packages.${system}.default ];
         };
 
       apps = rec {
@@ -207,6 +211,12 @@
               find . -type f -name '*.sh' -exec shellcheck {} +
               find . -type f -name '*.sh' -exec shfmt -w {} +
               find . -type f -name '*.nix' -exec nixpkgs-fmt {} +
+            '';
+        };
+        update = utils.lib.mkApp {
+          drv =
+            pkgs.writeShellScriptBin "flake-update-nv" ''
+              ${nvfetcher.packages.${system}.default}/bin/nvfetcher -c ./pkgs/nvfetcher.toml -o ./pkgs/_sources
             '';
         };
         default = fmt;

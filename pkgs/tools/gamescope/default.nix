@@ -1,4 +1,5 @@
-{ stdenv
+{ source
+, stdenv
 , fetchFromGitHub
 , meson
 , pkg-config
@@ -7,7 +8,6 @@
 , libdrm
 , vulkan-headers
 , vulkan-loader
-  # , vulkan-validation-layers
 , wayland
 , wayland-protocols
 , libxkbcommon
@@ -27,23 +27,16 @@
 , makeBinaryWrapper
 , cmake
 , hwdata
-, vkroots
+, libXmu
+, python3
 }:
-let
-  pname = "gamescope";
-  version = "3.11.51";
-in
 stdenv.mkDerivation {
-  inherit pname version;
+  inherit (source) pname version src;
 
-  src = fetchFromGitHub {
-    owner = "Plagman";
-    repo = "gamescope";
-    rev = "refs/tags/${version}";
-    sha256 = "sha256-alJaB7uZORaHV+VNlIMGuCCkPjHCF9wQ//Jv2pzitmM=";
-  };
-
-  patches = [ ./use-pkgconfig.patch ];
+  postPatch = ''
+    substituteInPlace subprojects/libdisplay-info/tool/gen-search-table.py \
+      --replace '/usr/bin/env python3' ${python3}/bin/python3
+  '';
 
   nativeBuildInputs = [
     meson
@@ -62,6 +55,8 @@ stdenv.mkDerivation {
     xorg.libXtst
     xorg.libXres
     xorg.libXi
+    xorg.xcbutilwm
+    xorg.xcbutilerrors
     libdrm
     libliftoff
     vulkan-headers
@@ -82,7 +77,7 @@ stdenv.mkDerivation {
     libcap
     stb
     hwdata
-    vkroots
+    libXmu
   ];
 
   # --debug-layers flag expects these in the path

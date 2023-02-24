@@ -1,0 +1,84 @@
+{
+    "chinalist": {
+        "cargoLocks": null,
+        "date": "2023-02-23",
+        "extract": null,
+        "name": "chinalist",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "felixonmars",
+            "repo": "dnsmasq-china-list",
+            "rev": "14f4309f39aab8f4d2eb0d8b7ab3ab3cd69a21f2",
+            "sha256": "sha256-CojvG3HNrVzQAbWcWC96Q3DHoXgYckGZ/s2ErPW/eLk=",
+            "type": "github"
+        },
+        "version": "14f4309f39aab8f4d2eb0d8b7ab3ab3cd69a21f2"
+    },
+    "gamescope": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "gamescope",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": true,
+            "leaveDotGit": false,
+            "name": null,
+            "rev": "3.11.52-beta2",
+            "sha256": "sha256-gicrRpiCtMcanOQ7ws7KqIu4ARiOGWtqaVKrY1Se3AM=",
+            "type": "git",
+            "url": "https://github.com/Plagman/gamescope"
+        },
+        "version": "3.11.52-beta2"
+    },
+    "maxmind-geoip": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "maxmind-geoip",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-Tnma6tpET4Vrm5G8KmLpsVnpD2JIKts56kZQsBIbRZ8=",
+            "type": "url",
+            "url": "https://github.com/Dreamacro/maxmind-geoip/releases/download/20230212/Country.mmdb"
+        },
+        "version": "20230212"
+    },
+    "proton-ge": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "proton-ge",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "sha256": "1wwxh0yk78wprfi1h9n7jf072699vj631dl928n10d61p3r90x82",
+            "type": "tarball",
+            "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton7-49/GE-Proton7-49.tar.gz"
+        },
+        "version": "GE-Proton7-49"
+    },
+    "yacd": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "yacd",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "sha256": "0wziqgk6lp482qss8khniqc2hbsc3ykagkglrj085d4a3i2q3fk2",
+            "type": "tarball",
+            "url": "https://github.com/haishanh/yacd/releases/download/v0.3.8/yacd.tar.xz"
+        },
+        "version": "v0.3.8"
+    }
+}

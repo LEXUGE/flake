@@ -1,0 +1,23 @@
+[proton-ge]
+# Update only if new release is available
+src.github = "GloriousEggroll/proton-ge-custom"
+fetch.tarball = "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/$ver/$ver.tar.gz"
+
+[chinalist]
+# Check whether source is up to date by git repo. It should be updated whenever new commit is available.
+src.git = "https://github.com/felixonmars/dnsmasq-china-list"
+fetch.github = "felixonmars/dnsmasq-china-list"
+
+[maxmind-geoip]
+src.github = "Dreamacro/maxmind-geoip"
+fetch.url = "https://github.com/Dreamacro/maxmind-geoip/releases/download/$ver/Country.mmdb"
+
+[yacd]
+src.github = "haishanh/yacd"
+fetch.tarball = "https://github.com/haishanh/yacd/releases/download/$ver/yacd.tar.xz"
+
+[gamescope]
+src.github_tag = "Plagman/gamescope"
+fetch.git = "https://github.com/Plagman/gamescope"
+git.branch = "$ver"
+git.fetchSubmodules = true

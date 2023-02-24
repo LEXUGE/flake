@@ -101,6 +101,11 @@
         wqy_zenhei
       ];
 
+      environment.variables = {
+        # Add Proton-GE
+        STEAM_EXTRA_COMPAT_TOOLS_PATHS = "${pkgs.proton-ge}";
+      };
+
       environment.persistence."/persist" = {
         hideMounts = true;
         directories = [

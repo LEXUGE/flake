@@ -1,14 +1,7 @@
-{ lib, stdenv, fetchurl }:
+{ source, lib, stdenv, fetchurl }:
 
 stdenv.mkDerivation rec {
-  pname = "maxmind-geoip";
-  version = "20220912";
-
-  src = fetchurl {
-    url =
-      "https://github.com/Dreamacro/${pname}/releases/download/${version}/Country.mmdb";
-    sha256 = "sha256-YIQjuWbizheEE9kgL+hBS1GAGf2PbpaW5mu/lim9Q9A=";
-  };
+  inherit (source) pname version src;
 
   phases = [ "installPhase" ];
   installPhase = ''
