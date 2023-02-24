@@ -13,7 +13,8 @@
       owner = config.my.clash.clashUserName;
     };
     # This is a dummy key in ISO image, we shall not worry about its security.
-    age.identityPaths = [ ../../secrets/raw/img_key_ed25519 ];
+    # Agenix breaks in LiveCD due to https://github.com/ryantm/agenix/issues/165.
+    age.identityPaths = [ (pkgs.writeText "img_key_ed25519" (builtins.readFile ../../secrets/raw/img_key_ed25519)) ];
 
     # GPG agent that makes GPG work in LiveCD.
     programs.gnupg.agent.enable = true;

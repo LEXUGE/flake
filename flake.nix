@@ -43,8 +43,8 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Secrets management
-    # Agenix breaks in LiveCD due to https://github.com/ryantm/agenix/issues/165.
-    agenix.url = "github:ryantm/agenix/d7fd31756e1c5f1281981c48efbb2e188024ba47";
+    # agenix.url = "github:ryantm/agenix/d7fd31756e1c5f1281981c48efbb2e188024ba47";
+    agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
