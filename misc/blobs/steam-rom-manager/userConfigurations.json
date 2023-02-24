@@ -1,0 +1,67 @@
+[
+    {
+        "parserType": "Glob",
+        "configTitle": "Nintendo Switch - Yuzu",
+        "steamCategory": "${Nintendo Switch}",
+        "steamDirectory": "/home/deck/.steam/steam",
+        "romDirectory": "/home/deck/.local/share/yuzu/roms",
+        "executableArgs": "-f -g \"${filePath}\"",
+        "executableModifier": "${exePath}",
+        "startInDirectory": "",
+        "titleModifier": "${fuzzyTitle}",
+        "imageProviders": [
+            "SteamGridDB"
+        ],
+        "onlineImageQueries": "${${fuzzyTitle}}",
+        "imagePool": "${fuzzyTitle}",
+        "defaultImage": "",
+        "defaultTallImage": "",
+        "defaultHeroImage": "",
+        "defaultLogoImage": "",
+        "defaultIcon": "",
+        "localImages": "",
+        "localTallImages": "",
+        "localHeroImages": "",
+        "localLogoImages": "",
+        "localIcons": "",
+        "userAccounts": {
+            "specifiedAccounts": "",
+            "skipWithMissingDataDir": true,
+            "useCredentials": true
+        },
+        "executable": {
+            "path": "/home/deck/.nix-profile/bin/yuzu",
+            "shortcutPassthrough": false,
+            "appendArgsToExecutable": true
+        },
+        "parserInputs": {
+            "glob": "${title}@(.kip|.KIP|.nca|.NCA|.nro|.NRO|.nso|.NSO|.nsp|.NSP|.xci|.XCI)"
+        },
+        "titleFromVariable": {
+            "limitToGroups": "",
+            "caseInsensitiveVariables": false,
+            "skipFileIfVariableWasNotFound": false,
+            "tryToMatchTitle": false
+        },
+        "fuzzyMatch": {
+            "replaceDiacritics": true,
+            "removeCharacters": true,
+            "removeBrackets": true
+        },
+        "imageProviderAPIs": {
+            "SteamGridDB": {
+                "nsfw": false,
+                "humor": false,
+                "styles": [],
+                "stylesHero": [],
+                "stylesLogo": [],
+                "stylesIcon": [],
+                "imageMotionTypes": [
+                    "static"
+                ]
+            }
+        },
+        "parserId": "167720229097261644",
+        "version": 10
+    }
+]

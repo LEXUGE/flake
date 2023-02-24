@@ -88,6 +88,9 @@
           protonup
         ];
         home.stateVersion = config.system.stateVersion;
+        home.file = {
+          ".config/steam-rom-manager/userData/userConfigurations.json".source = ../../misc/blobs/steam-rom-manager/userConfigurations.json;
+        };
       };
 
       # Fonts
