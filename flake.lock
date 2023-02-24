@@ -8,16 +8,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1677126346,
-        "narHash": "sha256-4s+PPGC1M07QsPyeye5drc2JLa1lhDnCV3XAsG8+pH4=",
+        "lastModified": 1675119125,
+        "narHash": "sha256-L+Ahj+07m1oU1GJwn1nhjbZ4+mCut65FYL6SB7QAy4U=",
         "owner": "ryantm",
         "repo": "agenix",
-        "rev": "c2a71c83c70844c5e31db69347e86af080bcdad0",
+        "rev": "d7fd31756e1c5f1281981c48efbb2e188024ba47",
         "type": "github"
       },
       "original": {
         "owner": "ryantm",
         "repo": "agenix",
+        "rev": "d7fd31756e1c5f1281981c48efbb2e188024ba47",
         "type": "github"
       }
     },
@@ -401,11 +402,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1676939038,
-        "narHash": "sha256-mrgx8hLguzZnVYmkehSuiTyaeg2r/3vIQREYPISdQsA=",
+        "lastModified": 1677198824,
+        "narHash": "sha256-/rjmwYe9ot0j+UJW2NcLJErtU9RXmko5vOhKdqK9o4Y=",
         "owner": "nix-community",
         "repo": "lanzaboote",
-        "rev": "5af69f0d6306f8239b3ecd661a37c5ee0a5c9173",
+        "rev": "46b8a553b9a8ac30e222e56f55c18b97b36a0b1c",
         "type": "github"
       },
       "original": {
