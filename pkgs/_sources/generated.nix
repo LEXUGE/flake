@@ -3,26 +3,26 @@
 {
   chinalist = {
     pname = "chinalist";
-    version = "14f4309f39aab8f4d2eb0d8b7ab3ab3cd69a21f2";
+    version = "854dd693a8232706949be2d8151203a2c42987c0";
     src = fetchFromGitHub ({
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "14f4309f39aab8f4d2eb0d8b7ab3ab3cd69a21f2";
+      rev = "854dd693a8232706949be2d8151203a2c42987c0";
       fetchSubmodules = false;
-      sha256 = "sha256-CojvG3HNrVzQAbWcWC96Q3DHoXgYckGZ/s2ErPW/eLk=";
+      sha256 = "sha256-pCy3CR2JQJSwvtH9C+VjBed9SnWs+L/Mc1jwJufUwzs=";
     });
-    date = "2023-02-23";
+    date = "2023-03-01";
   };
   gamescope = {
     pname = "gamescope";
-    version = "3.11.52-beta2";
+    version = "3.11.52-beta5";
     src = fetchgit {
       url = "https://github.com/Plagman/gamescope";
-      rev = "3.11.52-beta2";
+      rev = "3.11.52-beta5";
       fetchSubmodules = true;
       deepClone = false;
       leaveDotGit = false;
-      sha256 = "sha256-gicrRpiCtMcanOQ7ws7KqIu4ARiOGWtqaVKrY1Se3AM=";
+      sha256 = "sha256-K0rWfzQ8uU64XJ8G47jwAXPypKXfi1ETpClq7Z587Hs=";
     };
   };
   maxmind-geoip = {
