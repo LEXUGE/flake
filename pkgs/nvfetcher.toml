@@ -21,3 +21,9 @@ src.github_tag = "Plagman/gamescope"
 fetch.git = "https://github.com/Plagman/gamescope"
 git.branch = "$ver"
 git.fetchSubmodules = true
+
+[boilr]
+src.github = "PhilipK/BoilR"
+fetch.github = "PhilipK/BoilR"
+cargo_locks = [ "Cargo.lock" ]
+

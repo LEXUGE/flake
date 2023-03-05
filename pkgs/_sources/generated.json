@@ -1,7 +1,32 @@
 {
+    "boilr": {
+        "cargoLocks": {
+            "Cargo.lock": [
+                "./boilr-v.1.7.21/Cargo.lock",
+                {}
+            ]
+        },
+        "date": null,
+        "extract": null,
+        "name": "boilr",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "PhilipK",
+            "repo": "BoilR",
+            "rev": "v.1.7.21",
+            "sha256": "sha256-f1K1TYtgveg+UX//RP9DaotcicEg0niYxTDgbqXwsgI=",
+            "type": "github"
+        },
+        "version": "v.1.7.21"
+    },
     "chinalist": {
         "cargoLocks": null,
-        "date": "2023-03-01",
+        "date": "2023-03-05",
         "extract": null,
         "name": "chinalist",
         "passthru": null,
@@ -13,11 +38,11 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "854dd693a8232706949be2d8151203a2c42987c0",
-            "sha256": "sha256-pCy3CR2JQJSwvtH9C+VjBed9SnWs+L/Mc1jwJufUwzs=",
+            "rev": "b4c126b6aba9e08b6698cf0e1a68af95abc0ebed",
+            "sha256": "sha256-aYb8xACaO06/Ll2OxL740ez1sxhiEcvMzO5vtGugaJs=",
             "type": "github"
         },
-        "version": "854dd693a8232706949be2d8151203a2c42987c0"
+        "version": "b4c126b6aba9e08b6698cf0e1a68af95abc0ebed"
     },
     "gamescope": {
         "cargoLocks": null,
@@ -31,12 +56,12 @@
             "fetchSubmodules": true,
             "leaveDotGit": false,
             "name": null,
-            "rev": "3.11.52-beta5",
-            "sha256": "sha256-K0rWfzQ8uU64XJ8G47jwAXPypKXfi1ETpClq7Z587Hs=",
+            "rev": "3.11.52-beta6",
+            "sha256": "sha256-NZTE7v66LGIrC8TvLM2X40pJ7Cyh5lWDrbphGeaqVVU=",
             "type": "git",
             "url": "https://github.com/Plagman/gamescope"
         },
-        "version": "3.11.52-beta5"
+        "version": "3.11.52-beta6"
     },
     "maxmind-geoip": {
         "cargoLocks": null,
