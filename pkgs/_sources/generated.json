@@ -26,7 +26,7 @@
     },
     "chinalist": {
         "cargoLocks": null,
-        "date": "2023-03-05",
+        "date": "2023-03-12",
         "extract": null,
         "name": "chinalist",
         "passthru": null,
@@ -38,11 +38,11 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "b4c126b6aba9e08b6698cf0e1a68af95abc0ebed",
-            "sha256": "sha256-aYb8xACaO06/Ll2OxL740ez1sxhiEcvMzO5vtGugaJs=",
+            "rev": "5a17851095646fdc4f514dc90c92d7a5c9987ceb",
+            "sha256": "sha256-+aWIHd454QgDcN5DhTioymcyCTfakE4wTUuvBK1Kzns=",
             "type": "github"
         },
-        "version": "b4c126b6aba9e08b6698cf0e1a68af95abc0ebed"
+        "version": "5a17851095646fdc4f514dc90c92d7a5c9987ceb"
     },
     "gamescope": {
         "cargoLocks": null,
@@ -72,11 +72,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-Tnma6tpET4Vrm5G8KmLpsVnpD2JIKts56kZQsBIbRZ8=",
+            "sha256": "sha256-Y/glz6HUfjox9Mn+gPzA8+tUHqV/KkIInUn4SyajUiE=",
             "type": "url",
-            "url": "https://github.com/Dreamacro/maxmind-geoip/releases/download/20230212/Country.mmdb"
+            "url": "https://github.com/Dreamacro/maxmind-geoip/releases/download/20230312/Country.mmdb"
         },
-        "version": "20230212"
+        "version": "20230312"
     },
     "proton-ge": {
         "cargoLocks": null,
@@ -86,11 +86,11 @@
         "passthru": null,
         "pinned": false,
         "src": {
-            "sha256": "1wwxh0yk78wprfi1h9n7jf072699vj631dl928n10d61p3r90x82",
+            "sha256": "1jznryfs622m8592q2w17v8vdpcljqxk48h8dqnvwcq387c7inj0",
             "type": "tarball",
-            "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton7-49/GE-Proton7-49.tar.gz"
+            "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton7-50/GE-Proton7-50.tar.gz"
         },
-        "version": "GE-Proton7-49"
+        "version": "GE-Proton7-50"
     },
     "yacd": {
         "cargoLocks": null,

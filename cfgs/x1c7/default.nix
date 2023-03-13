@@ -76,6 +76,7 @@
           ".mozilla"
           ".thunderbird"
           ".config/qBittorrent"
+          "org-files"
           # Both git-credentials and zsh_hist_dir doesn't seem to play well with impermanence
           { directory = ".git_creds_dir"; mode = "0700"; }
           { directory = ".zsh_hist_dir"; mode = "0700"; }

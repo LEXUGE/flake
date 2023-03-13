@@ -25,6 +25,7 @@
     jovian.flake = false;
 
     # My emacs config
+    # ash-emacs.url = "/home/ash/Documents/git/emacs.d";
     ash-emacs.url = "github:LEXUGE/emacs.d";
     ash-emacs.inputs.nixos.follows = "nixpkgs";
 
