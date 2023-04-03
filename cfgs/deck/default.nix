@@ -144,8 +144,10 @@
           };
           # Only keep steam and yuzu related stuff
           deck.directories = [
+            "Games"
             ".steam"
             ".config/yuzu"
+            ".config/lutris"
             ".config/steam-rom-manager/userData"
             ".local"
           ];
