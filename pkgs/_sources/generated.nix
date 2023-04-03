@@ -13,20 +13,22 @@
     });
     cargoLock."Cargo.lock" = {
       lockFile = ./boilr-v.1.7.21/Cargo.lock;
-      outputHashes = { };
+      outputHashes = {
+        
+      };
     };
   };
   chinalist = {
     pname = "chinalist";
-    version = "5a17851095646fdc4f514dc90c92d7a5c9987ceb";
+    version = "7abcbb1d77f3b1b0fef108c8ddcb09e7a21f9fb7";
     src = fetchFromGitHub ({
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "5a17851095646fdc4f514dc90c92d7a5c9987ceb";
+      rev = "7abcbb1d77f3b1b0fef108c8ddcb09e7a21f9fb7";
       fetchSubmodules = false;
-      sha256 = "sha256-+aWIHd454QgDcN5DhTioymcyCTfakE4wTUuvBK1Kzns=";
+      sha256 = "sha256-DpTUg4nGcsQhZ0Xz1t98Q/E3o7gj4oj5ZXgcjV9E92I=";
     });
-    date = "2023-03-12";
+    date = "2023-04-02";
   };
   gamescope = {
     pname = "gamescope";
@@ -50,10 +52,10 @@
   };
   proton-ge = {
     pname = "proton-ge";
-    version = "GE-Proton7-50";
+    version = "GE-Proton7-53";
     src = fetchTarball {
-      url = "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton7-50/GE-Proton7-50.tar.gz";
-      sha256 = "1jznryfs622m8592q2w17v8vdpcljqxk48h8dqnvwcq387c7inj0";
+      url = "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton7-53/GE-Proton7-53.tar.gz";
+      sha256 = "1cb0f7y4qfbpcg70fcmcrgd15xmpl18iljh5nw45c5rzvl6v0hm0";
     };
   };
   yacd = {

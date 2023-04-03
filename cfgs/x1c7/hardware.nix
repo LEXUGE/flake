@@ -85,7 +85,7 @@ in
   # powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
   services.tlp.enable = true;
   # TLP conflict with ppd
-   services.power-profiles-daemon.enable = false;
+  services.power-profiles-daemon.enable = false;
 
   # Seems like unar is broken on unstable which causes facetimehd to break
   # https://github.com/NixOS/nixpkgs/pull/196916
