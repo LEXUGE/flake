@@ -85,6 +85,7 @@
         home.packages = with pkgs; [
           yuzu
           steam-rom-manager
+          steam
           protonup
           lutris
           boilr

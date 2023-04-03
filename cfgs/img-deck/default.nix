@@ -122,5 +122,6 @@
     users.users.nixos = {
       shell = pkgs.zsh;
     };
+    programs.zsh.enable = true;
   };
 }
