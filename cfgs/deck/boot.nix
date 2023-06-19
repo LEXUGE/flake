@@ -1,29 +1,8 @@
 { config, lib, pkgs, ... }: {
-  # needed by lanzaboote
-  boot.bootspec.enable = true;
-
-  # Lanzaboote should be the only bootloader
-  boot.loader.systemd-boot.enable = lib.mkForce false;
-
-  boot.lanzaboote = {
-    enable = true;
-    publicKeyFile = config.age.secrets.secureboot_db_cert.path;
-    privateKeyFile = config.age.secrets.secureboot_db_key.path;
-  };
-
-  # Enable firmwares otherwise we couldn't boot!
-  hardware.enableAllFirmware = true;
-
-  # Needed for systemd-cryptenroll
-  boot.initrd.systemd.enable = true;
+  my.lanzaboote.enable = true;
 
   # Clean tmp folder which is a btrfs subvol
-  boot.cleanTmpDir = true;
-
-  # Handled by lanzaboote
-  # boot.loader = {
-  #   systemd-boot.enable = true;
-  # };
+  boot.tmp.cleanOnBoot = true;
 
   # Create root on tmpfs
   fileSystems."/" = {

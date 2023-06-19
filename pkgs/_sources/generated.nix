@@ -3,59 +3,57 @@
 {
   boilr = {
     pname = "boilr";
-    version = "v.1.7.21";
-    src = fetchFromGitHub ({
+    version = "v.1.9.1";
+    src = fetchFromGitHub {
       owner = "PhilipK";
       repo = "BoilR";
-      rev = "v.1.7.21";
+      rev = "v.1.9.1";
       fetchSubmodules = false;
-      sha256 = "sha256-f1K1TYtgveg+UX//RP9DaotcicEg0niYxTDgbqXwsgI=";
-    });
+      sha256 = "sha256-mdkRuEzfWhdbX0DD6uwc1o8kXjqk1Y0+FFKHrM2m81w=";
+    };
     cargoLock."Cargo.lock" = {
-      lockFile = ./boilr-v.1.7.21/Cargo.lock;
-      outputHashes = {
-        
-      };
+      lockFile = ./boilr-v.1.9.1/Cargo.lock;
+      outputHashes = { };
     };
   };
   chinalist = {
     pname = "chinalist";
-    version = "7abcbb1d77f3b1b0fef108c8ddcb09e7a21f9fb7";
-    src = fetchFromGitHub ({
+    version = "01a61a2d4d00dd77cb7824c6914dd3510f038d48";
+    src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "7abcbb1d77f3b1b0fef108c8ddcb09e7a21f9fb7";
+      rev = "01a61a2d4d00dd77cb7824c6914dd3510f038d48";
       fetchSubmodules = false;
-      sha256 = "sha256-DpTUg4nGcsQhZ0Xz1t98Q/E3o7gj4oj5ZXgcjV9E92I=";
-    });
-    date = "2023-04-02";
+      sha256 = "sha256-p48jSjjxJv1diFZ/bIPiy1rhYW7BgGvVdZlRbxhwZnw=";
+    };
+    date = "2023-06-18";
   };
   gamescope = {
     pname = "gamescope";
-    version = "3.11.52-beta6";
+    version = "3.12.0-beta9";
     src = fetchgit {
       url = "https://github.com/Plagman/gamescope";
-      rev = "3.11.52-beta6";
+      rev = "3.12.0-beta9";
       fetchSubmodules = true;
       deepClone = false;
       leaveDotGit = false;
-      sha256 = "sha256-NZTE7v66LGIrC8TvLM2X40pJ7Cyh5lWDrbphGeaqVVU=";
+      sha256 = "sha256-Wpmh+8IMiob8hVNjy/XoM2tclLdfTzEUoZOAFHw+Bfg=";
     };
   };
   maxmind-geoip = {
     pname = "maxmind-geoip";
-    version = "20230312";
+    version = "20230612";
     src = fetchurl {
-      url = "https://github.com/Dreamacro/maxmind-geoip/releases/download/20230312/Country.mmdb";
-      sha256 = "sha256-Y/glz6HUfjox9Mn+gPzA8+tUHqV/KkIInUn4SyajUiE=";
+      url = "https://github.com/Dreamacro/maxmind-geoip/releases/download/20230612/Country.mmdb";
+      sha256 = "sha256-uD+UzMjpQvuNMcIxm4iHLnJwhxXstE3W+0xCuf9j/i8=";
     };
   };
   proton-ge = {
     pname = "proton-ge";
-    version = "GE-Proton7-53";
+    version = "GE-Proton8-4";
     src = fetchTarball {
-      url = "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton7-53/GE-Proton7-53.tar.gz";
-      sha256 = "1cb0f7y4qfbpcg70fcmcrgd15xmpl18iljh5nw45c5rzvl6v0hm0";
+      url = "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton8-4/GE-Proton8-4.tar.gz";
+      sha256 = "sha256-UdX2qnC3s7e560b4Mw5BTWA9e0ehMo/+iGuVDO7nBhc=";
     };
   };
   yacd = {

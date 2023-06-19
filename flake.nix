@@ -49,7 +49,7 @@
     agenix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, utils, nvfetcher, dcompass, impermanence, ash-emacs, home-manager, agenix, disko, jovian, lanzaboote }: with utils.lib; let
+  outputs = { self, nixpkgs, utils, nvfetcher, dcompass, impermanence, ash-emacs, home-manager, agenix, disko, jovian, lanzaboote }@inputs: with utils.lib; let
     lib = nixpkgs.lib;
 
     mkSystem = { name, extraMods ? [ ], extraOverlays ? [ ], system }: (lib.nixosSystem {
@@ -65,6 +65,7 @@
           nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
         }
       ] ++ extraMods;
+      specialArgs = { inherit inputs; };
     });
   in
   rec {
@@ -87,11 +88,15 @@
       extraMods = [
         nixosModules.clash
         nixosModules.base
+        nixosModules.disko
+        nixosModules.lanzaboote
         nixosModules.home
         nixosModules.gnome-desktop
         nixosModules.dcompass
         impermanence.nixosModules.impermanence
+        disko.nixosModules.disko
         home-manager.nixosModules.home-manager
+        lanzaboote.nixosModules.lanzaboote
         agenix.nixosModules.age
       ];
       extraOverlays = [
@@ -107,13 +112,18 @@
       system = system.x86_64-linux;
     };
 
-    diskoConfigurations.deck = (import ./cfgs/deck/disk.nix { });
+    diskoConfigurations = {
+      deck = (import ./modules/disko/disk.nix { });
+      x1c7 = (import ./modules/disko/disk.nix { });
+    };
 
     nixosConfigurations.deck = mkSystem {
       name = "deck";
       extraMods = [
         nixosModules.clash
         nixosModules.base
+        nixosModules.disko
+        nixosModules.lanzaboote
         nixosModules.home
         nixosModules.gnome-desktop
         nixosModules.dcompass
@@ -141,6 +151,7 @@
         nixosModules.base
         nixosModules.gnome-desktop
         nixosModules.dcompass
+        disko.nixosModules.disko
         home-manager.nixosModules.home-manager
         agenix.nixosModules.age
         "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-base.nix"

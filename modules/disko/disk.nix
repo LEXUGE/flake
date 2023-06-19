@@ -1,8 +1,8 @@
-{ disks ? [ "/dev/nvme0n1" ], ... }: {
+{ device ? "/dev/nvme0n1", ... }: {
   disk = {
     nvme = {
       type = "disk";
-      device = builtins.elemAt disks 0;
+      inherit device;
       content = {
         type = "table";
         format = "gpt";
@@ -10,7 +10,6 @@
           # ESP
           {
             name = "esp";
-            type = "partition";
             start = "0";
             end = "1G";
             bootable = true;
@@ -23,7 +22,6 @@
           # Swap
           {
             name = "swap";
-            type = "partition";
             start = "1G";
             end = "21G";
             content = {
@@ -37,7 +35,6 @@
           # Root partition
           {
             name = "root";
-            type = "partition";
             start = "21G";
             end = "100%";
             content = {

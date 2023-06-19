@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }: with lib;
+{ inputs, config, lib, pkgs, ... }: with lib;
 {
   imports = [
     ./networking.nix
@@ -86,16 +86,35 @@
       enable = true;
       hostname = "img";
     };
-    my.home.nixos.extraPackages = with pkgs; [
-      firefox-wayland
-      htop
-      dnsutils
-      smartmontools
-    ];
+    my.home.nixos = {
+      extraPackages = with pkgs; [
+        firefox-wayland
+        htop
+        dnsutils
+        smartmontools
+      ];
+      extraDconf = let hm = inputs.home-manager.lib.hm; in {
+        "org/gnome/desktop/interface"."scaling-factor" = hm.gvariant.mkUint32 2;
+      };
+    };
+
+    disko.devices = (import ./../../modules/disko/disk.nix { });
+    # This is a LiveCD, please don't enable disk config in NixOS.
+    disko.enableConfig = false;
 
     environment.systemPackages = with pkgs; [
       (writeShellScriptBin "install-script"
         (builtins.readFile ./install.sh))
+
+      # Create and mount, `disko`
+      (writeShellScriptBin "disko"
+        (builtins.readFile config.system.build.diskoScript))
+      # Create, `disko-create`
+      (writeShellScriptBin "disko-create"
+        (builtins.readFile config.system.build.formatScript))
+      # Mount, `disko-mount`
+      (writeShellScriptBin "disko-mount"
+        (builtins.readFile config.system.build.mountScript))
     ];
 
     users.users.nixos.shell = pkgs.zsh;

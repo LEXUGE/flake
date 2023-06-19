@@ -46,8 +46,7 @@
       # });
 
 
-      disko.devices = (import ./disk.nix { });
-
+      my.disko.enable = true;
       my.gnome-desktop.enable = true;
       my.base = {
         enable = true;

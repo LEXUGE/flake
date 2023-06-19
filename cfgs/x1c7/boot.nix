@@ -1,25 +1,23 @@
 { config, lib, pkgs, ... }: {
-  # Enable plymouth for better booting cosmetics
-  # Plymouth seems to falter GDM from starting up.
-  # boot.plymouth.enable = true;
+  my.lanzaboote.enable = true;
 
-  # Use Keyfile to unlock the root partition to avoid keying in twice.
-  # Allow fstrim to work on it.
-  boot.initrd.secrets = { "/keyfile.bin" = "/persist/secrets/keyfile.bin"; };
+  # Clean tmp folder which is a btrfs subvol
+  boot.tmp.cleanOnBoot = true;
 
-  # Use GRUB with encrypted /boot under EFI env.
-  boot.loader = {
-    efi = {
-      efiSysMountPoint = "/boot/efi";
-    };
-    grub = {
-      enable = true;
-      version = 2;
-      device = "nodev";
-      efiSupport = true;
-      efiInstallAsRemovable = true;
-      enableCryptodisk = true;
-    };
+  # Create root on tmpfs
+  fileSystems."/" = {
+    fsType = "tmpfs";
+    options = [ "defaults" "size=2G" "mode=755" ];
+  };
+
+  fileSystems."/persist".neededForBoot = true;
+
+  # LUKS device registration and swap registration are already handled by disko
+  # fallBackToPassword is implied by systemd-initrd
+  boot.initrd.luks.devices."cryptroot" = {
+    # keyFile = "/keyfile.bin";
+    allowDiscards = true;
+    # fallbackToPassword = true;
   };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;

@@ -90,8 +90,9 @@
         htop
         dnsutils
         smartmontools
-      ]; # Show screen keyboard
+      ];
       extraDconf = {
+        # Show screen keyboard
         "org/gnome/desktop/a11y/applications".screen-keyboard-enabled = true;
       };
     };
@@ -100,7 +101,7 @@
       opensd.user = "nixos";
     };
 
-    disko.devices = (import ./../deck/disk.nix { });
+    disko.devices = (import ./../../modules/disko/disk.nix { });
     # This is a LiveCD, please don't enable disk config in NixOS.
     disko.enableConfig = false;
 
@@ -110,7 +111,7 @@
 
       # Create and mount, `disko`
       (writeShellScriptBin "disko"
-        (builtins.readFile config.system.build.disko))
+        (builtins.readFile config.system.build.diskoScript))
       # Create, `disko-create`
       (writeShellScriptBin "disko-create"
         (builtins.readFile config.system.build.formatScript))
