@@ -17,8 +17,8 @@ src.github = "haishanh/yacd"
 fetch.tarball = "https://github.com/haishanh/yacd/releases/download/$ver/yacd.tar.xz"
 
 [gamescope]
-src.github_tag = "Plagman/gamescope"
-fetch.git = "https://github.com/Plagman/gamescope"
+src.github_tag = "ValveSoftware/gamescope"
+fetch.git = "https://github.com/ValveSoftware/gamescope"
 git.branch = "$ver"
 git.fetchSubmodules = true
 

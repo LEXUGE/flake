@@ -26,6 +26,8 @@
 , lib
 , makeBinaryWrapper
 , cmake
+, glm
+, gbenchmark
 , hwdata
 , libXmu
 , python3
@@ -63,6 +65,8 @@ stdenv.mkDerivation {
     vulkan-loader
     # vulkan-validation-layers
     glslang
+    glm
+    gbenchmark
     SDL2
     wayland
     wayland-protocols

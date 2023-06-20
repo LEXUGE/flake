@@ -26,7 +26,7 @@
     },
     "chinalist": {
         "cargoLocks": null,
-        "date": "2023-06-18",
+        "date": "2023-06-19",
         "extract": null,
         "name": "chinalist",
         "passthru": null,
@@ -38,11 +38,11 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "01a61a2d4d00dd77cb7824c6914dd3510f038d48",
-            "sha256": "sha256-p48jSjjxJv1diFZ/bIPiy1rhYW7BgGvVdZlRbxhwZnw=",
+            "rev": "ec4242a7575cb59771056d3a59f122bf0a53643c",
+            "sha256": "sha256-13sqLAaLapEjonMxHscCqxcvtfBiCFSUI2JLnR/NDPk=",
             "type": "github"
         },
-        "version": "01a61a2d4d00dd77cb7824c6914dd3510f038d48"
+        "version": "ec4242a7575cb59771056d3a59f122bf0a53643c"
     },
     "gamescope": {
         "cargoLocks": null,
@@ -59,7 +59,7 @@
             "rev": "3.12.0-beta9",
             "sha256": "sha256-Wpmh+8IMiob8hVNjy/XoM2tclLdfTzEUoZOAFHw+Bfg=",
             "type": "git",
-            "url": "https://github.com/Plagman/gamescope"
+            "url": "https://github.com/ValveSoftware/gamescope"
         },
         "version": "3.12.0-beta9"
     },
@@ -100,7 +100,7 @@
         "passthru": null,
         "pinned": false,
         "src": {
-            "sha256": "0wziqgk6lp482qss8khniqc2hbsc3ykagkglrj085d4a3i2q3fk2",
+            "sha256": "sha256-YrqBRRyKtIKAzPTNp6YfTC8oGI4WTqQ1FohcaubD8XM=",
             "type": "tarball",
             "url": "https://github.com/haishanh/yacd/releases/download/v0.3.8/yacd.tar.xz"
         },

@@ -18,21 +18,21 @@
   };
   chinalist = {
     pname = "chinalist";
-    version = "01a61a2d4d00dd77cb7824c6914dd3510f038d48";
+    version = "ec4242a7575cb59771056d3a59f122bf0a53643c";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "01a61a2d4d00dd77cb7824c6914dd3510f038d48";
+      rev = "ec4242a7575cb59771056d3a59f122bf0a53643c";
       fetchSubmodules = false;
-      sha256 = "sha256-p48jSjjxJv1diFZ/bIPiy1rhYW7BgGvVdZlRbxhwZnw=";
+      sha256 = "sha256-13sqLAaLapEjonMxHscCqxcvtfBiCFSUI2JLnR/NDPk=";
     };
-    date = "2023-06-18";
+    date = "2023-06-19";
   };
   gamescope = {
     pname = "gamescope";
     version = "3.12.0-beta9";
     src = fetchgit {
-      url = "https://github.com/Plagman/gamescope";
+      url = "https://github.com/ValveSoftware/gamescope";
       rev = "3.12.0-beta9";
       fetchSubmodules = true;
       deepClone = false;
@@ -61,7 +61,7 @@
     version = "v0.3.8";
     src = fetchTarball {
       url = "https://github.com/haishanh/yacd/releases/download/v0.3.8/yacd.tar.xz";
-      sha256 = "0wziqgk6lp482qss8khniqc2hbsc3ykagkglrj085d4a3i2q3fk2";
+      sha256 = "sha256-YrqBRRyKtIKAzPTNp6YfTC8oGI4WTqQ1FohcaubD8XM=";
     };
   };
 }
