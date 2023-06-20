@@ -43,7 +43,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: ["imgs.x1c7", "imgs.deck"]
+        # target: ["imgs.x1c7", "imgs.deck"]
+        target: ["imgs.x1c7"]
 
     runs-on: ubuntu-latest
     steps:
