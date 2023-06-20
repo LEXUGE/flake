@@ -15,15 +15,3 @@ fetch.url = "https://github.com/Dreamacro/maxmind-geoip/releases/download/$ver/C
 [yacd]
 src.github = "haishanh/yacd"
 fetch.tarball = "https://github.com/haishanh/yacd/releases/download/$ver/yacd.tar.xz"
-
-[gamescope]
-src.github_tag = "ValveSoftware/gamescope"
-fetch.git = "https://github.com/ValveSoftware/gamescope"
-git.branch = "$ver"
-git.fetchSubmodules = true
-
-[boilr]
-src.github = "PhilipK/BoilR"
-fetch.github = "PhilipK/BoilR"
-cargo_locks = [ "Cargo.lock" ]
-

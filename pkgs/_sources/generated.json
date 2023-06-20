@@ -1,29 +1,4 @@
 {
-    "boilr": {
-        "cargoLocks": {
-            "Cargo.lock": [
-                "./boilr-v.1.9.1/Cargo.lock",
-                {}
-            ]
-        },
-        "date": null,
-        "extract": null,
-        "name": "boilr",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "PhilipK",
-            "repo": "BoilR",
-            "rev": "v.1.9.1",
-            "sha256": "sha256-mdkRuEzfWhdbX0DD6uwc1o8kXjqk1Y0+FFKHrM2m81w=",
-            "type": "github"
-        },
-        "version": "v.1.9.1"
-    },
     "chinalist": {
         "cargoLocks": null,
         "date": "2023-06-19",
@@ -43,25 +18,6 @@
             "type": "github"
         },
         "version": "ec4242a7575cb59771056d3a59f122bf0a53643c"
-    },
-    "gamescope": {
-        "cargoLocks": null,
-        "date": null,
-        "extract": null,
-        "name": "gamescope",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": true,
-            "leaveDotGit": false,
-            "name": null,
-            "rev": "3.12.0-beta9",
-            "sha256": "sha256-Wpmh+8IMiob8hVNjy/XoM2tclLdfTzEUoZOAFHw+Bfg=",
-            "type": "git",
-            "url": "https://github.com/ValveSoftware/gamescope"
-        },
-        "version": "3.12.0-beta9"
     },
     "maxmind-geoip": {
         "cargoLocks": null,

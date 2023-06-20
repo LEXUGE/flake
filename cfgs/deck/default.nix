@@ -87,7 +87,6 @@
           steam
           protonup
           lutris
-          boilr
         ];
         home.stateVersion = config.system.stateVersion;
         home.file = {
