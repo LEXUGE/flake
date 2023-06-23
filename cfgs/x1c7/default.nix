@@ -67,14 +67,16 @@
           dnsutils
           smartmontools
           # Steam scaling seems to be broken, doing it manually
-          (runCommand "steam-hidpi"
-            {
-              nativeBuildInputs = [ makeWrapper ];
-            } ''
-            mkdir -p $out/bin
-            makeWrapper ${steam}/bin/steam $out/bin/steam --set GDK_SCALE 2
-            cp -r ${steam}/share $out/share/
-          '')
+          # (runCommand "steam-hidpi"
+          #   {
+          #     nativeBuildInputs = [ makeWrapper ];
+          #   } ''
+          #   mkdir -p $out/bin
+          #   makeWrapper ${steam}/bin/steam $out/bin/steam --set GDK_SCALE 2
+          #   cp -r ${steam}/share $out/share/
+          # '')
+          steam
+          obsidian
         ];
         extraDconf = {
           "org/gnome/desktop/interface"."scaling-factor" = hm.gvariant.mkUint32 2;
