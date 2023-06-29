@@ -3,15 +3,15 @@
 {
   chinalist = {
     pname = "chinalist";
-    version = "ec4242a7575cb59771056d3a59f122bf0a53643c";
+    version = "2f17b726d693ca4df2db8f29f59175a745206e0c";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "ec4242a7575cb59771056d3a59f122bf0a53643c";
+      rev = "2f17b726d693ca4df2db8f29f59175a745206e0c";
       fetchSubmodules = false;
-      sha256 = "sha256-13sqLAaLapEjonMxHscCqxcvtfBiCFSUI2JLnR/NDPk=";
+      sha256 = "sha256-jvVjNIX26Clcr4Ref6OIWL32kCmNadHVvU5k6aXsAt0=";
     };
-    date = "2023-06-19";
+    date = "2023-06-29";
   };
   maxmind-geoip = {
     pname = "maxmind-geoip";

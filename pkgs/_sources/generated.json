@@ -1,7 +1,7 @@
 {
     "chinalist": {
         "cargoLocks": null,
-        "date": "2023-06-19",
+        "date": "2023-06-29",
         "extract": null,
         "name": "chinalist",
         "passthru": null,
@@ -13,11 +13,11 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "ec4242a7575cb59771056d3a59f122bf0a53643c",
-            "sha256": "sha256-13sqLAaLapEjonMxHscCqxcvtfBiCFSUI2JLnR/NDPk=",
+            "rev": "2f17b726d693ca4df2db8f29f59175a745206e0c",
+            "sha256": "sha256-jvVjNIX26Clcr4Ref6OIWL32kCmNadHVvU5k6aXsAt0=",
             "type": "github"
         },
-        "version": "ec4242a7575cb59771056d3a59f122bf0a53643c"
+        "version": "2f17b726d693ca4df2db8f29f59175a745206e0c"
     },
     "maxmind-geoip": {
         "cargoLocks": null,

@@ -59,7 +59,7 @@
           tdesktop
           htop
           qbittorrent
-          zoom-us
+          # zoom-us
           thunderbird-bin
           pavucontrol
           dnsperf
