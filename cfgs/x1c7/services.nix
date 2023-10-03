@@ -63,6 +63,12 @@
     package = pkgs.wireshark-qt;
   };
 
+  # IPFS service
+  services.kubo = {
+    enable = true;
+    settings.Addresses.API = [ "/ip4/127.0.0.1/tcp/5001" ];
+  };
+
   # Required to enable completion somehow.
   programs.zsh.enable = true;
 

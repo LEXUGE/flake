@@ -178,7 +178,7 @@ in
                   ];
                 };
                 # Timezone and location
-                "org/gnome/desktop/datetime".automatic-timezone = true;
+                # "org/gnome/desktop/datetime".automatic-timezone = true;
                 "org/gnome/system/location".enabled = true;
               }
               c.extraDconf);
