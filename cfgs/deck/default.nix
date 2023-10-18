@@ -47,7 +47,10 @@
 
 
       my.disko.enable = true;
-      my.gnome-desktop.enable = true;
+      my.gnome-desktop = {
+        enable = true;
+        enableDisplayManager = false;
+      };
       my.base = {
         enable = true;
         hostname = "deck";
@@ -95,7 +98,7 @@
       };
 
       # Fonts
-      fonts.fonts = with pkgs; [
+      fonts.packages = with pkgs; [
         noto-fonts
         noto-fonts-cjk
         noto-fonts-emoji
@@ -105,10 +108,10 @@
         wqy_zenhei
       ];
 
-      jovian.steam.environment = {
-        # Add Proton-GE
-        STEAM_EXTRA_COMPAT_TOOLS_PATHS = "${pkgs.proton-ge}";
-      };
+      # jovian.steam.environment = {
+      #   # Add Proton-GE
+      #   STEAM_EXTRA_COMPAT_TOOLS_PATHS = "${pkgs.proton-ge}";
+      # };
 
       environment.persistence."/persist" = {
         hideMounts = true;

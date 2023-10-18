@@ -8,6 +8,11 @@ in {
       default = false;
     };
 
+    enableDisplayManager = mkOption {
+      type = types.bool;
+      default = true;
+    };
+
     extraExcludePackages = mkOption {
       type = with types; listOf package;
       default = [ ];
@@ -30,7 +35,7 @@ in {
     };
 
     services.xserver = {
-      displayManager.gdm.enable = true;
+      displayManager.gdm.enable = cfg.enableDisplayManager;
       desktopManager.gnome.enable = true;
     };
 

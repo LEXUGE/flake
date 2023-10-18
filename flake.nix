@@ -22,7 +22,7 @@
 
     # Steam-deck experience on NixOS
     jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
-    jovian.flake = false;
+    jovian.inputs.nixpkgs.follows = "nixpkgs";
 
     # My emacs config
     # ash-emacs.url = "/home/ash/Documents/git/emacs.d";
@@ -176,12 +176,12 @@
         home-manager.nixosModules.home-manager
         agenix.nixosModules.age
         "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-base.nix"
-        "${jovian}/modules"
+        jovian.nixosModules.default
       ];
       extraOverlays = [
         dcompass.overlays.default
         ash-emacs.overlays.default
-        (import "${jovian}/overlay.nix")
+        jovian.overlays.default
       ];
       system = system.x86_64-linux;
     };

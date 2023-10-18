@@ -58,7 +58,12 @@ in {
       };
     })
     (mkIf (cfg.enable && cfg.steam.enable) {
-      jovian.steam.enable = true;
+      jovian.steam = {
+        autoStart = true;
+        user = cfg.steam.user;
+        enable = true;
+        desktopSession = "gnome";
+      };
 
       users.users."${cfg.steam.user}" = {
         isNormalUser = true;
@@ -66,7 +71,7 @@ in {
         hashedPassword = "$6$3CzXRRH.9GTAxZ2U$nG.C/YzFEKR7/SKWeGwEM9HvcNnSG655excCDR5YwpqOfzXw/zScsDmrBYJ8o1soN.yb4/BExdR0eG3xfJSEV0";
       };
 
-      services.xserver.displayManager.defaultSession = "steam-wayland";
+      # services.xserver.displayManager.defaultSession = "steam-wayland";
 
       # services.xserver.displayManager.autoLogin.enable = true;
       # services.xserver.displayManager.autoLogin.user = cfg.steam.user;
