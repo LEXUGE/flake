@@ -43,6 +43,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # GitHub Action doesn't have enough space to build the deck image.
         # target: ["imgs.x1c7", "imgs.deck"]
         target: ["imgs.x1c7"]
 
@@ -83,11 +84,13 @@ jobs:
         nix build ".#${{ matrix.target }}"
         cp "result/iso/$(ls "$(readlink result)/iso/")" ./${{ matrix.target }}.iso
         echo "iso-checksum=$(sha512sum ./${{ matrix.target }}.iso|cut -d " " -f 1)" >> $GITHUB_OUTPUT
+        split -a 3 -b 2047M --numeric-suffixes=1 ./${{ matrix.target }}.iso ${{ matrix.target }}.
+        rm ./${{ matrix.target }}.iso
 
     - name: Publish
       uses: softprops/action-gh-release@v1
       with:
-        files: '*.iso'
+        files: '${{ matrix.target }}*'
         append_body: true
         body: |
           The SHA-512 checksum of image ${{ matrix.target }} is ${{ steps.iso.outputs.iso-checksum }}.
