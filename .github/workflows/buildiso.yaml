@@ -43,12 +43,26 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # GitHub Action doesn't have enough space to build the deck image.
-        # target: ["imgs.x1c7", "imgs.deck"]
-        target: ["imgs.x1c7"]
+        target: ["imgs.x1c7", "imgs.deck"]
+        # GitHub Action may not have enough space to build the deck image.
+        # target: ["imgs.x1c7"]
 
     runs-on: ubuntu-latest
     steps:
+    - name: Maximize build space
+      uses: easimon/maximize-build-space@master
+      with:
+        # Reserved for /tmp
+        root-reserve-mb: 20480
+        swap-size-mb: 1024
+        temp-reserve-mb: 100
+        build-mount-path: '/nix'
+        build-mount-path-ownership: 'root:root'
+        remove-dotnet: 'true'
+        remove-android: 'true'
+        remove-haskell: 'true'
+        remove-codeql: 'true'
+        remove-docker-images: 'true'
     - name: Get current time
       uses: 1466587594/get-current-time@v2
       id: current_time
