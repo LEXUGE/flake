@@ -47,9 +47,15 @@
     # agenix.url = "github:ryantm/agenix/d7fd31756e1c5f1281981c48efbb2e188024ba47";
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
+
+    # pre-commit hooks
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, utils, nvfetcher, dcompass, impermanence, ash-emacs, home-manager, agenix, disko, jovian, lanzaboote }@inputs: with utils.lib; let
+  outputs = { self, nixpkgs, utils, nvfetcher, dcompass, impermanence, ash-emacs, home-manager, agenix, disko, jovian, lanzaboote, pre-commit-hooks }@inputs: with utils.lib; let
     lib = nixpkgs.lib;
 
     mkSystem = { name, extraMods ? [ ], extraOverlays ? [ ], system }: (lib.nixosSystem {
@@ -206,33 +212,30 @@
       # devShell used to launch agenix env.
       devShells.default = with import nixpkgs { inherit system; };
         mkShell {
+          inherit (self.checks.${system}.pre-commit-check) shellHook;
           nativeBuildInputs = [ openssl agenix.packages.${system}.default nvfetcher.packages.${system}.default ];
         };
 
-      apps = rec {
-        fmt = utils.lib.mkApp {
-          drv = with import nixpkgs { inherit system; };
-            pkgs.writeShellScriptBin "flake-fmt" ''
-              export PATH=${
-                pkgs.lib.strings.makeBinPath [
-                  findutils
-                  nixpkgs-fmt
-                  shfmt
-                  shellcheck
-                ]
-              }
-              find . -type f -name '*.sh' -exec shellcheck {} +
-              find . -type f -name '*.sh' -exec shfmt -w {} +
-              find . -type f -name '*.nix' -exec nixpkgs-fmt {} +
-            '';
+      checks = {
+        pre-commit-check = pre-commit-hooks.lib.${system}.run {
+          src = ./.;
+          hooks = {
+            nixpkgs-fmt.enable = true;
+
+            shellcheck.enable = true;
+            shfmt.enable = true;
+          };
         };
+      };
+
+      apps = rec {
         update = utils.lib.mkApp {
           drv =
             pkgs.writeShellScriptBin "flake-update-nv" ''
               ${nvfetcher.packages.${system}.default}/bin/nvfetcher -c ./pkgs/nvfetcher.toml -o ./pkgs/_sources
             '';
         };
-        default = fmt;
+        default = update;
       };
     });
 }

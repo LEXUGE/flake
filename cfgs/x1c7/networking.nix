@@ -1,6 +1,11 @@
 { config, lib, pkgs, ... }: {
+
+  # This MUST be off if we are using DAE to gateway DNS
   # Use local DNS server all the time
-  networking.resolvconf.useLocalResolver = true;
+  # networking.resolvconf.useLocalResolver = true;
+
+  # An unused nameserver config. Trick the traffic to go through WAN and get routed by DAE
+  networking.nameservers = [ "1.1.1.1" ];
 
   networking.networkmanager = {
     # Enable networkmanager. REMEMBER to add yourself to group in order to use nm related stuff.
@@ -14,11 +19,17 @@
     };
   };
 
-  # Spin up clash
-  my.clash = {
+  # Setup DAE
+  services.dae = {
     enable = true;
-    afterUnits = [ "dcompass.service" ];
-    configPath = config.age.secrets.clash_config.path;
+    disableTxChecksumIpGeneric = false;
+    configFile = config.age.secrets.dae_config.path;
+    assets = with pkgs; [ v2ray-geoip v2ray-domain-list-community ];
+    # Default tproxy Port
+    openFirewall = {
+      enable = true;
+      port = 12345;
+    };
   };
 
   # Setup our local DNS
@@ -71,12 +82,10 @@
                      query.push_opt(ClientSubnet::new(u8(15), u8(0), IpAddr::from_str("58.220.0.0")?).to_opt_data())?;
                      upstreams.send_default("domestic", query).await
                    } else {
-                     upstreams.send("secure", CacheMode::Persistent, query).await
+                     upstreams.send("secure", CacheMode::Standard, query).await
                    }
                  }
               '';
-      # SO_REUSEADDR not set, causing clash TPROXY to fail
-      # More info: https://github.com/Dreamacro/clash/issues/616
       address = "127.0.0.1:53";
       verbosity = "warn";
     };

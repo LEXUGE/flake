@@ -11,11 +11,16 @@
     wifi.scanRandMacAddress = true;
   };
 
-  # Spin up clash
-  my.clash = {
+  # Setup DAE
+  services.dae = {
     enable = true;
-    afterUnits = [ "dcompass.service" ];
-    configPath = config.age.secrets.clash_config.path;
+    disableTxChecksumIpGeneric = false;
+    configFile = config.age.secrets.dae_config.path;
+    # Default tproxy Port
+    openFirewall = {
+      enable = true;
+      port = 12345;
+    };
   };
 
   # Setup our local DNS
@@ -71,8 +76,7 @@
                    }
                  }
               '';
-      # SO_REUSEADDR not set, causing clash TPROXY to fail
-      # More info: https://github.com/Dreamacro/clash/issues/616
+
       address = "127.0.0.1:53";
       verbosity = "warn";
     };

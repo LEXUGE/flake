@@ -5,8 +5,10 @@ let
   keys = import ./keys.nix;
 in
 {
-  "clash_config_img.age".publicKeys = [ keys.img_pubkey ];
-  "clash_config_x1c7.age".publicKeys = [ keys.ash_pubkey ];
+  "dae_config_img.age".publicKeys = [ keys.img_pubkey ];
+
+  "dae_config.age".publicKeys = [ keys.ash_pubkey ];
+
   "secureboot/db_key.age".publicKeys = [ keys.ash_pubkey ];
   "secureboot/db_cert.age".publicKeys = [ keys.ash_pubkey ];
   "secureboot/KEK_key.age".publicKeys = [ keys.ash_pubkey ];

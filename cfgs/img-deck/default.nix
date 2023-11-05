@@ -5,10 +5,10 @@
   ];
 
   config = {
-    age.secrets.clash_config = {
-      file = ../../secrets/clash_config_img.age;
-      mode = "700";
-      owner = config.my.clash.clashUserName;
+    age.secrets.dae_config = {
+      file = ../../secrets/dae_config_img.age;
+      mode = "400";
+      owner = "root";
     };
     # This is a dummy key in ISO image, we shall not worry about its security.
     # Agenix breaks in LiveCD due to https://github.com/ryantm/agenix/issues/165.

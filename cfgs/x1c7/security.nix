@@ -53,10 +53,10 @@
     };
   };
 
-  age.secrets.clash_config = {
-    file = ../../secrets/clash_config_x1c7.age;
-    mode = "700";
-    owner = config.my.clash.clashUserName;
+  age.secrets.dae_config = {
+    file = ../../secrets/dae_config.age;
+    mode = "400";
+    owner = "root";
   };
 
   # secret key decrypted on install
