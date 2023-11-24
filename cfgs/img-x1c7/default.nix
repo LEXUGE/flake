@@ -5,6 +5,10 @@
   ];
 
   config = {
+    # To fix home-manager issue
+    # https://github.com/nix-community/home-manager/blob/master/modules/misc/version.nix
+    system.stateVersion = "23.11";
+
     boot.kernelPackages = pkgs.linuxPackages_latest;
 
     age.secrets.dae_config = {

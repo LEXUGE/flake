@@ -5,6 +5,10 @@
   ];
 
   config = {
+    # To fix home-manager issue
+    # https://github.com/nix-community/home-manager/blob/master/modules/misc/version.nix
+    system.stateVersion = "23.11";
+
     age.secrets.dae_config = {
       file = ../../secrets/dae_config_img.age;
       mode = "400";
