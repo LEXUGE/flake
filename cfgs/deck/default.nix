@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ config, lib, pkgs, ... }: {
   imports = [
     ./boot.nix
     ./networking.nix
@@ -45,6 +45,8 @@
       #   patches = attrs.patches ++ [ ../../misc/patches/systemd-tpm2-name-check.patch ];
       # });
 
+      # We are auto login user.
+      security.sudo.wheelNeedsPassword = lib.mkForce true;
 
       my.disko.enable = true;
       my.gnome-desktop = {
@@ -62,40 +64,36 @@
           tor-browser-bundle-bin
           sbctl
           firefox-wayland
-          tdesktop
           htop
           dnsutils
           smartmontools
           bless
           steamdeck-firmware
-        ];
-        # Show screen keyboard
-        extraDconf = {
-          "org/gnome/desktop/a11y/applications".screen-keyboard-enabled = true;
-        };
-      };
 
-      # Steamdeck config
-      my.steamdeck = {
-        enable = true;
-        opensd.user = "ash";
-        steam.enable = true;
-      };
-
-      # Setup the necessary game apps needed in deck user
-      home-manager.users.deck = {
-        home.packages = with pkgs; [
+          # Setup the necessary game apps needed in deck user
           yuzu
           steam-rom-manager
           steam
           protonup
           lutris
         ];
-        home.stateVersion = config.system.stateVersion;
-        home.file = {
+        # Show screen keyboard
+        extraDconf = {
+          "org/gnome/desktop/a11y/applications".screen-keyboard-enabled = true;
+        };
+
+        # Extra files
+        extraFiles = {
           ".config/steam-rom-manager/userData/userConfigurations.json".source = ../../misc/blobs/steam-rom-manager/userConfigurations.json;
           ".config/yuzu/qt-config.ini".source = ../../misc/blobs/yuzu/qt-config.ini;
         };
+      };
+
+      # Steamdeck config
+      my.steamdeck = {
+        enable = true;
+        steam.enable = true;
+        steam.user = "ash";
       };
 
       # Fonts
@@ -128,32 +126,25 @@
         users = {
           ash = {
             directories = [
-              "Desktop"
               "Documents"
-              "Downloads"
-              "Music"
-              "Pictures"
-              "Videos"
-              ".cache"
+
+              # Keep games
               ".local"
-              ".mozilla"
+              "Games"
+              ".steam"
+              ".config/yuzu"
+              ".config/lutris"
+              ".config/steam-rom-manager/userData"
+
               # Both git-credentials and zsh_hist_dir doesn't seem to play well with impermanence
-              { directory = ".git_creds_dir"; mode = "0700"; }
+              # NO sensitive task shall be carried out!
+              # { directory = ".git_creds_dir"; mode = "0700"; }
               { directory = ".zsh_hist_dir"; mode = "0700"; }
-              { directory = ".gnupg"; mode = "0700"; }
-              { directory = ".ssh"; mode = "0700"; }
-              { directory = ".local/share/keyrings"; mode = "0700"; }
+              # { directory = ".gnupg"; mode = "0700"; }
+              # { directory = ".ssh"; mode = "0700"; }
+              # { directory = ".local/share/keyrings"; mode = "0700"; }
             ];
           };
-          # Only keep steam and yuzu related stuff
-          deck.directories = [
-            "Games"
-            ".steam"
-            ".config/yuzu"
-            ".config/lutris"
-            ".config/steam-rom-manager/userData"
-            ".local"
-          ];
         };
       };
 
@@ -164,7 +155,7 @@
             "$6$oNsoXzCopc6uxli4$vthBqdTNXtq8MWlWRHRGe6QZUMb7CtPWaTdXSOKszeTAtmjG5zE/JPd7F668VTiuOUtpiy1oy061N0LlxjtHD1";
           ash = {
             hashedPassword =
-              "$6$9eHZAnDRJqI73yOW$U5M4eILep/jiQwzQfX7B44vFGNpFGaun7x0b1JMmC5.DK0Kwm2dIf.30sM9u5x5ySzezKmIlFOGxIiG66SIW5/";
+              "$y$j9T$yLdLVVEQoolJR9LNMYGl30$dNnh67D78jLz/YR9YXSR3i8efYd0QmI2ezo2h5v2W78";
             shell = pkgs.zsh;
             isNormalUser = true;
             # wheel - sudo

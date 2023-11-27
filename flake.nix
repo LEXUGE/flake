@@ -144,7 +144,6 @@
       extraOverlays = [
         dcompass.overlays.default
         ash-emacs.overlays.default
-        jovian.overlays.default
       ];
       system = system.x86_64-linux;
     };
@@ -187,7 +186,6 @@
       extraOverlays = [
         dcompass.overlays.default
         ash-emacs.overlays.default
-        jovian.overlays.default
       ];
       system = system.x86_64-linux;
     };

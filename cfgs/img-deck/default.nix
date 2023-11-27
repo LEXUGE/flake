@@ -24,7 +24,7 @@
     # ZFS is currently broken on the latest kernel. Since we don't use it, it's fine to disable it.
     boot.supportedFilesystems = lib.mkForce [ "btrfs" "reiserfs" "vfat" "f2fs" "xfs" "ntfs" "cifs" ];
 
-    # Needed for boot!
+    # Needed for boot! Otherwise the initrd couldn't mount the root on hub.
     boot.initrd.availableKernelModules = [ "hub" ];
 
     # Set internationalisation properties.
@@ -105,7 +105,6 @@
     };
     my.steamdeck = {
       enable = true;
-      opensd.user = "nixos";
     };
 
     disko.devices = (import ./../../modules/disko/disk.nix { });
