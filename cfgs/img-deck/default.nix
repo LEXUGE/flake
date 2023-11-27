@@ -24,6 +24,9 @@
     # ZFS is currently broken on the latest kernel. Since we don't use it, it's fine to disable it.
     boot.supportedFilesystems = lib.mkForce [ "btrfs" "reiserfs" "vfat" "f2fs" "xfs" "ntfs" "cifs" ];
 
+    # Needed for boot!
+    boot.initrd.availableKernelModules = [ "hub" ];
+
     # Set internationalisation properties.
     console = {
       font = "Lat2-Terminus16";
