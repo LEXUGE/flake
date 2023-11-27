@@ -139,12 +139,12 @@
         home-manager.nixosModules.home-manager
         agenix.nixosModules.age
         lanzaboote.nixosModules.lanzaboote
-        "${jovian}/modules"
+        jovian.nixosModules.default
       ];
       extraOverlays = [
         dcompass.overlays.default
         ash-emacs.overlays.default
-        (import "${jovian}/overlay.nix")
+        jovian.overlays.default
       ];
       system = system.x86_64-linux;
     };
