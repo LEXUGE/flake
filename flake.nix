@@ -77,6 +77,15 @@
   rec {
     # Use the default overlay to export all packages under ./pkgs
     overlays = {
+      # Patch mathematica to solve "libdbus not found" error.
+      mathematica = (final: prev: {
+        mathematica_13_3_1 = (prev.mathematica.overrideAttrs (_: prevAttrs: {
+          wrapProgramFlags = prevAttrs.wrapProgramFlags ++ [ "--prefix LD_LIBRARY_PATH : ${prev.lib.makeLibraryPath [ prev.dbus.lib ]}" ];
+        })).override {
+          version = "13.3.1";
+        };
+      });
+
       default = final: prev:
         (import ./pkgs {
           inherit (prev) lib;
@@ -108,11 +117,7 @@
       extraOverlays = [
         dcompass.overlays.default
         ash-emacs.overlays.default
-        (final: prev: {
-          mathematica_13_3_1' = prev.mathematica.override {
-            version = "13.3.1";
-          };
-        })
+        self.overlays.mathematica
       ];
       system = system.x86_64-linux;
     };
