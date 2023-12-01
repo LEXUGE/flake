@@ -77,6 +77,18 @@
           # '')
           steam
           obsidian
+          # We fix installer version so don't get updated automatically when Wolfram releases new version
+          # Fix the libdbus error
+          (pkgs.buildFHSUserEnv {
+            name = "mathematica";
+
+            targetPkgs = pkgs: ([
+              mathematica_13_3_1'
+              dbus.lib
+            ]);
+
+            runScript = "mathematica";
+          })
         ];
         extraDconf = {
           "org/gnome/desktop/interface"."scaling-factor" = hm.gvariant.mkUint32 2;

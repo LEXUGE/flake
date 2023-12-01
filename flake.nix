@@ -108,12 +108,11 @@
       extraOverlays = [
         dcompass.overlays.default
         ash-emacs.overlays.default
-        # Patch `fwupdmgr security` to not report not enough info when kernel lockdown unavailable
-        # (final: prev: {
-        #   fwupd = prev.fwupd.overrideAttrs (finalAttrs: prevAttrs: {
-        #     patches = prevAttrs.patches ++ [ ./misc/patches/fwupd-ignore-lockdown.patch ];
-        #   });
-        # })
+        (final: prev: {
+          mathematica_13_3_1' = prev.mathematica.override {
+            version = "13.3.1";
+          };
+        })
       ];
       system = system.x86_64-linux;
     };
