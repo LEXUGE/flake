@@ -27,7 +27,7 @@
     # My emacs config
     # ash-emacs.url = "/home/ash/Documents/git/emacs.d";
     ash-emacs.url = "github:LEXUGE/emacs.d";
-    ash-emacs.inputs.nixos.follows = "nixpkgs";
+    ash-emacs.inputs.nixpkgs.follows = "nixpkgs";
 
     # SecureBoot Management
     lanzaboote.url = "github:nix-community/lanzaboote";
@@ -116,6 +116,7 @@
       ];
       extraOverlays = [
         dcompass.overlays.default
+        ash-emacs.overlays.emacs-overlay
         ash-emacs.overlays.default
         self.overlays.mathematica
       ];
@@ -147,6 +148,7 @@
       ];
       extraOverlays = [
         dcompass.overlays.default
+        ash-emacs.overlays.emacs-overlay
         ash-emacs.overlays.default
       ];
       system = system.x86_64-linux;
@@ -167,6 +169,7 @@
       ];
       extraOverlays = [
         dcompass.overlays.default
+        ash-emacs.overlays.emacs-overlay
         ash-emacs.overlays.default
       ];
       system = system.x86_64-linux;
@@ -189,6 +192,7 @@
       ];
       extraOverlays = [
         dcompass.overlays.default
+        ash-emacs.overlays.emacs-overlay
         ash-emacs.overlays.default
       ];
       system = system.x86_64-linux;

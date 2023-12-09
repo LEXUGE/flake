@@ -39,7 +39,7 @@ in
             default = with pkgs; [
               (hunspellWithDicts [ hunspellDicts.en-us hunspellDicts.en-us-large ])
               emacs-all-the-icons-fonts
-              ash-emacs-x86_64-linux
+              ash-emacs
             ];
             description = "Packages being installed for Emacs.";
           };
