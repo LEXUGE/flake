@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }: {
   # An unused nameserver config. Trick the traffic to go through WAN and get routed by DAE
-  networking.nameservers = [ "1.1.1.1" ];
+  networking.nameservers = [ "8.8.8.8" ];
 
   networking.networkmanager = {
     # Enable networkmanager. REMEMBER to add yourself to group in order to use nm related stuff.

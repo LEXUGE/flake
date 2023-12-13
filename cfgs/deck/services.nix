@@ -1,4 +1,16 @@
 { config, pkgs, lib, ... }: {
+  # Enable SSH for remote access
+  services.openssh = {
+    enable = true;
+    # require public key authentication for better security
+    settings.PasswordAuthentication = false;
+  };
+
+  # Also the pub key used for age encryption
+  users.users.ash.openssh.authorizedKeys.keys = let keys = import ../../secrets/keys.nix; in [ keys.ash_pubkey ];
+
+
+
   ### Power and hardware
   # Enable fwupd service for firmware updates
   services.fwupd.enable = true;
