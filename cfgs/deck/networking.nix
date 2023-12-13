@@ -27,10 +27,16 @@
   # Allow users in daeusers to control dae without passwords.
   security.sudo.extraRules = [{
     groups = [ "daeusers" ];
-    commands = [{
-      command = "${pkgs.dae}/bin/dae";
-      options = [ "NOPASSWD" ];
-    }];
+    commands = [
+      {
+        command = "${pkgs.dae}/bin/dae";
+        options = [ "NOPASSWD" "SETENV" ];
+      }
+      {
+        command = "/run/current-system/sw/bin/dae";
+        options = [ "NOPASSWD" "SETENV" ];
+      }
+    ];
   }];
 
   # Setup our local DNS
