@@ -24,6 +24,15 @@
     };
   };
 
+  # Allow users in daeusers to control dae without passwords.
+  security.sudo.extraRules = [{
+    groups = [ "daeusers" ];
+    commands = [{
+      command = "${pkgs.dae}/bin/dae";
+      options = [ "NOPASSWD" ];
+    }];
+  }];
+
   # Setup our local DNS
   my.dcompass = {
     enable = true;

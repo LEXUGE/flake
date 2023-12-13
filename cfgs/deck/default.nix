@@ -122,6 +122,10 @@
         ];
         files = [
           "/etc/machine-id"
+          "/etc/ssh/ssh_host_rsa_key"
+          "/etc/ssh/ssh_host_rsa_key.pub"
+          "/etc/ssh/ssh_host_ed25519_key"
+          "/etc/ssh/ssh_host_ed25519_key.pub"
         ];
         users = {
           ash = {
@@ -163,8 +167,12 @@
             # video - light control
             # libvirtd - virtual manager controls.
             # docker - Docker control
-            extraGroups = [ "wheel" "networkmanager" ];
+            # daeusers - DAE control
+            extraGroups = [ "wheel" "networkmanager" "daeusers" ];
           };
+        };
+        groups = {
+          daeusers = { };
         };
       };
 
