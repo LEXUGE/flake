@@ -76,6 +76,22 @@
           steam
           protonup
           lutris
+
+          # reload/suspend dae
+          (makeDesktopItem {
+            name = "daesuspend";
+            desktopName = "DAE Suspend";
+            exec = "${dae}/bin/dae suspend";
+            terminal = true;
+          })
+
+          (makeDesktopItem {
+            name = "daereload";
+            desktopName = "DAE Reload";
+            exec = "${dae}/bin/dae reload";
+            terminal = true;
+          })
+
         ];
         # Show screen keyboard
         extraDconf = {

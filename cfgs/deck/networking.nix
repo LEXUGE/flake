@@ -39,21 +39,6 @@
     ];
   }];
 
-  # Use systemd user service to get rid off steam's jovian stub behaviors
-  systemd.user.services.daesuspend = {
-    serviceConfig = {
-      Type = "oneshot";
-    };
-    script = "${pkgs.dae}/bin/dae suspend";
-  };
-
-  systemd.user.services.daereload = {
-    serviceConfig = {
-      Type = "oneshot";
-    };
-    script = "${pkgs.dae}/bin/dae reload";
-  };
-
   # Setup our local DNS
   my.dcompass = {
     enable = true;
