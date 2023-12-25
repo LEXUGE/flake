@@ -68,4 +68,7 @@
 
   # Scrub btrfs to protect data integrity
   services.btrfs.autoScrub.enable = true;
+
+  # setup uxplay related services
+  my.uxplay.enable = true;
 }

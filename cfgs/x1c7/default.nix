@@ -48,6 +48,11 @@
         hostname = "x1c7";
       };
 
+      # Needed for lunatask
+      nixpkgs.config.permittedInsecurePackages = [
+        "electron-25.9.0"
+      ];
+
       # home-manager.users.ash.systemd.user.sessionVariables = config.home-manager.users.ash.home.sessionVariables;
       my.home.ash = {
         extraPackages = with pkgs; [
@@ -80,6 +85,7 @@
           # We fix installer version so don't get updated automatically when Wolfram releases new version
           mathematica_13_3_1
           lunatask
+          uxplay
         ];
         extraDconf = {
           "org/gnome/desktop/interface"."scaling-factor" = hm.gvariant.mkUint32 2;
@@ -119,6 +125,7 @@
             ".mozilla"
             ".thunderbird"
             ".config/qBittorrent"
+            ".config/@lunatask"
             "org-files"
             # Both git-credentials and zsh_hist_dir doesn't seem to play well with impermanence
             { directory = ".git_creds_dir"; mode = "0700"; }

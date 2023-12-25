@@ -105,6 +105,7 @@
         nixosModules.base
         nixosModules.disko
         nixosModules.lanzaboote
+        nixosModules.uxplay
         nixosModules.home
         nixosModules.gnome-desktop
         nixosModules.dcompass
