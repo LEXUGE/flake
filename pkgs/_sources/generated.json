@@ -1,7 +1,7 @@
 {
     "chinalist": {
         "cargoLocks": null,
-        "date": "2023-06-29",
+        "date": "2023-12-30",
         "extract": null,
         "name": "chinalist",
         "passthru": null,
@@ -13,11 +13,11 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "2f17b726d693ca4df2db8f29f59175a745206e0c",
-            "sha256": "sha256-jvVjNIX26Clcr4Ref6OIWL32kCmNadHVvU5k6aXsAt0=",
+            "rev": "afbac95acd30b0e4f6eb23fab3c2c7db0c85f4f2",
+            "sha256": "sha256-GkeDrtgxW8p2LANPWCCWqgp7T67NDEMYmZPQ1qwsoLE=",
             "type": "github"
         },
-        "version": "2f17b726d693ca4df2db8f29f59175a745206e0c"
+        "version": "afbac95acd30b0e4f6eb23fab3c2c7db0c85f4f2"
     },
     "maxmind-geoip": {
         "cargoLocks": null,
@@ -28,11 +28,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-uD+UzMjpQvuNMcIxm4iHLnJwhxXstE3W+0xCuf9j/i8=",
+            "sha256": "sha256-h6EojfOWfDwD5Akvb8NrSvg3xyQZhOUrKhUxlWwio8A=",
             "type": "url",
-            "url": "https://github.com/Dreamacro/maxmind-geoip/releases/download/20230612/Country.mmdb"
+            "url": "https://github.com/Dreamacro/maxmind-geoip/releases/download/20231212/Country.mmdb"
         },
-        "version": "20230612"
+        "version": "20231212"
     },
     "proton-ge": {
         "cargoLocks": null,
@@ -42,11 +42,26 @@
         "passthru": null,
         "pinned": false,
         "src": {
-            "sha256": "sha256-UdX2qnC3s7e560b4Mw5BTWA9e0ehMo/+iGuVDO7nBhc=",
+            "sha256": "sha256-IoClZ6hl2lsz9OGfFgnz7vEAGlSY2+1K2lDEEsJQOfU=",
             "type": "tarball",
-            "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton8-4/GE-Proton8-4.tar.gz"
+            "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton8-25/GE-Proton8-25.tar.gz"
         },
-        "version": "GE-Proton8-4"
+        "version": "GE-Proton8-25"
+    },
+    "upnote": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "upnote",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-H6eTpBWdWNZfB/Ev27gav/qbaygprgL8ku7UFdOCQJ0=",
+            "type": "url",
+            "url": "https://upnote.sfo3.cdn.digitaloceanspaces.com/UpNote.AppImage"
+        },
+        "version": "8.2.5"
     },
     "yacd": {
         "cargoLocks": null,

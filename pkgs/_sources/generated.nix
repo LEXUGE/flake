@@ -3,30 +3,38 @@
 {
   chinalist = {
     pname = "chinalist";
-    version = "2f17b726d693ca4df2db8f29f59175a745206e0c";
+    version = "afbac95acd30b0e4f6eb23fab3c2c7db0c85f4f2";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "2f17b726d693ca4df2db8f29f59175a745206e0c";
+      rev = "afbac95acd30b0e4f6eb23fab3c2c7db0c85f4f2";
       fetchSubmodules = false;
-      sha256 = "sha256-jvVjNIX26Clcr4Ref6OIWL32kCmNadHVvU5k6aXsAt0=";
+      sha256 = "sha256-GkeDrtgxW8p2LANPWCCWqgp7T67NDEMYmZPQ1qwsoLE=";
     };
-    date = "2023-06-29";
+    date = "2023-12-30";
   };
   maxmind-geoip = {
     pname = "maxmind-geoip";
-    version = "20230612";
+    version = "20231212";
     src = fetchurl {
-      url = "https://github.com/Dreamacro/maxmind-geoip/releases/download/20230612/Country.mmdb";
-      sha256 = "sha256-uD+UzMjpQvuNMcIxm4iHLnJwhxXstE3W+0xCuf9j/i8=";
+      url = "https://github.com/Dreamacro/maxmind-geoip/releases/download/20231212/Country.mmdb";
+      sha256 = "sha256-h6EojfOWfDwD5Akvb8NrSvg3xyQZhOUrKhUxlWwio8A=";
     };
   };
   proton-ge = {
     pname = "proton-ge";
-    version = "GE-Proton8-4";
+    version = "GE-Proton8-25";
     src = fetchTarball {
-      url = "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton8-4/GE-Proton8-4.tar.gz";
-      sha256 = "sha256-UdX2qnC3s7e560b4Mw5BTWA9e0ehMo/+iGuVDO7nBhc=";
+      url = "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton8-25/GE-Proton8-25.tar.gz";
+      sha256 = "sha256-IoClZ6hl2lsz9OGfFgnz7vEAGlSY2+1K2lDEEsJQOfU=";
+    };
+  };
+  upnote = {
+    pname = "upnote";
+    version = "8.2.5";
+    src = fetchurl {
+      url = "https://upnote.sfo3.cdn.digitaloceanspaces.com/UpNote.AppImage";
+      sha256 = "sha256-H6eTpBWdWNZfB/Ev27gav/qbaygprgL8ku7UFdOCQJ0=";
     };
   };
   yacd = {
