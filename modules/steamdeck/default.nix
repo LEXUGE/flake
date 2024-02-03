@@ -35,9 +35,9 @@ in {
         enable = true;
         desktopSession = "gnome";
       };
-      jovian.decky-loader = {
-        enable = true;
-      };
+      # jovian.decky-loader = {
+      #   enable = true;
+      # };
     })
   ];
 }
