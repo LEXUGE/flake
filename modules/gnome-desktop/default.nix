@@ -25,7 +25,7 @@ in {
       enable = true;
 
       # Capslock as Control
-      xkbOptions = "ctrl:nocaps";
+      xkb.options = "ctrl:nocaps";
 
       # Configure touchpad
       libinput = {
