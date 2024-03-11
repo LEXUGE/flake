@@ -71,7 +71,7 @@
           steamdeck-firmware
 
           # Setup the necessary game apps needed in deck user
-          yuzu
+          # yuzu
           steam-rom-manager
           steam
           protonup

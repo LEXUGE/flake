@@ -83,9 +83,8 @@
           steam
           obsidian
           # We fix installer version so don't get updated automatically when Wolfram releases new version
-          mathematica_13_3_1
+          # mathematica_13_3_1
           lunatask
-          upnote
           uxplay
         ];
         extraDconf = {
@@ -127,7 +126,7 @@
             ".thunderbird"
             ".config/qBittorrent"
             ".config/@lunatask"
-            ".config/UpNote"
+            ".julia"
             "org-files"
             # Both git-credentials and zsh_hist_dir doesn't seem to play well with impermanence
             { directory = ".git_creds_dir"; mode = "0700"; }

@@ -4,24 +4,22 @@
       type = "disk";
       inherit device;
       content = {
-        type = "table";
-        format = "gpt";
-        partitions = [
+        type = "gpt";
+        partitions = {
           # ESP
-          {
-            name = "esp";
+          esp = {
             start = "0";
             end = "1G";
-            bootable = true;
+            # EFI Filesystem
+            type = "EF00";
             content = {
               type = "filesystem";
               format = "vfat";
               mountpoint = "/boot";
             };
-          }
+          };
           # Swap
-          {
-            name = "swap";
+          swap = {
             start = "1G";
             end = "21G";
             content = {
@@ -31,10 +29,9 @@
                 type = "swap";
               };
             };
-          }
+          };
           # Root partition
-          {
-            name = "root";
+          root = {
             start = "21G";
             end = "100%";
             content = {
@@ -67,8 +64,8 @@
                 };
               };
             };
-          }
-        ];
+          };
+        };
       };
     };
   };
