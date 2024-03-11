@@ -13,9 +13,7 @@ jobs:
       date: ${{ steps.current_time.outputs.formattedTime }}
       log-num: ${{ steps.get_log.outputs.log-num }}
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v3
       - name: Get current time
         uses: 1466587594/get-current-time@v2
         id: current_time
@@ -70,19 +68,16 @@ jobs:
         format: YYYYMMDD_HHmm
         utcOffset: "+08:00"
     - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        # Nix Flakes doesn't work on shallow clones
-        fetch-depth: 0
+      uses: actions/checkout@v3
     - name: Install nixFlake
-      uses: cachix/install-nix-action@v20
-    - uses: cachix/cachix-action@v12
+      uses: cachix/install-nix-action@v26
+    - uses: cachix/cachix-action@v14
       with:
         name: lexuge
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
         # Don't push source or .iso files as they are pointless to take up precious cache space.
         pushFilter: '(-source$|nixpkgs\.tar\.gz$|\.iso$|-squashfs.img$|crate-$)'
-    - uses: cachix/cachix-action@v12
+    - uses: cachix/cachix-action@v14
       with:
         name: dcompass
         skipPush: true
