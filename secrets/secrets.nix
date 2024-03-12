@@ -9,6 +9,9 @@ in
 
   "dae_config.age".publicKeys = [ keys.ash_pubkey ];
 
+  # There seems to be an issue with multiple recipient
+  "v2ray_shards.age".publicKeys = [ keys.vps_pubkey ];
+
   "secureboot/db_key.age".publicKeys = [ keys.ash_pubkey ];
   "secureboot/db_cert.age".publicKeys = [ keys.ash_pubkey ];
   "secureboot/KEK_key.age".publicKeys = [ keys.ash_pubkey ];
