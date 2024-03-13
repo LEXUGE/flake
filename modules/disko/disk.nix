@@ -8,6 +8,7 @@
         partitions = {
           # ESP
           esp = {
+            label = "esp";
             start = "0";
             end = "1G";
             # EFI Filesystem
@@ -20,6 +21,7 @@
           };
           # Swap
           swap = {
+            label = "swap";
             start = "1G";
             end = "21G";
             content = {
@@ -32,6 +34,7 @@
           };
           # Root partition
           root = {
+            label = "root";
             start = "21G";
             end = "100%";
             content = {

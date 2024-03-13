@@ -15,6 +15,8 @@
 
   system.stateVersion = "24.05";
 
+  networking.hostName = "shards";
+
   time.timeZone = "Europe/London";
 
   # Firewall options
