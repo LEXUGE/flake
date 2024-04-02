@@ -27,8 +27,8 @@
   # services.logind.lidSwitch = "suspend-then-hibernate";
 
   ### Sound and graphics
-  # Enable sound.
-  sound.enable = true;
+  # We are no longer using ALSA, so don't enable it.
+  # sound.enable = true;
 
   # OpenGL 32 bit support for steam
   hardware.opengl.driSupport32Bit = true;
