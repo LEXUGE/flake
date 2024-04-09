@@ -115,15 +115,9 @@
       (writeShellScriptBin "install-script"
         (builtins.readFile ./install.sh))
 
-      # Create and mount, `disko`
-      (writeShellScriptBin "disko"
-        (builtins.readFile config.system.build.diskoScript))
-      # Create, `disko-create`
-      (writeShellScriptBin "disko-create"
-        (builtins.readFile config.system.build.formatScript))
-      # Mount, `disko-mount`
-      (writeShellScriptBin "disko-mount"
-        (builtins.readFile config.system.build.mountScript))
+      config.system.build.diskoScript
+      config.system.build.formatScript
+      config.system.build.mountScript
     ];
 
     users.users.nixos = {
