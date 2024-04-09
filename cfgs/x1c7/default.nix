@@ -81,7 +81,7 @@
           #   cp -r ${steam}/share $out/share/
           # '')
           steam
-          obsidian
+          # obsidian
           # We fix installer version so don't get updated automatically when Wolfram releases new version
           # mathematica_13_3_1
           lunatask

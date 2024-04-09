@@ -64,14 +64,17 @@
       inherit system;
       modules = [
         ./cfgs/${name}
-        {
-          nixpkgs.overlays = [ self.overlays.default ] ++ extraOverlays;
-          nix.settings = {
-            substituters = [ "https://dcompass.cachix.org" "https://nix-community.cachix.org" "https://lexuge.cachix.org" ];
-            trusted-public-keys = [ dcompass.publicKey "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" self.publicKey ];
+        ({ pkgs, config, ... }: {
+          config = {
+            nixpkgs.overlays = [ self.overlays.default ] ++ extraOverlays;
+            nix.settings = {
+              substituters = [ "https://dcompass.cachix.org" "https://nix-community.cachix.org" "https://lexuge.cachix.org" ];
+              trusted-public-keys = [ dcompass.publicKey "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" self.publicKey ];
+            };
+            nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
+            nix.package = pkgs.nixVersions.unstable;
           };
-          nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
-        }
+        })
       ] ++ extraMods;
       specialArgs = { inherit inputs; };
     });
