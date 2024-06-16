@@ -60,7 +60,7 @@
 
       my.home.ash = {
         extraPackages = with pkgs; [
-          minecraft
+          # minecraft
           tor-browser-bundle-bin
           sbctl
           firefox-wayland

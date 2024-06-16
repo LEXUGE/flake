@@ -48,15 +48,10 @@
         hostname = "x1c7";
       };
 
-      # Needed for lunatask
-      nixpkgs.config.permittedInsecurePackages = [
-        "electron-25.9.0"
-      ];
-
       # home-manager.users.ash.systemd.user.sessionVariables = config.home-manager.users.ash.home.sessionVariables;
       my.home.ash = {
         extraPackages = with pkgs; [
-          minecraft
+          # minecraft
           tor-browser-bundle-bin
           tpm2-tools
           sbctl
@@ -84,7 +79,6 @@
           # obsidian
           # We fix installer version so don't get updated automatically when Wolfram releases new version
           # mathematica_13_3_1
-          lunatask
           uxplay
         ];
         extraDconf = {

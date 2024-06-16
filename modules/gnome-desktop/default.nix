@@ -26,12 +26,12 @@ in {
 
       # Capslock as Control
       xkb.options = "ctrl:nocaps";
+    };
 
-      # Configure touchpad
-      libinput = {
-        enable = true;
-        touchpad.naturalScrolling = true;
-      };
+    # Configure touchpad
+    services.libinput = {
+      enable = true;
+      touchpad.naturalScrolling = true;
     };
 
     services.xserver = {

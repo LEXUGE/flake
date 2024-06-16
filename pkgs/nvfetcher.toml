@@ -1,3 +1,4 @@
+# Broken due to	https://github.com/NixOS/nix/issues/10575
 [proton-ge]
 # Update only if new release is available
 src.github = "GloriousEggroll/proton-ge-custom"

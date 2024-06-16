@@ -72,7 +72,7 @@
               trusted-public-keys = [ dcompass.publicKey "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" self.publicKey ];
             };
             nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
-            nix.package = pkgs.nixVersions.unstable;
+            nix.package = pkgs.nixVersions.latest;
           };
         })
       ] ++ extraMods;
