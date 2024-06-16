@@ -77,10 +77,10 @@
         # * https://gitlab.gnome.org/GNOME/gnome-control-center/issues/22
         autoSuspend = false;
       };
-      autoLogin = {
-        enable = true;
-        user = "nixos";
-      };
+    };
+    services.displayManager.autoLogin = {
+      enable = true;
+      user = "nixos";
     };
 
     my.gnome-desktop = {
@@ -111,13 +111,19 @@
     # This is a LiveCD, please don't enable disk config in NixOS.
     disko.enableConfig = false;
 
-    environment.systemPackages = with pkgs; [
+    environment.systemPackages = with pkgs; let
+      create-disko-pkg = name: path: (runCommandLocal "disko-${name}" { } ''
+        mkdir -p $out/bin
+        install ${path} $out/bin/disko-${name}
+      '');
+    in
+    [
       (writeShellScriptBin "install-script"
         (builtins.readFile ./install.sh))
 
-      config.system.build.diskoScript
-      config.system.build.formatScript
-      config.system.build.mountScript
+      (create-disko-pkg "main" config.system.build.diskoScript)
+      (create-disko-pkg "format" config.system.build.formatScript)
+      (create-disko-pkg "mount" config.system.build.mountScript)
     ];
 
     users.users.nixos = {

@@ -19,7 +19,7 @@ mv db.key /etc/secureboot/keys/db/db.key
 
 chmod 400 /etc/secureboot
 
-disko
+disko-main
 
 mkdir -p ${MOUNTPOINT}/persist/secrets/
 
