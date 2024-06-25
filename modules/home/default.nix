@@ -60,11 +60,12 @@ in
           # Home-manager settings.
           # User-layer packages
           home.packages = with pkgs;
-            c.emacsPackages ++ optionals (c.extraPackages != null) c.extraPackages;
+            # c.emacsPackages ++ optionals (c.extraPackages != null) c.extraPackages ++ [ pkgs.nvim ];
+            optionals (c.extraPackages != null) c.extraPackages ++ [ pkgs.nvim ];
 
           # Set default editor
           home.sessionVariables = {
-            EDITOR = "emacs";
+            EDITOR = "nvim";
           };
 
           # Allow fonts to be discovered
@@ -174,7 +175,7 @@ in
                     (if (builtins.elem pkgs.tdesktop home.packages) then [ "org.telegram.desktop.desktop" ] else [ ])
                     "org.gnome.Nautilus.desktop"
                     "org.gnome.Terminal.desktop"
-                    "emacs.desktop"
+                    # "emacs.desktop"
                   ];
                 };
                 # Timezone and location
@@ -196,8 +197,8 @@ in
           # Handwritten configs
           home.file = ({
             ".config/gtk-3.0/settings.ini".source = gtkSettings;
-            ".emacs.d/init.el".source = "${pkgs.ash-emacs-source}/init.el";
-            ".emacs.d/elisp/".source = "${pkgs.ash-emacs-source}/elisp";
+            # ".emacs.d/init.el".source = "${pkgs.ash-emacs-source}/init.el";
+            # ".emacs.d/elisp/".source = "${pkgs.ash-emacs-source}/elisp";
           } // c.extraFiles);
         }))
 

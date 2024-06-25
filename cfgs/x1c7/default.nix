@@ -98,6 +98,8 @@
       environment.persistence."/persist" = {
         hideMounts = true;
         directories = [
+          # Vivado
+          "/opt/Xilinx"
           "/var/log"
           "/var/lib"
           "/var/cache"

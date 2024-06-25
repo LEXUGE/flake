@@ -29,6 +29,10 @@
     ash-emacs.url = "github:LEXUGE/emacs.d";
     ash-emacs.inputs.nixpkgs.follows = "nixpkgs";
 
+    # My nvim configuration.
+    vimrc.url = "github:LEXUGE/vimrc";
+    vimrc.inputs.nixpkgs.follows = "nixpkgs";
+
     # SecureBoot Management
     lanzaboote.url = "github:nix-community/lanzaboote";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
@@ -57,10 +61,10 @@
     deploy-rs.url = "github:serokell/deploy-rs";
   };
 
-  outputs = { self, nixpkgs, utils, nvfetcher, dcompass, impermanence, ash-emacs, home-manager, agenix, disko, jovian, lanzaboote, pre-commit-hooks, deploy-rs }@inputs: with utils.lib; let
+  outputs = { self, nixpkgs, utils, nvfetcher, dcompass, impermanence, vimrc, ash-emacs, home-manager, agenix, disko, jovian, lanzaboote, pre-commit-hooks, deploy-rs }@inputs: with utils.lib; let
     lib = nixpkgs.lib;
 
-    mkSystem = { name, extraMods ? [ ], extraOverlays ? [ ], system }: (lib.nixosSystem {
+    mkSystem = { name, extraMods ? [ ], extraOverlays ? [ ], extraSubstituters ? [ ], extraPublicKeys ? [ ], system }: (lib.nixosSystem {
       inherit system;
       modules = [
         ./cfgs/${name}
@@ -68,8 +72,9 @@
           config = {
             nixpkgs.overlays = [ self.overlays.default ] ++ extraOverlays;
             nix.settings = {
-              substituters = [ "https://dcompass.cachix.org" "https://nix-community.cachix.org" "https://lexuge.cachix.org" ];
-              trusted-public-keys = [ dcompass.publicKey "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" self.publicKey ];
+              substituters = [ "https://dcompass.cachix.org" "https://nix-community.cachix.org" "https://lexuge.cachix.org" ] ++ extraSubstituters;
+              trusted-public-keys = [ dcompass.publicKey "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" self.publicKey ] ++ extraPublicKeys;
+              trusted-users = [ "@wheel" ];
             };
             nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
             nix.package = pkgs.nixVersions.latest;
@@ -111,6 +116,8 @@
       # Export system cfgs
       nixosConfigurations.x1c7 = mkSystem {
         name = "x1c7";
+        # extraSubstituters = [ "https://nixbld.m-labs.hk" ];
+        # extraPublicKeys = [ "nixbld.m-labs.hk-1:5aSRVA5b320xbNvu30tqxVPXpld73bhtOeH6uAjRyHc=" ];
         extraMods = [
           nixosModules.clash
           nixosModules.base
@@ -130,6 +137,7 @@
           dcompass.overlays.default
           ash-emacs.overlays.emacs-overlay
           ash-emacs.overlays.default
+          vimrc.overlays.default
           self.overlays.mathematica
         ];
         system = system.x86_64-linux;
@@ -186,6 +194,7 @@
           dcompass.overlays.default
           ash-emacs.overlays.emacs-overlay
           ash-emacs.overlays.default
+          vimrc.overlays.default
         ];
         system = system.x86_64-linux;
       };
@@ -207,6 +216,7 @@
           dcompass.overlays.default
           ash-emacs.overlays.emacs-overlay
           ash-emacs.overlays.default
+          vimrc.overlays.default
         ];
         system = system.x86_64-linux;
       };
@@ -230,6 +240,7 @@
           dcompass.overlays.default
           ash-emacs.overlays.emacs-overlay
           ash-emacs.overlays.default
+          vimrc.overlays.default
         ];
         system = system.x86_64-linux;
       };
