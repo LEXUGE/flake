@@ -119,6 +119,7 @@
         noto-fonts-emoji
         fira-code
         fira-code-symbols
+        fira-code-nerdfont
         # needed by steam to display CJK fonts
         wqy_zenhei
       ];

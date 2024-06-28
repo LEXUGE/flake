@@ -46,6 +46,7 @@
       noto-fonts-emoji
       fira-code
       fira-code-symbols
+      fira-code-nerdfont
     ];
 
     isoImage.edition = "gnome";
