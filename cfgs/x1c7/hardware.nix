@@ -15,7 +15,7 @@
   hardware.cpu.intel.updateMicrocode = true;
 
   # Intel UHD 620 Hardware Acceleration
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       vaapiIntel

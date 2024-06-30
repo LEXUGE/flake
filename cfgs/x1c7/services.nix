@@ -28,7 +28,7 @@
   };
 
   # OpenGL 32 bit support for steam
-  hardware.opengl.driSupport32Bit = true;
+  hardware.graphics.enable32Bit = true;
 
   ### Misc
   # Enable CUPS to print documents.

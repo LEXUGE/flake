@@ -9,6 +9,23 @@
   # Also the pub key used for age encryption
   users.users.ash.openssh.authorizedKeys.keys = let keys = import ../../secrets/keys.nix; in [ keys.ash_pubkey ];
 
+  services.tor = {
+    enable = true;
+    openFirewall = true;
+    relay = {
+      enable = true;
+      role = "bridge";
+    };
+    settings = {
+      # ContactInfo = "toradmin@example.org";
+      # Nickname = "toradmin";
+      ORPort = 9001;
+      AccountingStart = "week 1 10:00";
+      # There is no AccountingRule in NixOS settings. Thus by default we are maxing out either send or receive.
+      AccountingMax = "25 GBytes";
+    };
+  };
+
   services.nginx = {
     enable = true;
 
