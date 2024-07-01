@@ -19,12 +19,16 @@
     settings = {
       # ContactInfo = "toradmin@example.org";
       # Nickname = "toradmin";
-      ORPort = 9001;
+      ORPort = 8002;
+      # ServerTransportPlugins are automatically set by nixpkgs
+      ServerTransportListenAddr = "obfs4 0.0.0.0:8003";
       AccountingStart = "week 1 10:00";
       # There is no AccountingRule in NixOS settings. Thus by default we are maxing out either send or receive.
       AccountingMax = "25 GBytes";
     };
   };
+  # obfs4 port
+  networking.firewall.allowedTCPPorts = [ 8003 ];
 
   services.nginx = {
     enable = true;
