@@ -80,6 +80,7 @@
           # We fix installer version so don't get updated automatically when Wolfram releases new version
           # mathematica_13_3_1
           uxplay
+          zotero
         ];
         extraDconf = {
           "org/gnome/desktop/interface"."scaling-factor" = hm.gvariant.mkUint32 2;

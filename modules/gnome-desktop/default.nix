@@ -41,10 +41,11 @@ in {
 
     # Some of the GNOME Packages are unwanted
     programs.geary.enable = false;
-    environment.gnome.excludePackages = with pkgs.gnome; [
-      epiphany # GNOME Web
+    environment.gnome.excludePackages = [
+      pkgs.epiphany # GNOME Web
+    ] ++ (with pkgs.gnome; [
       gnome-software
       gnome-characters
-    ] ++ cfg.extraExcludePackages;
+    ]) ++ cfg.extraExcludePackages;
   };
 }

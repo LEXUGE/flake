@@ -17,9 +17,12 @@
       role = "bridge";
     };
     settings = {
-      # ContactInfo = "toradmin@example.org";
+      ContactInfo = "dontcontact@cia.gov";
       # Nickname = "toradmin";
-      ORPort = 8002;
+      ORPort = [{
+        port = 8002;
+        flags = [ "IPv4Only" ];
+      }];
       # ServerTransportPlugins are automatically set by nixpkgs
       ServerTransportListenAddr = "obfs4 0.0.0.0:8003";
       AccountingStart = "week 1 10:00";
