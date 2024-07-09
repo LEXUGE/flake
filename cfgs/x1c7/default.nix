@@ -51,6 +51,7 @@
       # home-manager.users.ash.systemd.user.sessionVariables = config.home-manager.users.ash.home.sessionVariables;
       my.home.ash = {
         extraPackages = with pkgs; [
+          zulip
           # minecraft
           tor-browser-bundle-bin
           tpm2-tools
@@ -111,6 +112,9 @@
           "/etc/machine-id"
         ];
         users.ash = {
+          files = [
+            ".config/monitors.xml"
+          ];
           directories = [
             "Desktop"
             "Documents"
@@ -123,7 +127,7 @@
             ".mozilla"
             ".thunderbird"
             ".config/qBittorrent"
-            ".config/@lunatask"
+            ".config/Zulip"
             ".julia"
             "org-files"
             # Both git-credentials and zsh_hist_dir doesn't seem to play well with impermanence
