@@ -15,7 +15,7 @@
 
   ### Sound and graphics
   # Enable sound.
-  sound.enable = true;
+  # sound.enable = true;
 
   # Configuration of pulseaudio to facilitate bluetooth headphones and Steam.
   hardware.pulseaudio = {

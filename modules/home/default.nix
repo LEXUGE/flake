@@ -73,6 +73,14 @@ in
 
           # Package settings
           programs = {
+            # Per directory auto env loading
+            direnv = {
+              enable = true;
+              # Hook up the ZSH profile
+              enableZshIntegration = true;
+              nix-direnv.enable = true;
+            };
+
             # GnuPG
             gpg = {
               enable = true;

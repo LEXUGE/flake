@@ -127,6 +127,7 @@
           nixosModules.home
           nixosModules.gnome-desktop
           nixosModules.dcompass
+          nixosModules.timezone
           impermanence.nixosModules.impermanence
           disko.nixosModules.disko
           home-manager.nixosModules.home-manager
@@ -182,6 +183,7 @@
           nixosModules.home
           nixosModules.gnome-desktop
           nixosModules.dcompass
+          nixosModules.timezone
           disko.nixosModules.disko
           nixosModules.steamdeck
           impermanence.nixosModules.impermanence

@@ -110,6 +110,7 @@
         ];
         files = [
           "/etc/machine-id"
+          "/etc/persisted-timezone"
         ];
         users.ash = {
           files = [
@@ -122,6 +123,7 @@
             "Music"
             "Pictures"
             "Videos"
+            "Zotero"
             ".cache"
             ".local"
             ".mozilla"
