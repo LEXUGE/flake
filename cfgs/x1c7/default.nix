@@ -124,6 +124,7 @@
             "Pictures"
             "Videos"
             "Zotero"
+            ".zotero"
             ".cache"
             ".local"
             ".mozilla"
