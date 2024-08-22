@@ -59,6 +59,12 @@
     owner = "root";
   };
 
+  age.secrets.sing-box = {
+    file = ../../secrets/sing-box.age;
+    mode = "400";
+    owner = "root";
+  };
+
   # secret key decrypted on install
   age.identityPaths = [ "/persist/secrets/ash_ed25519" ];
 }

@@ -43,6 +43,9 @@
     recommendedGzipSettings = true;
     recommendedProxySettings = true;
 
+    # eventsConfig = "worker_connections  4096;";
+    # proxyTimeout = "3600s";
+
     virtualHosts."wormhole.flibrary.info" = {
       enableACME = true;
       forceSSL = true;
