@@ -3,8 +3,8 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # We seem to have problem with mesa, let's pin it to 22.2
-    # nixpkgs.url = "github:nixos/nixpkgs/6dccdc458512abce8d19f74195bb20fdb067df50";
+    # Pin a nixpkgs for mathematica to prevent it from rebiulding everytime dependency updates.
+    nixpkgs-mathematica.url = "github:nixos/nixpkgs/8a3354191c0d7144db9756a74755672387b702ba";
 
     utils.url = "github:numtide/flake-utils";
 
@@ -61,7 +61,7 @@
     deploy-rs.url = "github:serokell/deploy-rs";
   };
 
-  outputs = { self, nixpkgs, utils, nvfetcher, dcompass, impermanence, vimrc, ash-emacs, home-manager, agenix, disko, jovian, lanzaboote, pre-commit-hooks, deploy-rs }@inputs: with utils.lib; let
+  outputs = { self, nixpkgs, nixpkgs-mathematica, utils, nvfetcher, dcompass, impermanence, vimrc, ash-emacs, home-manager, agenix, disko, jovian, lanzaboote, pre-commit-hooks, deploy-rs }@inputs: with utils.lib; let
     lib = nixpkgs.lib;
 
     mkSystem = { name, extraMods ? [ ], extraOverlays ? [ ], extraSubstituters ? [ ], extraPublicKeys ? [ ], system }: (lib.nixosSystem {
@@ -93,15 +93,6 @@
 
       # Use the default overlay to export all packages under ./pkgs
       overlays = {
-        # Patch mathematica to solve "libdbus not found" error.
-        mathematica = (final: prev: {
-          mathematica_13_3_1 = (prev.mathematica.overrideAttrs (_: prevAttrs: {
-            wrapProgramFlags = prevAttrs.wrapProgramFlags ++ [ "--prefix LD_LIBRARY_PATH : ${prev.lib.makeLibraryPath [ prev.dbus.lib ]}" ];
-          })).override {
-            version = "13.3.1";
-          };
-        });
-
         default = final: prev:
           (import ./pkgs {
             inherit (prev) lib;
@@ -139,7 +130,6 @@
           ash-emacs.overlays.emacs-overlay
           ash-emacs.overlays.default
           vimrc.overlays.default
-          self.overlays.mathematica
         ];
         system = system.x86_64-linux;
       };

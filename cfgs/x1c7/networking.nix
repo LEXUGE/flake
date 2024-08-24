@@ -38,6 +38,8 @@
         auto_route = true;
         strict_route = true;
         sniff = true;
+        # Override IP addr with sniffed domain
+        sniff_override_destination = true;
       }];
 
       outbounds = [
