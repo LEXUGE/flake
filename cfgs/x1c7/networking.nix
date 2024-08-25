@@ -37,9 +37,9 @@
         inet6_address = "fdfe:dcba:9876::1/126";
         auto_route = true;
         strict_route = true;
-        sniff = true;
-        # Override IP addr with sniffed domain
-        sniff_override_destination = true;
+        # sniff = true;
+        # # Override IP addr with sniffed domain
+        # sniff_override_destination = true;
       }];
 
       outbounds = [

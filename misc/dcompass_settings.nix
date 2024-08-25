@@ -56,7 +56,7 @@
                  }
 
                  pub async fn route(upstreams, inited, ctx, query) {
-                   // if query.first_question?.qtype == "AAAA" { return blackhole(query); }
+                   if query.first_question?.qtype == "AAAA" { return blackhole(query); }
 
                    if inited.domain.0.contains(query.first_question?.qname) {
                      // query.push_opt(ClientSubnet::new(u8(15), u8(0), IpAddr::from_str("58.220.0.0")?).to_opt_data())?;
