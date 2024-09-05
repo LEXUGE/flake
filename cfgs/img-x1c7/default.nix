@@ -11,11 +11,6 @@
 
     boot.kernelPackages = pkgs.linuxPackages_latest;
 
-    age.secrets.dae_config = {
-      file = ../../secrets/dae_config_img.age;
-      mode = "400";
-      owner = "root";
-    };
     # This is a dummy key in ISO image, we shall not worry about its security.
     # Agenix breaks in LiveCD due to https://github.com/ryantm/agenix/issues/165.
     age.identityPaths = [ (pkgs.writeText "img_key_ed25519" (builtins.readFile ../../secrets/raw/img_key_ed25519)) ];

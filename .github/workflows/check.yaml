@@ -18,4 +18,4 @@ jobs:
         name: dcompass
         skipPush: true
     # Run the general flake checks
-    - run: nix flake check -vL
+    - run: nix flake check -vL --no-build

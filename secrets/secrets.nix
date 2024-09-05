@@ -5,9 +5,6 @@ let
   keys = import ./keys.nix;
 in
 {
-  "dae_config_img.age".publicKeys = [ keys.img_pubkey ];
-
-  "dae_config.age".publicKeys = [ keys.ash_pubkey ];
   "sing-box.age".publicKeys = [ keys.ash_pubkey ];
 
   # There seems to be an issue with multiple recipient

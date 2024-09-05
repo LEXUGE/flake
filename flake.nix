@@ -34,7 +34,7 @@
     vimrc.inputs.nixpkgs.follows = "nixpkgs";
 
     # SecureBoot Management
-    lanzaboote.url = "github:nix-community/lanzaboote";
+    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.1";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
 
     # Tool for NixOS on tmpfs
@@ -158,6 +158,15 @@
           sshUser = "ash";
           user = "root";
           hostname = "shards.flibrary.info";
+        };
+        nodes.deck = {
+          profiles.system = {
+            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.deck;
+          };
+          sshUser = "ash";
+          user = "root";
+          # This hostname should be unreachable
+          hostname = "deck";
         };
         # Enable fast connection by default
         fastConnection = true;
