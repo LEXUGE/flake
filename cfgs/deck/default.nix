@@ -35,6 +35,14 @@
 
           echo "Blessed current PCRs"
         '';
+
+      startSingBox = pkgs.writeShellScriptBin "start-sing-box" ''
+        ${pkgs.systemd}/bin/systemctl restart singb-box
+      '';
+
+      stopSingBox = pkgs.writeShellScriptBin "stop-sing-box" ''
+        ${pkgs.systemd}/bin/systemctl stop singb-box
+      '';
     in
     {
       # Remove once https://github.com/NixOS/nixpkgs/pull/210896 is merged into unstable
@@ -58,6 +66,21 @@
         hostname = "deck";
       };
 
+      # Allow users in wheel to control sing-box without passwords.
+      security.sudo.extraRules = [{
+        groups = [ "whell" ];
+        commands = [
+          {
+            command = "${startSingBox}";
+            options = [ "NOPASSWD" "SETENV" ];
+          }
+          {
+            command = "${stopSingBox}";
+            options = [ "NOPASSWD" "SETENV" ];
+          }
+        ];
+      }];
+
       my.home.ash = {
         extraPackages = with pkgs; [
           # minecraft
@@ -77,18 +100,18 @@
           protonup
           lutris
 
-          # reload/suspend dae
+          # reload/suspend sing-box
           (makeDesktopItem {
-            name = "daesuspend";
-            desktopName = "DAE Suspend";
-            exec = "${dae}/bin/dae suspend";
+            name = "startSingBox";
+            desktopName = "sing-box start";
+            exec = "${startSingBox}";
             terminal = true;
           })
 
           (makeDesktopItem {
-            name = "daereload";
-            desktopName = "DAE Reload";
-            exec = "${dae}/bin/dae reload";
+            name = "stopSingBox";
+            desktopName = "sing-box stop";
+            exec = "${stopSingBox}";
             terminal = true;
           })
 
@@ -185,12 +208,8 @@
             # video - light control
             # libvirtd - virtual manager controls.
             # docker - Docker control
-            # daeusers - DAE control
-            extraGroups = [ "wheel" "networkmanager" "daeusers" ];
+            extraGroups = [ "wheel" "networkmanager" ];
           };
-        };
-        groups = {
-          daeusers = { };
         };
       };
 

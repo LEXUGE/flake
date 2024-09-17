@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }: {
-  # An unused nameserver config. Trick the traffic to go through WAN and get routed by DAE
-  networking.nameservers = [ "223.5.5.6" "8.8.8.8" ];
+  # An unused nameserver config.
+  networking.nameservers = [ "127.0.0.1" ];
 
   networking.networkmanager = {
     # Enable networkmanager. REMEMBER to add yourself to group in order to use nm related stuff.
@@ -11,33 +11,74 @@
     wifi.scanRandMacAddress = true;
   };
 
-  # Setup DAE
-  services.dae = {
+  # sing-box requires IP forwarding
+  boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
+  # Required by the sing-box TUN mode
+  networking.firewall.trustedInterfaces = [ "tun0" ];
+  networking.firewall.checkReversePath = "loose";
+
+  services.sing-box = {
     enable = true;
-    disableTxChecksumIpGeneric = false;
-    configFile = config.age.secrets.dae_config.path;
-    assets = with pkgs; [ v2ray-geoip v2ray-domain-list-community ];
-    # Default tproxy Port
-    openFirewall = {
-      enable = true;
-      port = 12345;
+    settings = {
+      log = {
+        level = "info";
+      };
+
+      inbounds = [{
+        type = "tun";
+        # sing-box version is too old to support this
+        # address = [
+        #   "172.18.0.1/30"
+        #   "fdfe:dcba:9876::1/126"
+        # ];
+        inet4_address = "172.19.0.1/30";
+        inet6_address = "fdfe:dcba:9876::1/126";
+        auto_route = true;
+        strict_route = true;
+        # sniff = true;
+        # # Override IP addr with sniffed domain
+        # sniff_override_destination = true;
+      }];
+
+      outbounds = [
+        { type = "direct"; tag = "direct"; }
+        {
+          _secret = config.age.secrets.sing-box.path;
+          quote = false;
+        }
+      ];
+
+      route = {
+        rules = [
+          {
+            type = "logical";
+            mode = "or";
+            rules = [
+              { ip_is_private = true; }
+              { process_name = "dcompass"; }
+              { process_name = "NetworkManager"; }
+            ];
+            outbound = "direct";
+          }
+          # TODO: This is deprecated and would be removed in the future.
+          {
+            geoip = [ "cn" ];
+            geosite = [ "cn" ];
+            outbound = "direct";
+          }
+        ];
+        final = "proxy";
+        auto_detect_interface = true;
+      };
     };
   };
 
-  # Allow users in daeusers to control dae without passwords.
-  security.sudo.extraRules = [{
-    groups = [ "daeusers" ];
-    commands = [
-      {
-        command = "${pkgs.dae}/bin/dae";
-        options = [ "NOPASSWD" "SETENV" ];
-      }
-      {
-        command = "/run/current-system/sw/bin/dae";
-        options = [ "NOPASSWD" "SETENV" ];
-      }
-    ];
-  }];
+  systemd.services.sing-box.serviceConfig = {
+    ProtectSystem = true;
+    ProtectHome = true;
+    PrivateTmp = true;
+    RemoveIPC = true;
+  };
 
   # Setup our local DNS
   my.dcompass = {

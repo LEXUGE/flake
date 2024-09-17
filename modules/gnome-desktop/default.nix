@@ -43,7 +43,7 @@ in {
     programs.geary.enable = false;
     environment.gnome.excludePackages = [
       pkgs.epiphany # GNOME Web
-    ] ++ (with pkgs.gnome; [
+    ] ++ (with pkgs; [
       gnome-software
       gnome-characters
     ]) ++ cfg.extraExcludePackages;

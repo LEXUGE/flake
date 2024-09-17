@@ -5,7 +5,7 @@
 
   hardware.bluetooth = {
     enable = true;
-    disabledPlugins = [ "sap" ];
+    # disabledPlugins = [ "sap" ];
   };
 
   # Don't suspend if lid is closed with computer on power.
@@ -14,18 +14,27 @@
   services.logind.lidSwitch = "suspend-then-hibernate";
 
   ### Sound and graphics
-  # Enable sound.
-  # sound.enable = true;
+
+  # allow realtime scheduling
+  security.rtkit.enable = true;
+  # Enable PulseAudio
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    jack.enable = true;
+  };
 
   # Configuration of pulseaudio to facilitate bluetooth headphones and Steam.
-  hardware.pulseaudio = {
-    enable = true;
-    # 32 bit support for steam.
-    support32Bit = true;
-    # NixOS allows either a lightweight build (default) or full build of PulseAudio to be installed.
-    # Only the full build has Bluetooth support, so it must be selected here.
-    package = pkgs.pulseaudioFull;
-  };
+  # hardware.pulseaudio = {
+  #   enable = false;
+  #   # 32 bit support for steam.
+  #   support32Bit = true;
+  #   # NixOS allows either a lightweight build (default) or full build of PulseAudio to be installed.
+  #   # Only the full build has Bluetooth support, so it must be selected here.
+  #   package = pkgs.pulseaudioFull;
+  # };
 
   # OpenGL 32 bit support for steam
   hardware.graphics.enable32Bit = true;

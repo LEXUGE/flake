@@ -11,18 +11,6 @@
     wifi.scanRandMacAddress = true;
   };
 
-  # Setup DAE
-  services.dae = {
-    enable = true;
-    disableTxChecksumIpGeneric = false;
-    configFile = config.age.secrets.dae_config.path;
-    # Default tproxy Port
-    openFirewall = {
-      enable = true;
-      port = 12345;
-    };
-  };
-
   # Setup our local DNS
   my.dcompass = {
     enable = true;

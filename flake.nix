@@ -34,7 +34,7 @@
     vimrc.inputs.nixpkgs.follows = "nixpkgs";
 
     # SecureBoot Management
-    lanzaboote.url = "github:nix-community/lanzaboote";
+    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.1";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
 
     # Tool for NixOS on tmpfs
@@ -57,11 +57,9 @@
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    deploy-rs.url = "github:serokell/deploy-rs";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-mathematica, utils, nvfetcher, dcompass, impermanence, vimrc, ash-emacs, home-manager, agenix, disko, jovian, lanzaboote, pre-commit-hooks, deploy-rs }@inputs: with utils.lib; let
+  outputs = { self, nixpkgs, nixpkgs-mathematica, utils, nvfetcher, dcompass, impermanence, vimrc, ash-emacs, home-manager, agenix, disko, jovian, lanzaboote, pre-commit-hooks }@inputs: with utils.lib; let
     lib = nixpkgs.lib;
 
     mkSystem = { name, extraMods ? [ ], extraOverlays ? [ ], extraSubstituters ? [ ], extraPublicKeys ? [ ], system }: (lib.nixosSystem {
@@ -86,11 +84,6 @@
   in
   nixpkgs.lib.recursiveUpdate
     rec {
-      # checks for deploy-rs
-      checks = (builtins.mapAttrs
-        (system: deployLib: deployLib.deployChecks self.deploy)
-        deploy-rs.lib);
-
       # Use the default overlay to export all packages under ./pkgs
       overlays = {
         default = final: prev:
@@ -140,6 +133,8 @@
         shards = (import ./cfgs/shards/disk-config.nix { });
       };
 
+      # Deploy using nixos-rebuild directly
+      # https://nixos-and-flakes.thiscute.world/best-practices/remote-deployment#deploy-through-nixos-rebuild
       nixosConfigurations.shards = mkSystem {
         name = "shards";
         extraMods = [
@@ -150,19 +145,8 @@
         system = system.x86_64-linux;
       };
 
-      deploy = {
-        nodes.shards = {
-          profiles.system = {
-            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.shards;
-          };
-          sshUser = "ash";
-          user = "root";
-          hostname = "shards.flibrary.info";
-        };
-        # Enable fast connection by default
-        fastConnection = true;
-      };
-
+      # Deploy using nixos-rebuild directly
+      # https://nixos-and-flakes.thiscute.world/best-practices/remote-deployment#deploy-through-nixos-rebuild
       nixosConfigurations.deck = mkSystem {
         name = "deck";
         extraMods = [
@@ -259,7 +243,7 @@
         devShells.default = with import nixpkgs { inherit system; };
           mkShell {
             inherit (self.checks.${system}.pre-commit-check) shellHook;
-            nativeBuildInputs = [ openssl agenix.packages.${system}.default nvfetcher.packages.${system}.default deploy-rs.packages.${system}.deploy-rs ];
+            nativeBuildInputs = [ openssl agenix.packages.${system}.default nvfetcher.packages.${system}.default ];
           };
 
         checks = {

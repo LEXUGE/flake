@@ -12,12 +12,20 @@
     let
       # To avoid having to reseal on each kernel/initrd update
       # (must have secure boot and use Unified Kernel Image)
+      # https://wiki.archlinux.org/title/Trusted_Platform_Module#Accessing_PCR_registers
       pcrBanks = [
         0 # Core System Firmware executable code
+        1 # UEFI Settings
         2 # Extended or pluggable executable code (e.g., Option ROMs)
+        3 # Boot Device selection
+        # 4 # Measures the boot manager and the devices that the firmware tried to boot from
+        5 # Can measure configuration of boot loaders; includes the GPT Partition Table
         7 # Secure Boot state (full contents of PK/KEK/db + certificates used to validate each boot application)
-        # 12 # systemd-stub: Overridden kernel command line
-        # 13 # systemd-stub: System Extensions
+
+        # Not very useful as SecureBoot already ensures that we are booting trustworthy kernels.
+        # WARN: Still could be dangerous as Microsoft key is present and someone could boot Ubuntu and decrypt the disk.
+        # 9 # Hash of the initrd and EFI Load Options 
+        # 11 # Hash of the unified kernel image
       ];
 
       root = config.boot.initrd.luks.devices."cryptroot".device;

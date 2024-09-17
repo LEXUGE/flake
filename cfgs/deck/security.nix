@@ -53,9 +53,8 @@
     };
   };
 
-  # DAE config
-  age.secrets.dae_config = {
-    file = ../../secrets/dae_config.age;
+  age.secrets.sing-box = {
+    file = ../../secrets/sing-box.age;
     mode = "400";
     owner = "root";
   };

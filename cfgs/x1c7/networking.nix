@@ -59,6 +59,8 @@
               { ip_is_private = true; }
               { process_name = "dcompass"; }
               { process_name = "NetworkManager"; }
+              { process_name = "steam"; }
+              { process_name = "qbittorrent"; }
             ];
             outbound = "direct";
           }
