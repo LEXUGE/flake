@@ -111,6 +111,7 @@
           nixosModules.home
           nixosModules.gnome-desktop
           nixosModules.dcompass
+          nixosModules.sing-box
           nixosModules.timezone
           impermanence.nixosModules.impermanence
           disko.nixosModules.disko
@@ -157,6 +158,7 @@
           nixosModules.home
           nixosModules.gnome-desktop
           nixosModules.dcompass
+          nixosModules.sing-box
           nixosModules.timezone
           disko.nixosModules.disko
           nixosModules.steamdeck

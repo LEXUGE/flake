@@ -1,5 +1,5 @@
-{ config, lib, pkgs, ... }: {
-  networking.nameservers = [ "127.0.0.1" ];
+{ config, pkgs, ... }: {
+  networking.resolvconf.useLocalResolver = true;
 
   networking.networkmanager = {
     # Enable networkmanager. REMEMBER to add yourself to group in order to use nm related stuff.
@@ -13,13 +13,7 @@
     };
   };
 
-  # sing-box requires IP forwarding
-  boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
-  # Required by the sing-box TUN mode
-  networking.firewall.trustedInterfaces = [ "tun0" ];
-  networking.firewall.checkReversePath = "loose";
-
-  services.sing-box = {
+  my.sing-box = {
     enable = true;
     settings = {
       log = {
@@ -75,13 +69,6 @@
         auto_detect_interface = true;
       };
     };
-  };
-
-  systemd.services.sing-box.serviceConfig = {
-    ProtectSystem = true;
-    ProtectHome = true;
-    PrivateTmp = true;
-    RemoveIPC = true;
   };
 
   # Setup our local DNS
