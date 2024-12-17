@@ -5,7 +5,13 @@
 #
 # HOW TO DEPLOY
 # `deploy .#shards --ssh-opts="-i ~/ash_ed25519"`
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   imports = [
     ./secrets.nix
     ./hardware.nix
@@ -20,7 +26,10 @@
   time.timeZone = "Europe/London";
 
   # Firewall options
-  networking.firewall.allowedTCPPorts = [ 80 443 ];
+  networking.firewall.allowedTCPPorts = [
+    80
+    443
+  ];
 
   # This is required to push "unsigned" nix store paths. We only allow wheel group to do so to limit the attack surface.
   nix.settings.trusted-users = [ "@wheel" ];
@@ -41,7 +50,11 @@
 
   fileSystems."/" = {
     fsType = "tmpfs";
-    options = [ "defaults" "size=1G" "mode=755" ];
+    options = [
+      "defaults"
+      "size=1G"
+      "mode=755"
+    ];
   };
 
   fileSystems."/persist".neededForBoot = true;
@@ -65,7 +78,11 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [ coreutils-full gitMinimal curl ];
+  environment.systemPackages = with pkgs; [
+    coreutils-full
+    gitMinimal
+    curl
+  ];
 
   users = {
     # Let users be immutable/declarative
@@ -73,11 +90,9 @@
     # Note: these are only basic users, users for specific profiles/services, e.g. networking services' pseudo users are declared seperately
     # Note: for portable usages, passwords should be changed here.
     users = {
-      root.hashedPassword =
-        "$6$EKVU.ASDFD1ehd$HhL4g2ZSAKy7w5hOZPcrzxcd3R3axmx6Ku/xL6lvoGy1kJ1flTpxXEPNO/wxCYaxGQHt2Nt5VsY5VBmWU1dAV/";
+      root.hashedPassword = "$6$EKVU.ASDFD1ehd$HhL4g2ZSAKy7w5hOZPcrzxcd3R3axmx6Ku/xL6lvoGy1kJ1flTpxXEPNO/wxCYaxGQHt2Nt5VsY5VBmWU1dAV/";
       ash = {
-        hashedPassword =
-          "$6$/DrCzjENUCPZ$3YWcERAWSkLiZYG8YMeyDDo6j8mJ517MZ3GmEplLeF4HVw8125.k2qEsLgNmS1IyHK7VhyaRv7Rd4azsT.nEy.";
+        hashedPassword = "$6$/DrCzjENUCPZ$3YWcERAWSkLiZYG8YMeyDDo6j8mJ517MZ3GmEplLeF4HVw8125.k2qEsLgNmS1IyHK7VhyaRv7Rd4azsT.nEy.";
         isNormalUser = true;
         extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
       };

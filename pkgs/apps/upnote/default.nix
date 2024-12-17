@@ -1,4 +1,8 @@
-{ source, lib, appimageTools }:
+{
+  source,
+  lib,
+  appimageTools,
+}:
 
 let
   appimageContents = appimageTools.extractType2 {

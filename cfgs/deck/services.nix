@@ -1,4 +1,10 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
   # Enable SSH for remote access
   services.openssh = {
     enable = true;
@@ -7,9 +13,11 @@
   };
 
   # Also the pub key used for age encryption
-  users.users.ash.openssh.authorizedKeys.keys = let keys = import ../../secrets/keys.nix; in [ keys.ash_pubkey ];
-
-
+  users.users.ash.openssh.authorizedKeys.keys =
+    let
+      keys = import ../../secrets/keys.nix;
+    in
+    [ keys.ash_pubkey ];
 
   ### Power and hardware
   # Enable fwupd service for firmware updates

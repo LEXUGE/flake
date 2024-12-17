@@ -1,4 +1,10 @@
-{ pkgs, lib, config, ... }: {
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+{
   my.timezone = {
     enable = true;
     path = "/etc/persisted-timezone";

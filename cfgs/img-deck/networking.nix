@@ -1,4 +1,10 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   # Use local DNS server all the time
   networking.resolvconf.useLocalResolver = true;
 

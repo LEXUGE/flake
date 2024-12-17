@@ -1,9 +1,19 @@
-{ source, lib, stdenv, fetchFromGitHub, format ? "raw", server ? "china" }:
+{
+  source,
+  lib,
+  stdenv,
+  fetchFromGitHub,
+  format ? "raw",
+  server ? "china",
+}:
 
 stdenv.mkDerivation rec {
   inherit (source) pname version src;
 
-  makeFlags = [ format "SERVER=${server}" ];
+  makeFlags = [
+    format
+    "SERVER=${server}"
+  ];
 
   installPhase = ''
     mkdir $out
@@ -11,8 +21,7 @@ stdenv.mkDerivation rec {
   '';
 
   meta = with lib; {
-    description =
-      "Chinese-specific configuration to improve your favorite DNS server.";
+    description = "Chinese-specific configuration to improve your favorite DNS server.";
     longDescription = ''
       Chinese-specific configuration to improve your favorite DNS server. Best partner for chnroutes.
     '';

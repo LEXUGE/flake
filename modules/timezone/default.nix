@@ -1,4 +1,9 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 
 with lib;
 
@@ -21,7 +26,10 @@ in
       description = "activate persisted timezone";
       # From `man systemd.special`:
       # netowrk-pre.target: This passive target unit may be pulled in by services that want to run before any network is set up
-      wantedBy = [ "multi-user.target" "network-pre.target" ];
+      wantedBy = [
+        "multi-user.target"
+        "network-pre.target"
+      ];
 
       serviceConfig = {
         Type = "oneshot";

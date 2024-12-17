@@ -1,7 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
-let cfg = config.my.steamdeck;
-in {
+let
+  cfg = config.my.steamdeck;
+in
+{
   options.my.steamdeck = {
     enable = mkOption {
       type = types.bool;
@@ -24,9 +31,9 @@ in {
       jovian.devices.steamdeck.enable = true;
 
       # Sounds are set up by Jovian NixOS
-      hardware.pulseaudio.enable = lib.mkIf
-        (config.jovian.devices.steamdeck.enableSoundSupport && config.services.pipewire.enable)
-        (lib.mkForce false);
+      hardware.pulseaudio.enable = lib.mkIf (
+        config.jovian.devices.steamdeck.enableSoundSupport && config.services.pipewire.enable
+      ) (lib.mkForce false);
     })
     (mkIf (cfg.enable && cfg.steam.enable) {
       jovian.steam = {

@@ -1,4 +1,10 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
   ### Power and hardware
   # Enable fwupd service for firmware updates
   services.fwupd.enable = true;
@@ -16,18 +22,18 @@
   ### Sound and graphics
 
   # This uses pipewire and conflicts with pulseaudio
-  services.gnome.gnome-remote-desktop.enable = false;
-  # Have to additionally disable pipewire: https://github.com/NixOS/nixpkgs/commit/438fd16359cf30090c66d3748727829afa90e814
-  services.pipewire.enable = false;
-  # Configuration of pulseaudio to facilitate bluetooth headphones and Steam.
-  hardware.pulseaudio = {
-    enable = true;
-    # 32 bit support for steam.
-    support32Bit = true;
-    # NixOS allows either a lightweight build (default) or full build of PulseAudio to be installed.
-    # Only the full build has Bluetooth support, so it must be selected here.
-    package = pkgs.pulseaudioFull;
-  };
+  # services.gnome.gnome-remote-desktop.enable = false;
+  # # Have to additionally disable pipewire: https://github.com/NixOS/nixpkgs/commit/438fd16359cf30090c66d3748727829afa90e814
+  # services.pipewire.enable = false;
+  # # Configuration of pulseaudio to facilitate bluetooth headphones and Steam.
+  # hardware.pulseaudio = {
+  #   enable = true;
+  #   # 32 bit support for steam.
+  #   support32Bit = true;
+  #   # NixOS allows either a lightweight build (default) or full build of PulseAudio to be installed.
+  #   # Only the full build has Bluetooth support, so it must be selected here.
+  #   package = pkgs.pulseaudioFull;
+  # };
 
   # OpenGL 32 bit support for steam
   hardware.graphics.enable32Bit = true;

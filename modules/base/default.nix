@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.my.base;
@@ -16,34 +21,35 @@ in
     };
   };
 
-  config = mkIf cfg.enable
-    (
-      {
-        networking.hostName = cfg.hostname;
+  config = mkIf cfg.enable ({
+    networking.hostName = cfg.hostname;
 
-        # Support NTFS
-        boot.supportedFilesystems = [ "ntfs" ];
+    # Support NTFS
+    boot.supportedFilesystems = [ "ntfs" ];
 
-        # Auto upgrade
-        # system.autoUpgrade.enable = true;
+    # Auto upgrade
+    # system.autoUpgrade.enable = true;
 
-        # deploy-rs doesn't play well with wheel passwords when deploying, better to disable it.
-        security.sudo.wheelNeedsPassword = false;
+    # deploy-rs doesn't play well with wheel passwords when deploying, better to disable it.
+    security.sudo.wheelNeedsPassword = false;
 
-        # Enable flake
-        nix.extraOptions = ''
-          experimental-features = nix-command flakes
-        '';
+    # Enable flake
+    nix.extraOptions = ''
+      experimental-features = nix-command flakes
+    '';
 
-        # Auto gc and optimise
-        nix.optimise.automatic = true;
-        nix.gc.automatic = false;
-        nix.gc.options = "--delete-older-than 7d";
+    # Auto gc and optimise
+    nix.optimise.automatic = true;
+    nix.gc.automatic = false;
+    nix.gc.options = "--delete-older-than 7d";
 
-        # Allow unfree packages
-        nixpkgs.config.allowUnfree = true;
+    # Allow unfree packages
+    nixpkgs.config.allowUnfree = true;
 
-        environment.systemPackages = with pkgs; [ wget coreutils-full git ];
-      }
-    );
+    environment.systemPackages = with pkgs; [
+      wget
+      coreutils-full
+      git
+    ];
+  });
 }

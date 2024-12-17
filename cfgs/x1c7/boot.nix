@@ -1,4 +1,10 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   my.lanzaboote.enable = true;
 
   # Clean tmp folder which is a btrfs subvol
@@ -7,7 +13,11 @@
   # Create root on tmpfs
   fileSystems."/" = {
     fsType = "tmpfs";
-    options = [ "defaults" "size=2G" "mode=755" ];
+    options = [
+      "defaults"
+      "size=2G"
+      "mode=755"
+    ];
   };
 
   fileSystems."/persist".neededForBoot = true;

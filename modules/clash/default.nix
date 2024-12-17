@@ -1,4 +1,9 @@
-{ pkgs, config, lib, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
 
 with lib;
 
@@ -13,11 +18,9 @@ let
   helper = ''
     ip46tables() {
       iptables -w "$@"
-      ${
-        optionalString config.networking.enableIPv6 ''
-          ip6tables -w "$@"
-        ''
-      }
+      ${optionalString config.networking.enableIPv6 ''
+        ip6tables -w "$@"
+      ''}
     }
   '';
 
@@ -85,36 +88,31 @@ let
       clashUserName = mkOption {
         type = types.str;
         default = "clash";
-        description =
-          "The user who would run the clash proxy systemd service. User would be created automatically.";
+        description = "The user who would run the clash proxy systemd service. User would be created automatically.";
       };
 
       tproxyPort = mkOption {
         type = types.port;
         default = 7893;
-        description =
-          "Clash tproxy-port";
+        description = "Clash tproxy-port";
       };
 
       afterUnits = mkOption {
         type = with types; listOf str;
         default = [ ];
-        description =
-          "List of systemd units that need to be started after clash. Note this is placed in `before` parameter of clash's systemd config.";
+        description = "List of systemd units that need to be started after clash. Note this is placed in `before` parameter of clash's systemd config.";
       };
 
       requireUnits = mkOption {
         type = with types; listOf str;
         default = [ ];
-        description =
-          "List of systemd units that need to be required by clash.";
+        description = "List of systemd units that need to be required by clash.";
       };
 
       beforeUnits = mkOption {
         type = with types; listOf str;
         default = [ ];
-        description =
-          "List of systemd units that need to be started before clash. Note this is placed in `after` parameter of clash's systemd config.";
+        description = "List of systemd units that need to be started before clash. Note this is placed in `after` parameter of clash's systemd config.";
       };
     };
   };
@@ -127,8 +125,7 @@ in
   };
 
   config = mkIf (cfg.enable) {
-    environment.etc."clash/Country.mmdb".source =
-      "${pkgs.maxmind-geoip}/Country.mmdb"; # Bring pre-installed geoip data into directory.
+    environment.etc."clash/Country.mmdb".source = "${pkgs.maxmind-geoip}/Country.mmdb"; # Bring pre-installed geoip data into directory.
     environment.etc."clash/config.yaml".source = cfg.configPath;
 
     # Yacd
@@ -168,15 +165,40 @@ in
       networks.lo = {
         # equivalent to matchConfig.Name = "lo";
         name = "lo";
-        routingPolicyRules = [{
-          # Route all packets with firewallmark 1 (set by iptables in output chain) using table "100" which says go to loopback
-          routingPolicyRuleConfig = { FirewallMark = 1; Table = 100; Priority = 100; };
-        }
-          { routingPolicyRuleConfig = { From = "::/0"; FirewallMark = 1; Table = 100; Priority = 100; }; }];
+        routingPolicyRules = [
+          {
+            # Route all packets with firewallmark 1 (set by iptables in output chain) using table "100" which says go to loopback
+            routingPolicyRuleConfig = {
+              FirewallMark = 1;
+              Table = 100;
+              Priority = 100;
+            };
+          }
+          {
+            routingPolicyRuleConfig = {
+              From = "::/0";
+              FirewallMark = 1;
+              Table = 100;
+              Priority = 100;
+            };
+          }
+        ];
         routes = [
           # Create a table that routes to loopback
-          { routeConfig = { Table = 100; Destination = "0.0.0.0/0"; Type = "local"; }; }
-          { routeConfig = { Table = 100; Destination = "::/0"; Type = "local"; }; }
+          {
+            routeConfig = {
+              Table = 100;
+              Destination = "0.0.0.0/0";
+              Type = "local";
+            };
+          }
+          {
+            routeConfig = {
+              Table = 100;
+              Destination = "::/0";
+              Type = "local";
+            };
+          }
         ];
       };
     };
@@ -200,8 +222,12 @@ in
 
           # Don't intercept packets sent to any of the reserved IP addresses
           # Otherwise all responses from clash to "local" application will be routed back to clash again
-          ${concatStringsSep "\n" (map (addr: "iptables -w -t mangle -A ${tag} -d ${addr} -j RETURN") reservedIPv4Addrs)}
-          ${concatStringsSep "\n" (map (addr: "ip6tables -w -t mangle -A ${tag} -d ${addr} -j RETURN") reservedIPv6Addrs)}
+          ${concatStringsSep "\n" (
+            map (addr: "iptables -w -t mangle -A ${tag} -d ${addr} -j RETURN") reservedIPv4Addrs
+          )}
+          ${concatStringsSep "\n" (
+            map (addr: "ip6tables -w -t mangle -A ${tag} -d ${addr} -j RETURN") reservedIPv6Addrs
+          )}
 
           # Intercept all traffic to clash otherwise. Note by default TPROXY implies local IP which is desired.
           ip46tables -t mangle -A ${tag} -p tcp -j TPROXY --on-port ${tproxyPortStr}
@@ -214,8 +240,12 @@ in
 
           # Don't intercept local packets sent to any of the reserved IP addresses.
           # Even this is not necessary, it eliminates the need to exempt these traffics in clash config and expedite the routing as otherwise these packets will be routed again.
-          ${concatStringsSep "\n" (map (addr: "iptables -w -t mangle -A ${tag_local} -d ${addr} -j RETURN") reservedIPv4Addrs)}
-          ${concatStringsSep "\n" (map (addr: "ip6tables -w -t mangle -A ${tag_local} -d ${addr} -j RETURN") reservedIPv6Addrs)}
+          ${concatStringsSep "\n" (
+            map (addr: "iptables -w -t mangle -A ${tag_local} -d ${addr} -j RETURN") reservedIPv4Addrs
+          )}
+          ${concatStringsSep "\n" (
+            map (addr: "ip6tables -w -t mangle -A ${tag_local} -d ${addr} -j RETURN") reservedIPv6Addrs
+          )}
 
           # Don't forward package created by ${clashUserName}. Since after forwarding by clash the packets' owner would be changed to ${clashUserName}, this helps us to avoid dead loop in packet forwarding.
           ip46tables -t mangle -A ${tag_local} -m owner --uid-owner ${clashUserName} -j RETURN
@@ -234,14 +264,17 @@ in
         '';
       in
       {
-        path = with pkgs; [ gnugrep iptables clash ];
+        path = with pkgs; [
+          gnugrep
+          iptables
+          clash
+        ];
         description = "Clash networking service";
         after = [ "network.target" ] ++ cfg.beforeUnits;
         before = cfg.afterUnits;
         requires = cfg.requireUnits;
         wantedBy = [ "multi-user.target" ];
-        script =
-          "exec clash -d /etc/clash"; # We don't need to worry about whether /etc/clash is reachable in Live CD or not. Since it would never be execuated inside LiveCD.
+        script = "exec clash -d /etc/clash"; # We don't need to worry about whether /etc/clash is reachable in Live CD or not. Since it would never be execuated inside LiveCD.
 
         # Don't start if the config file doesn't exist.
         unitConfig = {
@@ -254,8 +287,7 @@ in
           ExecStopPost = "+${postStopScript}";
           # CAP_NET_BIND_SERVICE: Bind arbitary ports by unprivileged user.
           # CAP_NET_ADMIN: Listen on UDP.
-          AmbientCapabilities =
-            "CAP_NET_BIND_SERVICE CAP_NET_ADMIN"; # We want additional capabilities upon a unprivileged user.
+          AmbientCapabilities = "CAP_NET_BIND_SERVICE CAP_NET_ADMIN"; # We want additional capabilities upon a unprivileged user.
           User = clashUserName;
           Restart = "on-failure";
         };

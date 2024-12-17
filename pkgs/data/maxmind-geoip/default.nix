@@ -1,4 +1,9 @@
-{ source, lib, stdenv, fetchurl }:
+{
+  source,
+  lib,
+  stdenv,
+  fetchurl,
+}:
 
 stdenv.mkDerivation rec {
   inherit (source) pname version src;

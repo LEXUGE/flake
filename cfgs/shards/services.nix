@@ -1,4 +1,5 @@
-{ config, ... }: {
+{ config, ... }:
+{
   # Enable SSH for remote access
   services.openssh = {
     enable = true;
@@ -7,7 +8,11 @@
   };
 
   # Also the pub key used for age encryption
-  users.users.ash.openssh.authorizedKeys.keys = let keys = import ../../secrets/keys.nix; in [ keys.ash_pubkey ];
+  users.users.ash.openssh.authorizedKeys.keys =
+    let
+      keys = import ../../secrets/keys.nix;
+    in
+    [ keys.ash_pubkey ];
 
   services.tor = {
     enable = true;
@@ -19,10 +24,12 @@
     settings = {
       ContactInfo = "dontcontact@cia.gov";
       # Nickname = "toradmin";
-      ORPort = [{
-        port = 8002;
-        flags = [ "IPv4Only" ];
-      }];
+      ORPort = [
+        {
+          port = 8002;
+          flags = [ "IPv4Only" ];
+        }
+      ];
       # ServerTransportPlugins are automatically set by nixpkgs
       ServerTransportListenAddr = "obfs4 0.0.0.0:8003";
       AccountingStart = "week 1 10:00";

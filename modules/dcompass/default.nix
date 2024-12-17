@@ -1,11 +1,15 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 
 with lib;
 
 let
   cfg = config.my.dcompass;
-  confFile =
-    pkgs.writeText "dcompass-config.json" (generators.toJSON { } cfg.settings);
+  confFile = pkgs.writeText "dcompass-config.json" (generators.toJSON { } cfg.settings);
 in
 {
   options.my.dcompass = {

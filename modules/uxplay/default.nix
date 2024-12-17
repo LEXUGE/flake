@@ -1,4 +1,9 @@
-{ lib, pkgs, config, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
 
 with lib;
 
@@ -20,7 +25,15 @@ in
 
     # If the -p option is not used, the ports are chosen dynamically (randomly), which will not work if a firewall is running.
     # These are the default ports for "-p"
-    networking.firewall.allowedUDPPorts = [ 7011 6001 6000 ];
-    networking.firewall.allowedTCPPorts = [ 7100 7000 7001 ];
+    networking.firewall.allowedUDPPorts = [
+      7011
+      6001
+      6000
+    ];
+    networking.firewall.allowedTCPPorts = [
+      7100
+      7000
+      7001
+    ];
   };
 }

@@ -1,6 +1,9 @@
 { config, lib, ... }:
 with lib;
-let cfg = config.my.sing-box; in {
+let
+  cfg = config.my.sing-box;
+in
+{
   options.my.sing-box = {
     enable = mkEnableOption "sing-box module including related systemd and networking setups";
     settings = mkOption {

@@ -1,4 +1,11 @@
-{ inputs, lib, config, pkgs, ... }: {
+{
+  inputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+{
   imports = [
     ./boot.nix
     ./hardware.nix
@@ -24,7 +31,7 @@
 
         # Not very useful as SecureBoot already ensures that we are booting trustworthy kernels.
         # WARN: Still could be dangerous as Microsoft key is present and someone could boot Ubuntu and decrypt the disk.
-        # 9 # Hash of the initrd and EFI Load Options 
+        # 9 # Hash of the initrd and EFI Load Options
         # 11 # Hash of the unified kernel image
       ];
 
@@ -68,7 +75,7 @@
           tdesktop
           htop
           qbittorrent
-          # zoom-us
+          zoom-us
           thunderbird-bin
           pavucontrol
           dnsperf
@@ -94,14 +101,21 @@
               (final: prev: {
                 # Patch mathematica to solve "libdbus not found" error.
                 # Also pin it to a specific commit to prevent from rebuilding.
-                mathematica_13_3_1 = (prev.mathematica.overrideAttrs (_: prevAttrs: {
-                  wrapProgramFlags = prevAttrs.wrapProgramFlags ++ [ "--prefix LD_LIBRARY_PATH : ${prev.lib.makeLibraryPath [ prev.dbus.lib ]}" ];
-                })).override {
-                  version = "13.3.1";
-                };
+                mathematica_13_3_1 =
+                  (prev.mathematica.overrideAttrs (
+                    _: prevAttrs: {
+                      wrapProgramFlags = prevAttrs.wrapProgramFlags ++ [
+                        "--prefix LD_LIBRARY_PATH : ${prev.lib.makeLibraryPath [ prev.dbus.lib ]}"
+                      ];
+                    }
+                  )).override
+                    {
+                      version = "13.3.1";
+                    };
               })
             ];
           }).mathematica_13_3_1
+          coyim
           uxplay
           zotero
         ];
@@ -113,11 +127,11 @@
       # Fonts
       fonts.packages = with pkgs; [
         noto-fonts
-        noto-fonts-cjk
+        noto-fonts-cjk-sans
         noto-fonts-emoji
         fira-code
         fira-code-symbols
-        fira-code-nerdfont
+        nerd-fonts.fira-code
       ];
 
       environment.persistence."/persist" = {
@@ -152,16 +166,32 @@
             ".mozilla"
             ".thunderbird"
             ".config/qBittorrent"
+            ".config/coyim"
             ".config/Zulip"
             ".julia"
             ".Mathematica"
             "org-files"
             # Both git-credentials and zsh_hist_dir doesn't seem to play well with impermanence
-            { directory = ".git_creds_dir"; mode = "0700"; }
-            { directory = ".zsh_hist_dir"; mode = "0700"; }
-            { directory = ".gnupg"; mode = "0700"; }
-            { directory = ".ssh"; mode = "0700"; }
-            { directory = ".local/share/keyrings"; mode = "0700"; }
+            {
+              directory = ".git_creds_dir";
+              mode = "0700";
+            }
+            {
+              directory = ".zsh_hist_dir";
+              mode = "0700";
+            }
+            {
+              directory = ".gnupg";
+              mode = "0700";
+            }
+            {
+              directory = ".ssh";
+              mode = "0700";
+            }
+            {
+              directory = ".local/share/keyrings";
+              mode = "0700";
+            }
           ];
         };
       };
@@ -169,11 +199,9 @@
       users = {
         mutableUsers = false;
         users = {
-          root.hashedPassword =
-            "$6$TqNkihvO4K$x.qSUVbLQ9.IfAc9tOQawDzVdHJtQIcKrJpBCBR.wMuQ8qfbbbm9bN7JNMgneYnNPzAi2k9qXk0klhTlRgGnk0";
+          root.hashedPassword = "$6$TqNkihvO4K$x.qSUVbLQ9.IfAc9tOQawDzVdHJtQIcKrJpBCBR.wMuQ8qfbbbm9bN7JNMgneYnNPzAi2k9qXk0klhTlRgGnk0";
           ash = {
-            hashedPassword =
-              "$6$FAs.ZfxAkhAK0ted$/aHwa39iJ6wsZDCxoJVjedhfPZ0XlmgKcxkgxGDE.hw3JlCjPHmauXmQAZUlF8TTUGgxiOJZcbYSPsW.QBH5F.";
+            hashedPassword = "$6$FAs.ZfxAkhAK0ted$/aHwa39iJ6wsZDCxoJVjedhfPZ0XlmgKcxkgxGDE.hw3JlCjPHmauXmQAZUlF8TTUGgxiOJZcbYSPsW.QBH5F.";
             shell = pkgs.zsh;
             isNormalUser = true;
             # wheel - sudo
@@ -182,7 +210,12 @@
             # libvirtd - virtual manager controls.
             # docker - Docker control
             # tss - TPM2 control
-            extraGroups = [ "wheel" "networkmanager" "wireshark" "tss" ];
+            extraGroups = [
+              "wheel"
+              "networkmanager"
+              "wireshark"
+              "tss"
+            ];
           };
         };
       };

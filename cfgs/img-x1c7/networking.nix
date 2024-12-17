@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   # Use local DNS server all the time
   networking.resolvconf.useLocalResolver = true;
 

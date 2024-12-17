@@ -82,10 +82,11 @@ jobs:
         name: dcompass
         skipPush: true
 
-    - name: Update flake.lock, show drv, and calculate the hashes
-      id: update
-      run: |
-        nix flake update
+    # NOTE: Don't update automatically, it breaks build
+    # - name: Update flake.lock, show drv, and calculate the hashes
+    #   id: update
+    #   run: |
+    #     nix flake update
 
     - name: Build LiveCD ISO image
       id: iso

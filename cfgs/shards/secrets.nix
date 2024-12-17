@@ -1,4 +1,10 @@
-{ pkgs, lib, config, ... }: {
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+{
   # v2ray config
   age.secrets.v2ray_config = {
     file = ../../secrets/v2ray_shards.age;

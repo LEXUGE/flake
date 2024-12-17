@@ -1,7 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
-let cfg = config.my.gnome-desktop;
-in {
+let
+  cfg = config.my.gnome-desktop;
+in
+{
   options.my.gnome-desktop = {
     enable = mkOption {
       type = types.bool;
@@ -41,11 +48,14 @@ in {
 
     # Some of the GNOME Packages are unwanted
     programs.geary.enable = false;
-    environment.gnome.excludePackages = [
-      pkgs.epiphany # GNOME Web
-    ] ++ (with pkgs; [
-      gnome-software
-      gnome-characters
-    ]) ++ cfg.extraExcludePackages;
+    environment.gnome.excludePackages =
+      [
+        pkgs.epiphany # GNOME Web
+      ]
+      ++ (with pkgs; [
+        gnome-software
+        gnome-characters
+      ])
+      ++ cfg.extraExcludePackages;
   };
 }

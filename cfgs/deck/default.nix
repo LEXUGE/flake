@@ -1,4 +1,10 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   imports = [
     ./boot.nix
     ./networking.nix
@@ -67,19 +73,27 @@
       };
 
       # Allow users in wheel to control sing-box without passwords.
-      security.sudo.extraRules = [{
-        groups = [ "whell" ];
-        commands = [
-          {
-            command = "${startSingBox}";
-            options = [ "NOPASSWD" "SETENV" ];
-          }
-          {
-            command = "${stopSingBox}";
-            options = [ "NOPASSWD" "SETENV" ];
-          }
-        ];
-      }];
+      security.sudo.extraRules = [
+        {
+          groups = [ "whell" ];
+          commands = [
+            {
+              command = "${startSingBox}";
+              options = [
+                "NOPASSWD"
+                "SETENV"
+              ];
+            }
+            {
+              command = "${stopSingBox}";
+              options = [
+                "NOPASSWD"
+                "SETENV"
+              ];
+            }
+          ];
+        }
+      ];
 
       my.home.ash = {
         extraPackages = with pkgs; [
@@ -123,7 +137,8 @@
 
         # Extra files
         extraFiles = {
-          ".config/steam-rom-manager/userData/userConfigurations.json".source = ../../misc/blobs/steam-rom-manager/userConfigurations.json;
+          ".config/steam-rom-manager/userData/userConfigurations.json".source =
+            ../../misc/blobs/steam-rom-manager/userConfigurations.json;
           ".config/yuzu/qt-config.ini".source = ../../misc/blobs/yuzu/qt-config.ini;
         };
       };
@@ -138,11 +153,11 @@
       # Fonts
       fonts.packages = with pkgs; [
         noto-fonts
-        noto-fonts-cjk
+        noto-fonts-cjk-sans
         noto-fonts-emoji
         fira-code
         fira-code-symbols
-        fira-code-nerdfont
+        nerd-fonts.fira-code
         # needed by steam to display CJK fonts
         wqy_zenhei
       ];
@@ -184,7 +199,10 @@
               # Both git-credentials and zsh_hist_dir doesn't seem to play well with impermanence
               # NO sensitive task shall be carried out!
               # { directory = ".git_creds_dir"; mode = "0700"; }
-              { directory = ".zsh_hist_dir"; mode = "0700"; }
+              {
+                directory = ".zsh_hist_dir";
+                mode = "0700";
+              }
               # { directory = ".gnupg"; mode = "0700"; }
               # { directory = ".ssh"; mode = "0700"; }
               # { directory = ".local/share/keyrings"; mode = "0700"; }
@@ -196,11 +214,9 @@
       users = {
         mutableUsers = false;
         users = {
-          root.hashedPassword =
-            "$6$oNsoXzCopc6uxli4$vthBqdTNXtq8MWlWRHRGe6QZUMb7CtPWaTdXSOKszeTAtmjG5zE/JPd7F668VTiuOUtpiy1oy061N0LlxjtHD1";
+          root.hashedPassword = "$6$oNsoXzCopc6uxli4$vthBqdTNXtq8MWlWRHRGe6QZUMb7CtPWaTdXSOKszeTAtmjG5zE/JPd7F668VTiuOUtpiy1oy061N0LlxjtHD1";
           ash = {
-            hashedPassword =
-              "$y$j9T$yLdLVVEQoolJR9LNMYGl30$dNnh67D78jLz/YR9YXSR3i8efYd0QmI2ezo2h5v2W78";
+            hashedPassword = "$y$j9T$yLdLVVEQoolJR9LNMYGl30$dNnh67D78jLz/YR9YXSR3i8efYd0QmI2ezo2h5v2W78";
             shell = pkgs.zsh;
             isNormalUser = true;
             # wheel - sudo
@@ -208,7 +224,10 @@
             # video - light control
             # libvirtd - virtual manager controls.
             # docker - Docker control
-            extraGroups = [ "wheel" "networkmanager" ];
+            extraGroups = [
+              "wheel"
+              "networkmanager"
+            ];
           };
         };
       };
