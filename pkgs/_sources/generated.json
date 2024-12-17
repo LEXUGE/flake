@@ -1,7 +1,7 @@
 {
     "chinalist": {
         "cargoLocks": null,
-        "date": "2024-06-13",
+        "date": "2024-12-16",
         "extract": null,
         "name": "chinalist",
         "passthru": null,
@@ -13,12 +13,12 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "9988820dcbb7d7911bb6449ffe119859e91cb2c7",
-            "sha256": "sha256-Ym0Z1I6beSBW+G55NARCGzUOSEH0rApZVVR6fb6Cxk4=",
+            "rev": "c2b64540aef8260d53e15b42f16961a57486ba85",
+            "sha256": "sha256-QYPvVynRkphrI7QjzSnqAnZ+T6X2CyukQXStiBKV2CA=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "9988820dcbb7d7911bb6449ffe119859e91cb2c7"
+        "version": "c2b64540aef8260d53e15b42f16961a57486ba85"
     },
     "maxmind-geoip": {
         "cargoLocks": null,
@@ -29,11 +29,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-uLXdQUrhBZC7av5MWvlVC0W8UQBWDsYhdmKwKEfOQfk=",
+            "sha256": "sha256-SOHiaTiyJTUuya+NCOxnLXdGBuABtIy6c7hRYalmEPw=",
             "type": "url",
-            "url": "https://github.com/Dreamacro/maxmind-geoip/releases/download/20240612/Country.mmdb"
+            "url": "https://github.com/Dreamacro/maxmind-geoip/releases/download/20241212/Country.mmdb"
         },
-        "version": "20240612"
+        "version": "20241212"
     },
     "proton-ge": {
         "cargoLocks": null,
@@ -43,11 +43,11 @@
         "passthru": null,
         "pinned": false,
         "src": {
-            "sha256": "sha256-/FXdyPuCe6rD5HoMOHPVlwRXu3DMJ3lEOnRloYZMA8s=",
+            "sha256": "sha256-WNOl0pu3xcEObxSK054u4e3hTWtA/51mH25uQih0+a0=",
             "type": "tarball",
-            "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton9-7/GE-Proton9-7.tar.gz"
+            "url": "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton9-21/GE-Proton9-21.tar.gz"
         },
-        "version": "GE-Proton9-7"
+        "version": "GE-Proton9-21"
     },
     "upnote": {
         "cargoLocks": null,
@@ -62,7 +62,7 @@
             "type": "url",
             "url": "https://upnote.sfo3.cdn.digitaloceanspaces.com/UpNote.AppImage"
         },
-        "version": "9.4.4"
+        "version": "9.7.2"
     },
     "yacd": {
         "cargoLocks": null,

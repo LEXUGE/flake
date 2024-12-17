@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   networking.resolvconf.useLocalResolver = true;
 
   networking.networkmanager = {
@@ -20,24 +21,29 @@
         level = "info";
       };
 
-      inbounds = [{
-        type = "tun";
-        # sing-box version is too old to support this
-        # address = [
-        #   "172.18.0.1/30"
-        #   "fdfe:dcba:9876::1/126"
-        # ];
-        inet4_address = "172.19.0.1/30";
-        inet6_address = "fdfe:dcba:9876::1/126";
-        auto_route = true;
-        strict_route = true;
-        # sniff = true;
-        # # Override IP addr with sniffed domain
-        # sniff_override_destination = true;
-      }];
+      inbounds = [
+        {
+          type = "tun";
+          # sing-box version is too old to support this
+          # address = [
+          #   "172.18.0.1/30"
+          #   "fdfe:dcba:9876::1/126"
+          # ];
+          inet4_address = "172.19.0.1/30";
+          inet6_address = "fdfe:dcba:9876::1/126";
+          auto_route = true;
+          strict_route = true;
+          # sniff = true;
+          # # Override IP addr with sniffed domain
+          # sniff_override_destination = true;
+        }
+      ];
 
       outbounds = [
-        { type = "direct"; tag = "direct"; }
+        {
+          type = "direct";
+          tag = "direct";
+        }
         {
           _secret = config.age.secrets.sing-box.path;
           quote = false;
@@ -54,7 +60,7 @@
               { process_name = "dcompass"; }
               { process_name = "NetworkManager"; }
               { process_name = "steam"; }
-              { process_name = "qbittorrent"; }
+              # { process_name = "qbittorrent"; }
             ];
             outbound = "direct";
           }
