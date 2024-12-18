@@ -88,6 +88,7 @@
           extraOverlays ? [ ],
           extraSubstituters ? [ ],
           extraPublicKeys ? [ ],
+          extraArgs ? { },
           system,
         }:
         (lib.nixosSystem {
@@ -118,7 +119,9 @@
               }
             )
           ] ++ extraMods;
-          specialArgs = { inherit inputs; };
+          specialArgs = {
+            inherit inputs;
+          } // extraArgs;
         });
     in
     nixpkgs.lib.recursiveUpdate
@@ -144,14 +147,11 @@
         nixosModules = (import ./modules { inherit lib; });
 
         # Export system cfgs
-        nixosConfigurations.x1c7 = mkSystem {
-          name = "x1c7";
-          # extraSubstituters = [ "https://nixbld.m-labs.hk" ];
-          # extraPublicKeys = [ "nixbld.m-labs.hk-1:5aSRVA5b320xbNvu30tqxVPXpld73bhtOeH6uAjRyHc=" ];
+        nixosConfigurations.tb14 = mkSystem {
+          name = "tb14";
           extraMods = [
             nixosModules.clash
             nixosModules.base
-            nixosModules.disko
             nixosModules.lanzaboote
             nixosModules.uxplay
             nixosModules.home
@@ -164,6 +164,61 @@
             home-manager.nixosModules.home-manager
             lanzaboote.nixosModules.lanzaboote
             agenix.nixosModules.age
+            { disko.devices = diskoConfigurations.tb14; }
+          ];
+          extraOverlays = [
+            dcompass.overlays.default
+            ash-emacs.overlays.emacs-overlay
+            ash-emacs.overlays.default
+            vimrc.overlays.default
+          ];
+          system = system.x86_64-linux;
+        };
+
+        nixosConfigurations.img-tb14 = mkSystem {
+          name = "img-tb14";
+          extraMods = [
+            nixosModules.clash
+            nixosModules.home
+            nixosModules.base
+            nixosModules.gnome-desktop
+            nixosModules.dcompass
+            disko.nixosModules.disko
+            home-manager.nixosModules.home-manager
+            agenix.nixosModules.age
+            "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-base.nix"
+            { disko.devices = diskoConfigurations.tb14; }
+          ];
+          extraOverlays = [
+            dcompass.overlays.default
+            ash-emacs.overlays.emacs-overlay
+            ash-emacs.overlays.default
+            vimrc.overlays.default
+          ];
+          system = system.x86_64-linux;
+        };
+
+        # Export system cfgs
+        nixosConfigurations.x1c7 = mkSystem {
+          name = "x1c7";
+          # extraSubstituters = [ "https://nixbld.m-labs.hk" ];
+          # extraPublicKeys = [ "nixbld.m-labs.hk-1:5aSRVA5b320xbNvu30tqxVPXpld73bhtOeH6uAjRyHc=" ];
+          extraMods = [
+            nixosModules.clash
+            nixosModules.base
+            nixosModules.lanzaboote
+            nixosModules.uxplay
+            nixosModules.home
+            nixosModules.gnome-desktop
+            nixosModules.dcompass
+            nixosModules.sing-box
+            nixosModules.timezone
+            impermanence.nixosModules.impermanence
+            disko.nixosModules.disko
+            home-manager.nixosModules.home-manager
+            lanzaboote.nixosModules.lanzaboote
+            agenix.nixosModules.age
+            { disko.devices = diskoConfigurations.x1c7; }
           ];
           extraOverlays = [
             dcompass.overlays.default
@@ -175,8 +230,9 @@
         };
 
         diskoConfigurations = {
-          deck = (import ./modules/disko/disk.nix { });
-          x1c7 = (import ./modules/disko/disk.nix { });
+          deck = (import ./modules/disko/disk.nix { swap = 20; });
+          x1c7 = (import ./modules/disko/disk.nix { swap = 20; });
+          tb14 = (import ./modules/disko/disk.nix { swap = 40; });
           shards = (import ./cfgs/shards/disk-config.nix { });
         };
 
@@ -199,7 +255,6 @@
           extraMods = [
             nixosModules.clash
             nixosModules.base
-            nixosModules.disko
             nixosModules.lanzaboote
             nixosModules.home
             nixosModules.gnome-desktop
@@ -213,6 +268,7 @@
             agenix.nixosModules.age
             lanzaboote.nixosModules.lanzaboote
             jovian.nixosModules.default
+            { disko.devices = diskoConfigurations.deck; }
           ];
           extraOverlays = [
             dcompass.overlays.default
@@ -235,6 +291,7 @@
             home-manager.nixosModules.home-manager
             agenix.nixosModules.age
             "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-base.nix"
+            { disko.devices = diskoConfigurations.x1c7; }
           ];
           extraOverlays = [
             dcompass.overlays.default
@@ -259,6 +316,7 @@
             agenix.nixosModules.age
             "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-base.nix"
             jovian.nixosModules.default
+            { disko.devices = diskoConfigurations.deck; }
           ];
           extraOverlays = [
             dcompass.overlays.default
@@ -272,6 +330,7 @@
         # ISO image entry point
         imgs.x1c7 = nixosConfigurations.img-x1c7.config.system.build.isoImage;
         imgs.deck = nixosConfigurations.img-deck.config.system.build.isoImage;
+        imgs.tb14 = nixosConfigurations.img-tb14.config.system.build.isoImage;
 
         publicKey = "lexuge.cachix.org-1:RRFg8AxcexeBd33smnmcayMLU6r2wbVKbZHWtg2dKnY=";
       }

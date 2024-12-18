@@ -1,6 +1,6 @@
+#WARN: Use of this module is deprecated. Use flake.nix to directly setup the diskoConfigurations and use in each system configuration instead.
 {
   lib,
-  pkgs,
   config,
   ...
 }:
@@ -19,9 +19,19 @@ in
       default = "/dev/nvme0n1";
       description = "devices";
     };
+
+    swap = mkOption {
+      type = types.int;
+      description = "Size of swap (in GiB)";
+    };
   };
 
   config = mkIf cfg.enable {
-    disko.devices = (import ./disk.nix { device = cfg.device; });
+    disko.devices = (
+      import ./disk.nix {
+        device = cfg.device;
+        swap = cfg.swap;
+      }
+    );
   };
 }

@@ -123,7 +123,6 @@ with lib;
         };
     };
 
-    disko.devices = (import ./../../modules/disko/disk.nix { });
     # This is a LiveCD, please don't enable disk config in NixOS.
     disko.enableConfig = false;
 

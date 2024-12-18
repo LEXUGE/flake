@@ -1,7 +1,9 @@
 {
   device ? "/dev/nvme0n1",
+  swap,
   ...
 }:
+with builtins;
 {
   disk = {
     nvme = {
@@ -27,7 +29,7 @@
           swap = {
             label = "swap";
             start = "1G";
-            end = "21G";
+            end = "${toString (1 + swap)}G";
             content = {
               type = "luks";
               name = "cryptswap";
@@ -39,7 +41,7 @@
           # Root partition
           root = {
             label = "root";
-            start = "21G";
+            start = "${toString (1 + swap)}G";
             end = "100%";
             content = {
               type = "luks";

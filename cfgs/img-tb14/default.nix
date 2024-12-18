@@ -1,4 +1,5 @@
 {
+  inputs,
   config,
   lib,
   pkgs,
@@ -13,7 +14,9 @@ with lib;
   config = {
     # To fix home-manager issue
     # https://github.com/nix-community/home-manager/blob/master/modules/misc/version.nix
-    system.stateVersion = "23.11";
+    system.stateVersion = "24.11";
+
+    boot.kernelPackages = pkgs.linuxPackages_latest;
 
     # This is a dummy key in ISO image, we shall not worry about its security.
     # Agenix breaks in LiveCD due to https://github.com/ryantm/agenix/issues/165.
@@ -34,9 +37,6 @@ with lib;
       "ntfs"
       "cifs"
     ];
-
-    # Needed for boot! Otherwise the initrd couldn't mount the root on hub.
-    boot.initrd.availableKernelModules = [ "hub" ];
 
     # Set internationalisation properties.
     console = {
@@ -114,13 +114,13 @@ with lib;
         dnsutils
         smartmontools
       ];
-      extraDconf = {
-        # Show screen keyboard
-        "org/gnome/desktop/a11y/applications".screen-keyboard-enabled = true;
-      };
-    };
-    my.steamdeck = {
-      enable = true;
+      extraDconf =
+        let
+          hm = inputs.home-manager.lib.hm;
+        in
+        {
+          "org/gnome/desktop/interface"."scaling-factor" = hm.gvariant.mkUint32 2;
+        };
     };
 
     # This is a LiveCD, please don't enable disk config in NixOS.
@@ -144,9 +144,7 @@ with lib;
         (create-disko-pkg "mount" config.system.build.mountScript)
       ];
 
-    users.users.nixos = {
-      shell = pkgs.zsh;
-    };
+    users.users.nixos.shell = pkgs.zsh;
     programs.zsh.enable = true;
   };
 }

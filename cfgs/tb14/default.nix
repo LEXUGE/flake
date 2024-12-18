@@ -59,7 +59,7 @@
       my.gnome-desktop.enable = true;
       my.base = {
         enable = true;
-        hostname = "x1c7";
+        hostname = "tb14";
       };
 
       # home-manager.users.ash.systemd.user.sessionVariables = config.home-manager.users.ash.home.sessionVariables;
@@ -115,7 +115,6 @@
             ];
           }).mathematica_13_3_1
           coyim
-          uxplay
           zotero
         ];
         extraDconf = {
@@ -136,8 +135,6 @@
       environment.persistence."/persist" = {
         hideMounts = true;
         directories = [
-          # Vivado
-          "/opt/Xilinx"
           "/var/log"
           "/var/lib"
           "/var/cache"

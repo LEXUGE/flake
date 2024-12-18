@@ -62,7 +62,6 @@
       # We are auto login user.
       security.sudo.wheelNeedsPassword = lib.mkForce true;
 
-      my.disko.enable = true;
       my.gnome-desktop = {
         enable = true;
         enableDisplayManager = false;
