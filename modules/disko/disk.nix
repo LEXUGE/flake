@@ -15,8 +15,8 @@ with builtins;
           # ESP
           esp = {
             label = "esp";
-            start = "0";
-            end = "1G";
+            size = "1G";
+            priority = 1;
             # EFI Filesystem
             type = "EF00";
             content = {
@@ -28,8 +28,8 @@ with builtins;
           # Swap
           swap = {
             label = "swap";
-            start = "1G";
-            end = "${toString (1 + swap)}G";
+            size = "${toString swap}G";
+            priority = 2;
             content = {
               type = "luks";
               name = "cryptswap";
@@ -41,8 +41,8 @@ with builtins;
           # Root partition
           root = {
             label = "root";
-            start = "${toString (1 + swap)}G";
-            end = "100%";
+            size = "100%";
+            priority = 3;
             content = {
               type = "luks";
               name = "cryptroot";
