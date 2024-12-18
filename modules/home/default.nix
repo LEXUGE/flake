@@ -211,6 +211,10 @@ in
               # Timezone and location
               # "org/gnome/desktop/datetime".automatic-timezone = true;
               "org/gnome/system/location".enabled = true;
+              # Show battery percentage
+              "org/gnome/desktop/interface" = {
+                show-battery-percentage = true;
+              };
             } c.extraDconf
           );
 

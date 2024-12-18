@@ -20,6 +20,27 @@
         },
         "version": "c2b64540aef8260d53e15b42f16961a57486ba85"
     },
+    "ideapad-thinkbook14": {
+        "cargoLocks": null,
+        "date": "2024-07-17",
+        "extract": null,
+        "name": "ideapad-thinkbook14",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "ty2",
+            "repo": "ideapad-laptop-tb2024g6plus",
+            "rev": "6d934407981294d05a6a4e4ed0e59d3c6c964990",
+            "sha256": "sha256-PzgfAxVrp4rhP6d/pQlzwIyXdi5FcoLLrqoETldGdqU=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "6d934407981294d05a6a4e4ed0e59d3c6c964990"
+    },
     "maxmind-geoip": {
         "cargoLocks": null,
         "date": null,
@@ -58,7 +79,7 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-r0BAoJy+UHVE0kHsY0WJYAOwNoFTza0pVkEKpvkZbCI=",
+            "sha256": "sha256-j9noPsz3taJRN3cc8bYb+IAHcwHjzfF3uuSrcUAYHYQ=",
             "type": "url",
             "url": "https://upnote.sfo3.cdn.digitaloceanspaces.com/UpNote.AppImage"
         },

@@ -18,6 +18,18 @@
     };
     date = "2024-12-16";
   };
+  ideapad-thinkbook14 = {
+    pname = "ideapad-thinkbook14";
+    version = "6d934407981294d05a6a4e4ed0e59d3c6c964990";
+    src = fetchFromGitHub {
+      owner = "ty2";
+      repo = "ideapad-laptop-tb2024g6plus";
+      rev = "6d934407981294d05a6a4e4ed0e59d3c6c964990";
+      fetchSubmodules = false;
+      sha256 = "sha256-PzgfAxVrp4rhP6d/pQlzwIyXdi5FcoLLrqoETldGdqU=";
+    };
+    date = "2024-07-17";
+  };
   maxmind-geoip = {
     pname = "maxmind-geoip";
     version = "20241212";
@@ -39,7 +51,7 @@
     version = "9.7.2";
     src = fetchurl {
       url = "https://upnote.sfo3.cdn.digitaloceanspaces.com/UpNote.AppImage";
-      sha256 = "sha256-r0BAoJy+UHVE0kHsY0WJYAOwNoFTza0pVkEKpvkZbCI=";
+      sha256 = "sha256-j9noPsz3taJRN3cc8bYb+IAHcwHjzfF3uuSrcUAYHYQ=";
     };
   };
   yacd = {

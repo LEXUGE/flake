@@ -7,11 +7,6 @@
     enable = true;
     # Don't use DNS advertised by connected network. Use local configuration
     dns = "none";
-    # Use the MAC Address same as my iPad
-    wifi = {
-      macAddress = "3c:7d:0a:be:5c:98";
-      scanRandMacAddress = true;
-    };
   };
 
   my.sing-box = {

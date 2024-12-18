@@ -81,6 +81,7 @@
           bless
           dnsutils
           smartmontools
+          powertop
           # Steam scaling seems to be broken, doing it manually
           # (runCommand "steam-hidpi"
           #   {

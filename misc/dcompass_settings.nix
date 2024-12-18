@@ -92,7 +92,7 @@
                          // query.push_opt(ClientSubnet::new(u8(15), u8(0), IpAddr::from_str("58.220.0.0")?).to_opt_data())?;
                          upstreams.send_default("domestic", query).await
                        } else {
-                         upstreams.send("secure", CacheMode::Disabled, query).await
+                         upstreams.send("secure", CacheMode::Standard, query).await
                        }
                      }
   '';

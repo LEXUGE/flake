@@ -15,9 +15,9 @@ let
   };
   ignoredPkgs = [
     "proton-ge"
+    "ideapad-thinkbook14"
   ];
   listPackageRecursive =
-    with builtins;
     dir:
     (lib.lists.foldr (n: col: col // n) { } (
       lib.attrsets.mapAttrsToList (
