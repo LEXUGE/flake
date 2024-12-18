@@ -42,7 +42,7 @@ with builtins;
           root = {
             label = "root";
             start = "${toString (1 + swap)}G";
-            end = "100%";
+            size = "100%";
             content = {
               type = "luks";
               name = "cryptroot";
