@@ -93,28 +93,28 @@
           steam
           # obsidian
           # We fix installer version so don't get updated automatically when Wolfram releases new version
-          (import inputs.nixpkgs-mathematica {
-            system = pkgs.system;
-            config.allowUnfree = true;
-            overlays = [
-              (final: prev: {
-                # Patch mathematica to solve "libdbus not found" error.
-                # Also pin it to a specific commit to prevent from rebuilding.
-                mathematica_13_3_1 =
-                  (prev.mathematica.overrideAttrs (
-                    _: prevAttrs: {
-                      wrapProgramFlags = prevAttrs.wrapProgramFlags ++ [
-                        "--prefix LD_LIBRARY_PATH : ${prev.lib.makeLibraryPath [ prev.dbus.lib ]}"
-                      ];
-                    }
-                  )).override
-                    {
-                      version = "13.3.1";
-                    };
-              })
-            ];
-          }).mathematica_13_3_1
-          coyim
+          # (import inputs.nixpkgs-mathematica {
+          #   system = pkgs.system;
+          #   config.allowUnfree = true;
+          #   overlays = [
+          #     (final: prev: {
+          #       # Patch mathematica to solve "libdbus not found" error.
+          #       # Also pin it to a specific commit to prevent from rebuilding.
+          #       mathematica_13_3_1 =
+          #         (prev.mathematica.overrideAttrs (
+          #           _: prevAttrs: {
+          #             wrapProgramFlags = prevAttrs.wrapProgramFlags ++ [
+          #               "--prefix LD_LIBRARY_PATH : ${prev.lib.makeLibraryPath [ prev.dbus.lib ]}"
+          #             ];
+          #           }
+          #         )).override
+          #           {
+          #             version = "13.3.1";
+          #           };
+          #     })
+          #   ];
+          # }).mathematica_13_3_1
+          # coyim
           zotero
         ];
         extraDconf = {

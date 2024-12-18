@@ -1,4 +1,4 @@
-{ pkgs, modulesPath, ... }:
+{ modulesPath, ... }:
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
@@ -8,24 +8,19 @@
     "nvme"
     "usb_storage"
     "sd_mod"
+    "thunderbolt"
   ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
   hardware.enableRedistributableFirmware = true;
 
-  # Update Intel CPU Microcode
-  hardware.cpu.intel.updateMicrocode = true;
+  # Update AMD CPU Microcode
+  hardware.cpu.amd.updateMicrocode = true;
 
-  # Intel UHD 620 Hardware Acceleration
   hardware.graphics = {
     enable = true;
-    extraPackages = with pkgs; [
-      vaapiIntel
-      vaapiVdpau
-      libvdpau-va-gl
-      intel-media-driver # only available starting nixos-19.03 or the current nixos-unstable
-    ];
+    enable32Bit = true;
   };
 }

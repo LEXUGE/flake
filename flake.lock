@@ -1591,11 +1591,11 @@
         "nixvim": "nixvim"
       },
       "locked": {
-        "lastModified": 1734454113,
-        "narHash": "sha256-+F9kb5zh40gcZ8qxydUAFHipYwK9kw6ZUqelyREgedA=",
+        "lastModified": 1734502601,
+        "narHash": "sha256-k1F57Ltf/C0Gh4roEFkMErtbwwqsiJSAGxIltUP494o=",
         "owner": "LEXUGE",
         "repo": "vimrc",
-        "rev": "430b0d84c6c7c4230f0e2fdcc1acd4b83438cf1c",
+        "rev": "610bbfc9727a41078702114c3881118a874a5839",
         "type": "github"
       },
       "original": {
