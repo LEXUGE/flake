@@ -109,7 +109,7 @@ with lib;
     };
     my.home.nixos = {
       extraPackages = with pkgs; [
-        firefox-wayland
+        firefox
         htop
         dnsutils
         smartmontools

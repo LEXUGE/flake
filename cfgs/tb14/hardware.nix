@@ -47,12 +47,5 @@
     enable32Bit = true;
   };
 
-  # TODO: TLP doesn't play well with GNOME. Try figure out how to do the charge threshold thing with UPower later.
-  # services.tlp = {
-  #   enable = true;
-  #   settings = {
-  #     START_CHARGE_THRESH_BAT0 = 40; # 40 and bellow it starts to charge
-  #     STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
-  #   };
-  # };
+  my.tb-conservation.enable = true;
 }

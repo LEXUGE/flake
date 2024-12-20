@@ -135,10 +135,50 @@
               pkgs = prev;
               overlay = true;
             });
-          # NOTE: Currently not used, but put here as an example
-          pidgin = final: prev: {
-            pidgin-with-plugins = prev.pidgin.override {
-              plugins = [ prev.pidgin-otr ];
+          # # Currently not used, but put here as an example
+          # pidgin = final: prev: {
+          #   pidgin-with-plugins = prev.pidgin.override {
+          #     plugins = [ prev.pidgin-otr ];
+          #   };
+          # };
+
+          mem-cap = final: prev: {
+            zotero = prev.buildEnv {
+              name = "zotero-mem-cap-suite";
+              # Intentional, other schemes may take up twice of storage and possibly a rebuild
+              ignoreCollisions = false;
+              paths = [
+                # uncapped version
+                (prev.writeShellScriptBin "zotero-mem-uncapped" ''
+                  ${prev.zotero}/bin/zotero "$@"
+                '')
+                # capped version
+                (lib.hiPrio (
+                  prev.writeShellScriptBin "zotero" ''
+                    ${prev.systemd}/bin/systemd-run --user --scope -p MemoryHigh=4G ${prev.zotero}/bin/zotero "$@"
+                  ''
+                ))
+                prev.zotero
+              ];
+            };
+
+            firefox = prev.buildEnv {
+              name = "firefox-mem-cap-suite";
+              # Intentional, other schemes may take up twice of storage and possibly a rebuild
+              ignoreCollisions = false;
+              paths = [
+                # uncapped version
+                (prev.writeShellScriptBin "firefox-mem-uncapped" ''
+                  ${prev.firefox}/bin/firefox "$@"
+                '')
+                # capped version
+                (lib.hiPrio (
+                  prev.writeShellScriptBin "firefox" ''
+                    ${prev.systemd}/bin/systemd-run --user --scope -p MemoryHigh=4G ${prev.firefox}/bin/firefox "$@"
+                  ''
+                ))
+                prev.firefox
+              ];
             };
           };
         };
@@ -150,6 +190,7 @@
         nixosConfigurations.tb14 = mkSystem {
           name = "tb14";
           extraMods = [
+            nixosModules.tb-conservation
             nixosModules.clash
             nixosModules.base
             nixosModules.lanzaboote
@@ -171,6 +212,7 @@
             ash-emacs.overlays.emacs-overlay
             ash-emacs.overlays.default
             vimrc.overlays.default
+            self.overlays.mem-cap
           ];
           system = system.x86_64-linux;
         };

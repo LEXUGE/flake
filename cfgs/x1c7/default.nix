@@ -70,7 +70,7 @@
           tor-browser-bundle-bin
           tpm2-tools
           sbctl
-          firefox-wayland
+          firefox
           tdesktop
           htop
           qbittorrent

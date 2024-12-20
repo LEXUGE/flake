@@ -99,7 +99,7 @@
           # minecraft
           tor-browser-bundle-bin
           sbctl
-          firefox-wayland
+          firefox
           htop
           dnsutils
           smartmontools
