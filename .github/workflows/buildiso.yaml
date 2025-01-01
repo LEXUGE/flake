@@ -51,8 +51,8 @@ jobs:
       uses: easimon/maximize-build-space@master
       with:
         # Reserved for /tmp
-        root-reserve-mb: 20480
-        swap-size-mb: 4096
+        root-reserve-mb: 25600
+        swap-size-mb: 1024
         temp-reserve-mb: 100
         build-mount-path: '/nix'
         build-mount-path-ownership: 'root:root'
