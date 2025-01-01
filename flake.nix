@@ -220,11 +220,11 @@
         nixosConfigurations.img-tb14 = mkSystem {
           name = "img-tb14";
           extraMods = [
-            nixosModules.clash
             nixosModules.home
             nixosModules.base
             nixosModules.gnome-desktop
             nixosModules.dcompass
+            nixosModules.image-base
             disko.nixosModules.disko
             home-manager.nixosModules.home-manager
             agenix.nixosModules.age
@@ -233,8 +233,6 @@
           ];
           extraOverlays = [
             dcompass.overlays.default
-            ash-emacs.overlays.emacs-overlay
-            ash-emacs.overlays.default
             vimrc.overlays.default
           ];
           system = system.x86_64-linux;
@@ -324,11 +322,11 @@
         nixosConfigurations.img-x1c7 = mkSystem {
           name = "img-x1c7";
           extraMods = [
-            nixosModules.clash
             nixosModules.home
             nixosModules.base
             nixosModules.gnome-desktop
             nixosModules.dcompass
+            nixosModules.image-base
             disko.nixosModules.disko
             home-manager.nixosModules.home-manager
             agenix.nixosModules.age
@@ -337,8 +335,6 @@
           ];
           extraOverlays = [
             dcompass.overlays.default
-            ash-emacs.overlays.emacs-overlay
-            ash-emacs.overlays.default
             vimrc.overlays.default
           ];
           system = system.x86_64-linux;
@@ -347,12 +343,12 @@
         nixosConfigurations.img-deck = mkSystem {
           name = "img-deck";
           extraMods = [
-            nixosModules.clash
             nixosModules.home
             nixosModules.base
             nixosModules.gnome-desktop
             nixosModules.dcompass
             nixosModules.steamdeck
+            nixosModules.image-base
             disko.nixosModules.disko
             home-manager.nixosModules.home-manager
             agenix.nixosModules.age
@@ -362,8 +358,6 @@
           ];
           extraOverlays = [
             dcompass.overlays.default
-            ash-emacs.overlays.emacs-overlay
-            ash-emacs.overlays.default
             vimrc.overlays.default
           ];
           system = system.x86_64-linux;
