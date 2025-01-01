@@ -142,6 +142,7 @@
           "/etc/NetworkManager/system-connections"
         ];
         files = [
+          # if machine-id goes "uninitialized", try first stop the persist-machine-id service and then remove the /persist/etc/machine-id then restart
           "/etc/machine-id"
           "/etc/persisted-timezone"
         ];

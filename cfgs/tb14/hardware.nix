@@ -15,6 +15,11 @@
     "sd_mod"
     "thunderbolt"
   ];
+  boot.kernelParams = [
+    # Disable NMI watchdog to save power
+    "kernel.nmi_watchdog=0"
+    "pcie_aspm.policy=powersupersave"
+  ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   # customized ideapad-laptop module
