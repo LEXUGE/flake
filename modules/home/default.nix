@@ -83,6 +83,19 @@ in
           # Allow fonts to be discovered
           fonts.fontconfig.enable = true;
 
+          # Set default browser
+          xdg.mimeApps = {
+            enable = true;
+
+            defaultApplications = {
+              "text/html" = "torbrowser.desktop";
+              "text/xml" = "torbrowser.desktop";
+              "application/xhtml+xml" = "torbrowser.desktop";
+              "x-scheme-handler/http" = "torbrowser.desktop";
+              "x-scheme-handler/https" = "torbrowser.desktop";
+            };
+          };
+
           # Package settings
           programs = {
             # Per directory auto env loading
@@ -174,8 +187,12 @@ in
                 tap-to-click = true;
                 two-finger-scrolling-enabled = true;
               };
-              # Enable dynamic workspacing
-              "org/gnome/mutter".dynamic-workspaces = true;
+              "org/gnome/mutter" = {
+                # Enable dynamic workspacing
+                dynamic-workspaces = true;
+                # Drag to edge tiling
+                edge-tiling = true;
+              };
               # Don't show welcome-dialog
               "org/gnome/shell".welcome-dialog-last-shown-version = "9999999999";
               # Prefer dark mode
