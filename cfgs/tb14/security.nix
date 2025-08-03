@@ -65,6 +65,27 @@
     owner = "root";
   };
 
+  age.secrets.restic-archive-env = {
+    file = ../../secrets/restic-archive-env.age;
+    mode = "400";
+    # default restic user is root in nixos module
+    owner = "root";
+  };
+
+  age.secrets.restic-archive-repo = {
+    file = ../../secrets/restic-archive-repo.age;
+    mode = "400";
+    # default restic user is root in nixos module
+    owner = "root";
+  };
+
+  age.secrets.restic-archive-passwd = {
+    file = ../../secrets/restic-archive-passwd.age;
+    mode = "400";
+    # default restic user is root in nixos module
+    owner = "root";
+  };
+
   # secret key decrypted on install
   age.identityPaths = [ "/persist/secrets/ash_ed25519" ];
 }

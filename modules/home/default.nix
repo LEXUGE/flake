@@ -8,7 +8,7 @@
 with lib;
 
 let
-  gnomeEnable = config.services.xserver.desktopManager.gnome.enable;
+  gnomeEnable = config.services.desktopManager.gnome.enable;
   # Gtk3 applications don't obey dark mode settings in gsettings, so let's do it manually.
   gtkSettings = pkgs.writeText "gtk-settings.ini" ''
     [Settings]
@@ -87,6 +87,7 @@ in
           xdg.mimeApps = {
             enable = true;
 
+            # FIXME: to use this one would need to have --allow-remote
             defaultApplications = {
               "text/html" = "torbrowser.desktop";
               "text/xml" = "torbrowser.desktop";
@@ -136,7 +137,7 @@ in
             zsh = {
               enable = true;
               # This would make C-p, C-n act exactly the same as what up/down arrows do.
-              initExtra = ''
+              initContent = ''
                 bindkey "^P" up-line-or-search
                 bindkey "^N" down-line-or-search
               '';

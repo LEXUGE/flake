@@ -19,27 +19,13 @@
     # Disable NMI watchdog to save power
     "kernel.nmi_watchdog=0"
     "pcie_aspm.policy=powersupersave"
+    # Workaround random GPU crash
+    # https://gitlab.freedesktop.org/drm/amd/-/issues/3647
+    "amdgpu.dcdebugmask=0x10"
   ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
-  # customized ideapad-laptop module
-  boot.extraModulePackages =
-    let
-      sources = (import ../../pkgs/_sources/generated.nix) {
-        inherit (pkgs)
-          fetchurl
-          fetchgit
-          fetchFromGitHub
-          dockerTools
-          ;
-      };
-    in
-    [
-      (config.boot.kernelPackages.callPackage ../../pkgs/drivers/ideapad-thinkbook14/default.nix {
-        source = sources.ideapad-thinkbook14;
-      })
-    ];
-  boot.blacklistedKernelModules = [ "ideapad-laptop" ];
+
   # boot.resumeDevice = "/dev/mapper/cryptswap";
 
   hardware.enableRedistributableFirmware = true;

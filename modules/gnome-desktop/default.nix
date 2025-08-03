@@ -41,21 +41,20 @@ in
       touchpad.naturalScrolling = true;
     };
 
-    services.xserver = {
+    services = {
       displayManager.gdm.enable = cfg.enableDisplayManager;
       desktopManager.gnome.enable = true;
     };
 
     # Some of the GNOME Packages are unwanted
     programs.geary.enable = false;
-    environment.gnome.excludePackages =
-      [
-        pkgs.epiphany # GNOME Web
-      ]
-      ++ (with pkgs; [
-        gnome-software
-        gnome-characters
-      ])
-      ++ cfg.extraExcludePackages;
+    environment.gnome.excludePackages = [
+      pkgs.epiphany # GNOME Web
+    ]
+    ++ (with pkgs; [
+      gnome-software
+      gnome-characters
+    ])
+    ++ cfg.extraExcludePackages;
   };
 }

@@ -77,6 +77,18 @@
   # Scrub btrfs to protect data integrity
   services.btrfs.autoScrub.enable = true;
 
-  # setup uxplay related services
-  my.uxplay.enable = true;
+  services.restic.backups = {
+    archive = {
+      repositoryFile = config.age.secrets.restic-archive-repo.path;
+      environmentFile = config.age.secrets.restic-archive-env.path;
+      passwordFile = config.age.secrets.restic-archive-passwd.path;
+    };
+  };
+
+  # For distrobox
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
+  };
+  environment.systemPackages = [ pkgs.distrobox ];
 }

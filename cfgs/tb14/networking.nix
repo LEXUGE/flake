@@ -20,12 +20,10 @@
         {
           type = "tun";
           # sing-box version is too old to support this
-          # address = [
-          #   "172.18.0.1/30"
-          #   "fdfe:dcba:9876::1/126"
-          # ];
-          inet4_address = "172.19.0.1/30";
-          inet6_address = "fdfe:dcba:9876::1/126";
+          address = [
+            "172.18.0.1/30"
+            "fdfe:dcba:9876::1/126"
+          ];
           auto_route = true;
           strict_route = true;
           # sniff = true;
@@ -55,15 +53,25 @@
               { process_name = "dcompass"; }
               { process_name = "NetworkManager"; }
               { process_name = "steam"; }
+              { rule_set = "geoip-cn"; }
+              { rule_set = "geosite-cn"; }
               # { process_name = "qbittorrent"; }
             ];
             outbound = "direct";
           }
-          # TODO: This is deprecated and would be removed in the future.
+        ];
+        rule_set = [
           {
-            geoip = [ "cn" ];
-            geosite = [ "cn" ];
-            outbound = "direct";
+            tag = "geoip-cn";
+            type = "local";
+            format = "binary";
+            path = "${pkgs.sing-geoip}/share/sing-box/rule-set/geoip-cn.srs";
+          }
+          {
+            tag = "geosite-cn";
+            type = "local";
+            format = "binary";
+            path = "${pkgs.sing-geosite}/share/sing-box/rule-set/geosite-cn.srs";
           }
         ];
         final = "proxy";

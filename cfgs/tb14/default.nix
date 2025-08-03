@@ -26,11 +26,10 @@
         2 # Extended or pluggable executable code (e.g., Option ROMs)
         3 # Boot Device selection
         # 4 # Measures the boot manager and the devices that the firmware tried to boot from
-        5 # Can measure configuration of boot loaders; includes the GPT Partition Table
+        # 5 # Can measure configuration of boot loaders; includes the GPT Partition Table
         7 # Secure Boot state (full contents of PK/KEK/db + certificates used to validate each boot application)
 
         # Not very useful as SecureBoot already ensures that we are booting trustworthy kernels.
-        # WARN: Still could be dangerous as Microsoft key is present and someone could boot Ubuntu and decrypt the disk.
         # 9 # Hash of the initrd and EFI Load Options
         # 11 # Hash of the unified kernel image
       ];
@@ -65,9 +64,13 @@
       # home-manager.users.ash.systemd.user.sessionVariables = config.home-manager.users.ash.home.sessionVariables;
       my.home.ash = {
         extraPackages = with pkgs; [
+          restic
+          newsflash
+          mat2
+          signal-desktop
           zulip
           # minecraft
-          tor-browser-bundle-bin
+          tor-browser
           tpm2-tools
           sbctl
           firefox
@@ -77,46 +80,18 @@
           zoom-us
           thunderbird-bin
           pavucontrol
+          resources
+          kiwix
+          keepassxc
           dnsperf
           bless
           dnsutils
           smartmontools
           powertop
-          # Steam scaling seems to be broken, doing it manually
-          # (runCommand "steam-hidpi"
-          #   {
-          #     nativeBuildInputs = [ makeWrapper ];
-          #   } ''
-          #   mkdir -p $out/bin
-          #   makeWrapper ${steam}/bin/steam $out/bin/steam --set GDK_SCALE 2
-          #   cp -r ${steam}/share $out/share/
-          # '')
           steam
-          # obsidian
-          # We fix installer version so don't get updated automatically when Wolfram releases new version
-          # (import inputs.nixpkgs-mathematica {
-          #   system = pkgs.system;
-          #   config.allowUnfree = true;
-          #   overlays = [
-          #     (final: prev: {
-          #       # Patch mathematica to solve "libdbus not found" error.
-          #       # Also pin it to a specific commit to prevent from rebuilding.
-          #       mathematica_13_3_1 =
-          #         (prev.mathematica.overrideAttrs (
-          #           _: prevAttrs: {
-          #             wrapProgramFlags = prevAttrs.wrapProgramFlags ++ [
-          #               "--prefix LD_LIBRARY_PATH : ${prev.lib.makeLibraryPath [ prev.dbus.lib ]}"
-          #             ];
-          #           }
-          #         )).override
-          #           {
-          #             version = "13.3.1";
-          #           };
-          #     })
-          #   ];
-          # }).mathematica_13_3_1
-          # coyim
+          pinlab
           zotero
+          profanity
         ];
         extraDconf = {
           "org/gnome/desktop/interface"."scaling-factor" = hm.gvariant.mkUint32 2;
@@ -166,8 +141,12 @@
             ".config/qBittorrent"
             ".config/coyim"
             ".config/Zulip"
-            ".julia"
-            ".Mathematica"
+            ".config/Signal"
+            ".config/news-flash"
+            ".config/marimo"
+            ".tor project"
+            ".julia-distrbox-home"
+            ".Wolfram"
             "org-files"
             # Both git-credentials and zsh_hist_dir doesn't seem to play well with impermanence
             {

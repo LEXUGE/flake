@@ -93,7 +93,7 @@ in
 
     networking.wireless.enable = mkForce false;
 
-    services.xserver.displayManager = {
+    services.displayManager = {
       gdm = {
         # autoSuspend makes the machine automatically suspend after inactivity.
         # It's possible someone could/try to ssh'd into the machine and obviously

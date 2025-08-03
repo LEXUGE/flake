@@ -8,50 +8,30 @@
 {
   chinalist = {
     pname = "chinalist";
-    version = "c2b64540aef8260d53e15b42f16961a57486ba85";
+    version = "c5e159f1aba26b26937e668df635e6f6c519cb37";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "c2b64540aef8260d53e15b42f16961a57486ba85";
+      rev = "c5e159f1aba26b26937e668df635e6f6c519cb37";
       fetchSubmodules = false;
-      sha256 = "sha256-QYPvVynRkphrI7QjzSnqAnZ+T6X2CyukQXStiBKV2CA=";
+      sha256 = "sha256-eY2tiaXxxyPglgDFxFSg2rWguXxfBj98FNtuy32FggQ=";
     };
-    date = "2024-12-16";
-  };
-  ideapad-thinkbook14 = {
-    pname = "ideapad-thinkbook14";
-    version = "6d934407981294d05a6a4e4ed0e59d3c6c964990";
-    src = fetchFromGitHub {
-      owner = "ty2";
-      repo = "ideapad-laptop-tb2024g6plus";
-      rev = "6d934407981294d05a6a4e4ed0e59d3c6c964990";
-      fetchSubmodules = false;
-      sha256 = "sha256-PzgfAxVrp4rhP6d/pQlzwIyXdi5FcoLLrqoETldGdqU=";
-    };
-    date = "2024-07-17";
+    date = "2025-08-02";
   };
   maxmind-geoip = {
     pname = "maxmind-geoip";
-    version = "20241212";
+    version = "20250712";
     src = fetchurl {
-      url = "https://github.com/Dreamacro/maxmind-geoip/releases/download/20241212/Country.mmdb";
-      sha256 = "sha256-SOHiaTiyJTUuya+NCOxnLXdGBuABtIy6c7hRYalmEPw=";
+      url = "https://github.com/Dreamacro/maxmind-geoip/releases/download/20250712/Country.mmdb";
+      sha256 = "sha256-nPxqyS7CSm2L2n1BGdOXAbmO/UQuKyO5xtzSLS1tcdk=";
     };
   };
   proton-ge = {
     pname = "proton-ge";
-    version = "GE-Proton9-21";
+    version = "GE-Proton10-10";
     src = fetchTarball {
-      url = "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton9-21/GE-Proton9-21.tar.gz";
-      sha256 = "sha256-WNOl0pu3xcEObxSK054u4e3hTWtA/51mH25uQih0+a0=";
-    };
-  };
-  upnote = {
-    pname = "upnote";
-    version = "9.7.2";
-    src = fetchurl {
-      url = "https://upnote.sfo3.cdn.digitaloceanspaces.com/UpNote.AppImage";
-      sha256 = "sha256-j9noPsz3taJRN3cc8bYb+IAHcwHjzfF3uuSrcUAYHYQ=";
+      url = "https://github.com/GloriousEggroll/proton-ge-custom/releases/download/GE-Proton10-10/GE-Proton10-10.tar.gz";
+      sha256 = "sha256-TJbeyJA9feyaBIYt5hwVUAAdev0SnoIqvhV7groxcu4=";
     };
   };
   yacd = {

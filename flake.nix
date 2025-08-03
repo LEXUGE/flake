@@ -3,8 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # Pin a nixpkgs for mathematica to prevent it from rebiulding everytime dependency updates.
-    nixpkgs-mathematica.url = "github:nixos/nixpkgs/8a3354191c0d7144db9756a74755672387b702ba";
 
     utils.url = "github:numtide/flake-utils";
 
@@ -12,7 +10,6 @@
     nvfetcher.inputs.nixpkgs.follows = "nixpkgs";
 
     # Programmable DNS component used in our systems
-    # Don't follow as it may invalidate the cache
     dcompass.url = "github:compassd/dcompass";
     dcompass.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -31,24 +28,23 @@
 
     # My nvim configuration.
     vimrc.url = "github:LEXUGE/vimrc";
-    vimrc.inputs.nixpkgs.follows = "nixpkgs";
+    # vimrc.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Pinlab software
+    pinlab.url = "github:LEXUGE/pinlab";
 
     # SecureBoot Management
-    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.1";
+    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.2";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
 
     # Tool for NixOS on tmpfs
     impermanence.url = "github:nix-community/impermanence";
 
     # Home manager
-    # Broken due to https://github.com/nix-community/home-manager/pull/3405
     home-manager.url = "github:nix-community/home-manager";
-    # home-manager.url = "github:NickCao/home-manager";
-    # home-manager.url = "github:LEXUGE/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     # Secrets management
-    # agenix.url = "github:ryantm/agenix/d7fd31756e1c5f1281981c48efbb2e188024ba47";
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -63,7 +59,6 @@
     {
       self,
       nixpkgs,
-      nixpkgs-mathematica,
       utils,
       nvfetcher,
       dcompass,
@@ -76,6 +71,7 @@
       jovian,
       lanzaboote,
       pre-commit-hooks,
+      pinlab,
     }@inputs:
     with utils.lib;
     let
@@ -102,15 +98,17 @@
                   nixpkgs.overlays = [ self.overlays.default ] ++ extraOverlays;
                   nix.settings = {
                     substituters = [
-                      "https://dcompass.cachix.org"
-                      "https://nix-community.cachix.org"
-                      "https://lexuge.cachix.org"
-                    ] ++ extraSubstituters;
+                      # "https://dcompass.cachix.org"
+                      # "https://nix-community.cachix.org"
+                      # "https://lexuge.cachix.org"
+                    ]
+                    ++ extraSubstituters;
                     trusted-public-keys = [
                       dcompass.publicKey
                       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
                       self.publicKey
-                    ] ++ extraPublicKeys;
+                    ]
+                    ++ extraPublicKeys;
                     trusted-users = [ "@wheel" ];
                   };
                   nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
@@ -118,10 +116,12 @@
                 };
               }
             )
-          ] ++ extraMods;
+          ]
+          ++ extraMods;
           specialArgs = {
             inherit inputs;
-          } // extraArgs;
+          }
+          // extraArgs;
         });
     in
     nixpkgs.lib.recursiveUpdate
@@ -135,14 +135,8 @@
               pkgs = prev;
               overlay = true;
             });
-          # # Currently not used, but put here as an example
-          # pidgin = final: prev: {
-          #   pidgin-with-plugins = prev.pidgin.override {
-          #     plugins = [ prev.pidgin-otr ];
-          #   };
-          # };
 
-          mem-cap = final: prev: {
+          tweaks = final: prev: {
             zotero = prev.buildEnv {
               name = "zotero-mem-cap-suite";
               # Intentional, other schemes may take up twice of storage and possibly a rebuild
@@ -155,29 +149,27 @@
                 # capped version
                 (lib.hiPrio (
                   prev.writeShellScriptBin "zotero" ''
-                    ${prev.systemd}/bin/systemd-run --user --scope -p MemoryHigh=4G ${prev.zotero}/bin/zotero "$@"
+                    ${prev.systemd}/bin/systemd-run --user --scope -p MemoryHigh=4G -p MemorySwapMax=4G ${prev.zotero}/bin/zotero "$@"
                   ''
                 ))
                 prev.zotero
               ];
             };
 
-            firefox = prev.buildEnv {
-              name = "firefox-mem-cap-suite";
+            tor-browser = prev.buildEnv {
+              name = "tor-browser-tweaks";
               # Intentional, other schemes may take up twice of storage and possibly a rebuild
               ignoreCollisions = false;
               paths = [
-                # uncapped version
-                (prev.writeShellScriptBin "firefox-mem-uncapped" ''
-                  ${prev.firefox}/bin/firefox "$@"
+                (prev.writeShellScriptBin "tor-browser-vanilla" ''
+                  ${prev.tor-browser}/bin/tor-browser "$@"
                 '')
-                # capped version
                 (lib.hiPrio (
-                  prev.writeShellScriptBin "firefox" ''
-                    ${prev.systemd}/bin/systemd-run --user --scope -p MemoryHigh=4G ${prev.firefox}/bin/firefox "$@"
+                  prev.writeShellScriptBin "tor-browser" ''
+                    ${prev.tor-browser}/bin/tor-browser --allow-remote "$@"
                   ''
                 ))
-                prev.firefox
+                prev.tor-browser
               ];
             };
           };
@@ -212,7 +204,8 @@
             ash-emacs.overlays.emacs-overlay
             ash-emacs.overlays.default
             vimrc.overlays.default
-            self.overlays.mem-cap
+            self.overlays.tweaks
+            pinlab.overlays.default
           ];
           system = system.x86_64-linux;
         };
@@ -238,40 +231,8 @@
           system = system.x86_64-linux;
         };
 
-        # Export system cfgs
-        nixosConfigurations.x1c7 = mkSystem {
-          name = "x1c7";
-          # extraSubstituters = [ "https://nixbld.m-labs.hk" ];
-          # extraPublicKeys = [ "nixbld.m-labs.hk-1:5aSRVA5b320xbNvu30tqxVPXpld73bhtOeH6uAjRyHc=" ];
-          extraMods = [
-            nixosModules.clash
-            nixosModules.base
-            nixosModules.lanzaboote
-            nixosModules.uxplay
-            nixosModules.home
-            nixosModules.gnome-desktop
-            nixosModules.dcompass
-            nixosModules.sing-box
-            nixosModules.timezone
-            impermanence.nixosModules.impermanence
-            disko.nixosModules.disko
-            home-manager.nixosModules.home-manager
-            lanzaboote.nixosModules.lanzaboote
-            agenix.nixosModules.age
-            { disko.devices = diskoConfigurations.x1c7; }
-          ];
-          extraOverlays = [
-            dcompass.overlays.default
-            ash-emacs.overlays.emacs-overlay
-            ash-emacs.overlays.default
-            vimrc.overlays.default
-          ];
-          system = system.x86_64-linux;
-        };
-
         diskoConfigurations = {
           deck = (import ./modules/disko/disk.nix { swap = 20; });
-          x1c7 = (import ./modules/disko/disk.nix { swap = 20; });
           tb14 = (import ./modules/disko/disk.nix { swap = 40; });
           shards = (import ./cfgs/shards/disk-config.nix { });
         };
@@ -319,27 +280,6 @@
           system = system.x86_64-linux;
         };
 
-        nixosConfigurations.img-x1c7 = mkSystem {
-          name = "img-x1c7";
-          extraMods = [
-            nixosModules.home
-            nixosModules.base
-            nixosModules.gnome-desktop
-            nixosModules.dcompass
-            nixosModules.image-base
-            disko.nixosModules.disko
-            home-manager.nixosModules.home-manager
-            agenix.nixosModules.age
-            "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-base.nix"
-            { disko.devices = diskoConfigurations.x1c7; }
-          ];
-          extraOverlays = [
-            dcompass.overlays.default
-            vimrc.overlays.default
-          ];
-          system = system.x86_64-linux;
-        };
-
         nixosConfigurations.img-deck = mkSystem {
           name = "img-deck";
           extraMods = [
@@ -364,9 +304,9 @@
         };
 
         # ISO image entry point
-        imgs.x1c7 = nixosConfigurations.img-x1c7.config.system.build.isoImage;
         imgs.deck = nixosConfigurations.img-deck.config.system.build.isoImage;
         imgs.tb14 = nixosConfigurations.img-tb14.config.system.build.isoImage;
+        imgs.shards-script = nixosConfigurations.shards.config.system.build.diskoImagesScript;
 
         publicKey = "lexuge.cachix.org-1:RRFg8AxcexeBd33smnmcayMLU6r2wbVKbZHWtg2dKnY=";
       }
@@ -404,9 +344,14 @@
               pre-commit-check = pre-commit-hooks.lib.${system}.run {
                 src = ./.;
                 hooks = {
-                  nixfmt-rfc-style.enable = true;
+                  nixfmt-rfc-style = {
+                    enable = true;
+                  };
 
-                  shellcheck.enable = true;
+                  shellcheck = {
+                    enable = true;
+                    excludes = [ "\\.envrc" ];
+                  };
                   shfmt.enable = true;
                 };
               };

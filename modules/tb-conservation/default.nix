@@ -8,7 +8,7 @@
 with lib;
 
 let
-  cfg = config.my.uxplay;
+  cfg = config.my.tb-conservation;
 in
 {
   options.my.tb-conservation = {

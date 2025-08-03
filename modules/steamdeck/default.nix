@@ -29,12 +29,16 @@ in
   config = mkMerge [
     (mkIf cfg.enable {
       jovian.devices.steamdeck.enable = true;
-
-      # Sounds are set up by Jovian NixOS
-      hardware.pulseaudio.enable = lib.mkIf (
-        config.jovian.devices.steamdeck.enableSoundSupport && config.services.pipewire.enable
-      ) (lib.mkForce false);
     })
+    (mkIf
+      (
+        cfg.enable && config.jovian.devices.steamdeck.enableSoundSupport && config.services.pipewire.enable
+      )
+      {
+        # Sounds are set up by Jovian NixOS
+        services.pulseaudio.enable = false;
+      }
+    )
     (mkIf (cfg.enable && cfg.steam.enable) {
       jovian.steam = {
         autoStart = true;
@@ -42,9 +46,6 @@ in
         enable = true;
         desktopSession = "gnome";
       };
-      # jovian.decky-loader = {
-      #   enable = true;
-      # };
     })
   ];
 }

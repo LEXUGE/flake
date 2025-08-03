@@ -16,12 +16,3 @@ fetch.url = "https://github.com/Dreamacro/maxmind-geoip/releases/download/$ver/C
 [yacd]
 src.github = "haishanh/yacd"
 fetch.tarball = "https://github.com/haishanh/yacd/releases/download/$ver/yacd.tar.xz"
-
-[upnote]
-fetch.url = "https://upnote.sfo3.cdn.digitaloceanspaces.com/UpNote.AppImage"
-src.webpage = "https://snapcraft.io/upnote"
-src.regex = "latest\\/stable (\\d+.\\d+.\\d+)"
-
-[ideapad-thinkbook14]
-src.git = "https://github.com/ty2/ideapad-laptop-tb2024g6plus"
-fetch.github = "ty2/ideapad-laptop-tb2024g6plus"

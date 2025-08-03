@@ -6,6 +6,9 @@ let
 in
 {
   "sing-box.age".publicKeys = [ keys.ash_pubkey ];
+  "restic-archive-env.age".publicKeys = [ keys.ash_pubkey ];
+  "restic-archive-repo.age".publicKeys = [ keys.ash_pubkey ];
+  "restic-archive-passwd.age".publicKeys = [ keys.ash_pubkey ];
 
   # There seems to be an issue with multiple recipient
   "v2ray_shards.age".publicKeys = [ keys.vps_pubkey ];
