@@ -41,7 +41,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: ["imgs.x1c7", "imgs.deck", "imgs.tb14" ]
+        target: ["imgs.deck", "imgs.tb14" ]
         # GitHub Action may not have enough space to build the deck image.
         # target: ["imgs.x1c7"]
 

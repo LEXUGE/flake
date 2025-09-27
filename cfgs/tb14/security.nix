@@ -65,6 +65,12 @@
     owner = "root";
   };
 
+  age.secrets.dae_config = {
+    file = ../../secrets/dae_config.age;
+    mode = "400";
+    owner = "root";
+  };
+
   age.secrets.restic-archive-env = {
     file = ../../secrets/restic-archive-env.age;
     mode = "400";

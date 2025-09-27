@@ -245,6 +245,8 @@
             disko.nixosModules.disko
             impermanence.nixosModules.impermanence
             agenix.nixosModules.age
+            nixosModules.weathermon
+            nixosModules.orderbookmon
           ];
           system = system.x86_64-linux;
         };

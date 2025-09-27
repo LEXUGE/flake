@@ -98,6 +98,8 @@
         };
       };
 
+      programs.nix-ld.enable = true;
+
       # Fonts
       fonts.packages = with pkgs; [
         noto-fonts

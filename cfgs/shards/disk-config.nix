@@ -1,6 +1,7 @@
 {
   disko.devices.disk = {
-    sda = {
+    main = {
+      imageSize = "3G";
       type = "disk";
       device = "/dev/vda";
       content = {
@@ -8,12 +9,15 @@
         partitions = {
           boot = {
             name = "boot";
+            priority = 0;
             size = "1M";
             type = "EF02";
           };
           # ESP
           esp = {
+            # label = "esp";
             size = "500M";
+            priority = 1;
             # EFI Filesystem
             type = "EF00";
             content = {
@@ -24,13 +28,17 @@
           };
           # Swap
           swap = {
-            size = "4G";
+            # label = "swap";
+            size = "1G";
+            priority = 2;
             content = {
               type = "swap";
             };
           };
           # Root partition
           root = {
+            # label = "root";
+            priority = 3;
             size = "100%";
             content = {
               type = "btrfs";

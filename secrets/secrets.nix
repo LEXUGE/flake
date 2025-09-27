@@ -6,6 +6,7 @@ let
 in
 {
   "sing-box.age".publicKeys = [ keys.ash_pubkey ];
+  "dae_config.age".publicKeys = [ keys.ash_pubkey ];
   "restic-archive-env.age".publicKeys = [ keys.ash_pubkey ];
   "restic-archive-repo.age".publicKeys = [ keys.ash_pubkey ];
   "restic-archive-passwd.age".publicKeys = [ keys.ash_pubkey ];
