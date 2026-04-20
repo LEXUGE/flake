@@ -15,9 +15,9 @@
   };
 
   # Don't suspend if lid is closed with computer on power.
-  services.logind.lidSwitchExternalPower = "lock";
+  services.logind.settings.Login.HandleLidSwitchExternalPower = "lock";
   # suspend-then-hibernate to survive through critical power level.
-  services.logind.lidSwitch = "suspend-then-hibernate";
+  services.logind.settings.Login.HandleLidSwitch = "suspend-then-hibernate";
 
   ### Sound and graphics
 
@@ -68,7 +68,7 @@
 
   programs.wireshark = {
     enable = true;
-    package = pkgs.wireshark-qt;
+    package = pkgs.wireshark;
   };
 
   # Required to enable completion somehow.
@@ -91,4 +91,26 @@
     dockerCompat = true;
   };
   environment.systemPackages = [ pkgs.distrobox ];
+
+  # services.livebook = {
+  #   enableUserService = true;
+  #   environment = {
+  #     LIVEBOOK_PORT = 20123;
+  #     LIVEBOOK_PASSWORD = "mypassword123";
+  #   };
+  # };
+
+  services.tailscale = {
+    enable = true;
+  };
+  systemd.services.tailscaled.serviceConfig.Environment = [
+    "TS_DEBUG_FIREWALL_MODE=nftables"
+  ];
+  networking.firewall.checkReversePath = "loose";
+  networking.firewall = {
+    # Always allow traffic from your Tailscale network
+    trustedInterfaces = [ "tailscale0" ];
+    # Allow the Tailscale UDP port through the firewall
+    allowedUDPPorts = [ config.services.tailscale.port ];
+  };
 }

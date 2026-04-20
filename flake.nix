@@ -11,15 +11,11 @@
 
     # Programmable DNS component used in our systems
     dcompass.url = "github:compassd/dcompass";
-    dcompass.inputs.nixpkgs.follows = "nixpkgs";
+    # dcompass.inputs.nixpkgs.follows = "nixpkgs";
 
     # Declarative Disk Management
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Steam-deck experience on NixOS
-    jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
-    jovian.inputs.nixpkgs.follows = "nixpkgs";
 
     # My emacs config
     # ash-emacs.url = "/home/ash/Documents/git/emacs.d";
@@ -34,7 +30,7 @@
     pinlab.url = "github:LEXUGE/pinlab";
 
     # SecureBoot Management
-    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.2";
+    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.3";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
 
     # Tool for NixOS on tmpfs
@@ -68,7 +64,6 @@
       home-manager,
       agenix,
       disko,
-      jovian,
       lanzaboote,
       pre-commit-hooks,
       pinlab,
@@ -206,6 +201,12 @@
             vimrc.overlays.default
             self.overlays.tweaks
             pinlab.overlays.default
+            # WARN: Directly pulling in the overlay seems to break it due to nixpkgs incompatibility
+            # (final: prev: {
+            #   dcompass = {
+            #     dcompass-maxmind = dcompass.outputs.packages."${system}".dcompass-maxmind;
+            #   };
+            # })
           ];
           system = system.x86_64-linux;
         };
@@ -232,7 +233,6 @@
         };
 
         diskoConfigurations = {
-          deck = (import ./modules/disko/disk.nix { swap = 20; });
           tb14 = (import ./modules/disko/disk.nix { swap = 40; });
           shards = (import ./cfgs/shards/disk-config.nix { });
         };
@@ -251,62 +251,6 @@
           system = system.x86_64-linux;
         };
 
-        # Deploy using nixos-rebuild directly
-        # https://nixos-and-flakes.thiscute.world/best-practices/remote-deployment#deploy-through-nixos-rebuild
-        nixosConfigurations.deck = mkSystem {
-          name = "deck";
-          extraMods = [
-            nixosModules.clash
-            nixosModules.base
-            nixosModules.lanzaboote
-            nixosModules.home
-            nixosModules.gnome-desktop
-            nixosModules.dcompass
-            nixosModules.sing-box
-            nixosModules.timezone
-            disko.nixosModules.disko
-            nixosModules.steamdeck
-            impermanence.nixosModules.impermanence
-            home-manager.nixosModules.home-manager
-            agenix.nixosModules.age
-            lanzaboote.nixosModules.lanzaboote
-            jovian.nixosModules.default
-            { disko.devices = diskoConfigurations.deck; }
-          ];
-          extraOverlays = [
-            dcompass.overlays.default
-            ash-emacs.overlays.emacs-overlay
-            ash-emacs.overlays.default
-            vimrc.overlays.default
-          ];
-          system = system.x86_64-linux;
-        };
-
-        nixosConfigurations.img-deck = mkSystem {
-          name = "img-deck";
-          extraMods = [
-            nixosModules.home
-            nixosModules.base
-            nixosModules.gnome-desktop
-            nixosModules.dcompass
-            nixosModules.steamdeck
-            nixosModules.image-base
-            disko.nixosModules.disko
-            home-manager.nixosModules.home-manager
-            agenix.nixosModules.age
-            "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-base.nix"
-            jovian.nixosModules.default
-            { disko.devices = diskoConfigurations.deck; }
-          ];
-          extraOverlays = [
-            dcompass.overlays.default
-            vimrc.overlays.default
-          ];
-          system = system.x86_64-linux;
-        };
-
-        # ISO image entry point
-        imgs.deck = nixosConfigurations.img-deck.config.system.build.isoImage;
         imgs.tb14 = nixosConfigurations.img-tb14.config.system.build.isoImage;
         imgs.shards-script = nixosConfigurations.shards.config.system.build.diskoImagesScript;
 
@@ -346,7 +290,7 @@
               pre-commit-check = pre-commit-hooks.lib.${system}.run {
                 src = ./.;
                 hooks = {
-                  nixfmt-rfc-style = {
+                  nixfmt = {
                     enable = true;
                   };
 

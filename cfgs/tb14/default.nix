@@ -1,5 +1,6 @@
 {
   inputs,
+  options,
   lib,
   config,
   pkgs,
@@ -74,7 +75,7 @@
           tpm2-tools
           sbctl
           firefox
-          tdesktop
+          telegram-desktop
           htop
           qbittorrent
           zoom-us
@@ -92,23 +93,36 @@
           pinlab
           zotero
           profanity
+          jetbrains.idea-oss
+          ripgrep
+          lmstudio
+          anki
         ];
         extraDconf = {
           "org/gnome/desktop/interface"."scaling-factor" = hm.gvariant.mkUint32 2;
         };
       };
 
-      programs.nix-ld.enable = true;
+      programs.nix-ld = {
+        enable = true;
+        libraries =
+          options.programs.nix-ld.libraries.default
+          ++ (with pkgs; [
+            glib # libglib-2.0.so.0
+          ]);
+      };
 
       # Fonts
       fonts.packages = with pkgs; [
         noto-fonts
         noto-fonts-cjk-sans
-        noto-fonts-emoji
+        noto-fonts-color-emoji
         fira-code
         fira-code-symbols
         nerd-fonts.fira-code
       ];
+
+      environment.systemPackages = with pkgs; [ kdiskmark ];
 
       environment.persistence."/persist" = {
         hideMounts = true;
@@ -126,8 +140,10 @@
         users.ash = {
           files = [
             ".config/monitors.xml"
+            ".ideavimrc"
           ];
           directories = [
+            ".lmstudio"
             "Desktop"
             "Documents"
             "Downloads"
@@ -146,6 +162,9 @@
             ".config/Signal"
             ".config/news-flash"
             ".config/marimo"
+            ".config/google-chrome"
+            ".config/JetBrains"
+            ".codex"
             ".tor project"
             ".julia-distrbox-home"
             ".Wolfram"

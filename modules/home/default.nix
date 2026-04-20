@@ -88,13 +88,13 @@ in
             enable = true;
 
             # FIXME: to use this one would need to have --allow-remote
-            defaultApplications = {
-              "text/html" = "torbrowser.desktop";
-              "text/xml" = "torbrowser.desktop";
-              "application/xhtml+xml" = "torbrowser.desktop";
-              "x-scheme-handler/http" = "torbrowser.desktop";
-              "x-scheme-handler/https" = "torbrowser.desktop";
-            };
+            # defaultApplications = {
+            #   "text/html" = "torbrowser.desktop";
+            #   "text/xml" = "torbrowser.desktop";
+            #   "application/xhtml+xml" = "torbrowser.desktop";
+            #   "x-scheme-handler/http" = "torbrowser.desktop";
+            #   "x-scheme-handler/https" = "torbrowser.desktop";
+            # };
           };
 
           # Package settings
@@ -118,13 +118,14 @@ in
             # Git
             git = {
               enable = true;
-              userName = "Harry Ying";
-              userEmail = "lexugeyky@outlook.com";
               signing = {
+                format = "openpgp";
                 signByDefault = true;
                 key = "0xAE53B4C2E58EDD45";
               };
-              extraConfig = {
+              settings = {
+                user.name = "Harry Ying";
+                user.email = "lexugeyky@outlook.com";
                 # To make sure Git don't complain about impermanence's bind mount.
                 credential = {
                   helper = "store --file=\"$HOME/.git_creds_dir/.git-credentials\"";
@@ -219,8 +220,13 @@ in
               # Favorite apps
               "org/gnome/shell" = {
                 favorite-apps = lists.flatten [
-                  (if (builtins.elem pkgs.firefox-wayland home.packages) then [ "firefox.desktop" ] else [ ])
-                  (if (builtins.elem pkgs.tdesktop home.packages) then [ "org.telegram.desktop.desktop" ] else [ ])
+                  (if (builtins.elem pkgs.firefox home.packages) then [ "firefox.desktop" ] else [ ])
+                  (
+                    if (builtins.elem pkgs.telegram-desktop home.packages) then
+                      [ "org.telegram.desktop.desktop" ]
+                    else
+                      [ ]
+                  )
                   "org.gnome.Nautilus.desktop"
                   "org.gnome.Terminal.desktop"
                   # "emacs.desktop"

@@ -31,6 +31,10 @@
       };
     };
 
+    tailscale = {
+      udp.addr = "100.100.100.100:53";
+    };
+
     ali = {
       tls = {
         domain = "dns.alidns.com";
@@ -82,13 +86,17 @@
                                       .add_qname("flibrary.info")?
                                       .seal();
 
-                       Ok(#{"domain": Utils::Domain(domain)})
+                       let tailscale = Domain::new().add_qname("ts.net")?.seal();
+
+                       Ok(#{"domain": Utils::Domain(domain), "tailscale": Utils::Domain(tailscale)})
                      }
 
                      pub async fn route(upstreams, inited, ctx, query) {
                        if query.first_question?.qtype == "AAAA" { return blackhole(query); }
 
-                       if inited.domain.0.contains(query.first_question?.qname) {
+                      if inited.tailscale.0.contains(query.first_question?.qname) {
+                         upstreams.send_default("tailscale", query).await
+                      } else if inited.domain.0.contains(query.first_question?.qname) {
                          // query.push_opt(ClientSubnet::new(u8(15), u8(0), IpAddr::from_str("58.220.0.0")?).to_opt_data())?;
                          upstreams.send_default("domestic", query).await
                        } else {

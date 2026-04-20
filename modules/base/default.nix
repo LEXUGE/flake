@@ -23,6 +23,7 @@ in
 
   config = mkIf cfg.enable ({
     networking.hostName = cfg.hostname;
+    networking.nftables.enable = true;
 
     # Support NTFS
     boot.supportedFilesystems = [ "ntfs" ];
