@@ -7,7 +7,7 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  # Needed for boot! we didn't include these for steamdeck as Jovian did these for us.
+  # Needed for boot on this hardware profile.
   boot.initrd.availableKernelModules = [
     "xhci_pci"
     "nvme"

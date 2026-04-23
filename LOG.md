@@ -34,5 +34,3 @@ followed by
 nixos-rebuild
 ``
 to remove old boot entries (collecting garbage to remove old profile and `rebuild` to remove obsolete boot-entries).
-- [Nix has some issue with `fetchTarball` which caused `proton-ge` to not build](https://github.com/NixOS/nix/issues/10575). Fixed by ignoring this package definition temporarily.
-

@@ -13,10 +13,6 @@ let
       dockerTools
       ;
   };
-  ignoredPkgs = [
-    "proton-ge"
-    "ideapad-thinkbook14"
-  ];
   listPackageRecursive =
     dir:
     (lib.lists.foldr (n: col: col // n) { } (
@@ -26,8 +22,7 @@ let
           path = dir + "/${name}";
         in
         if type == "directory" then
-          # Ignore broken packages
-          if (builtins.pathExists (path + "/default.nix")) && !(lib.lists.any (p: p == name) ignoredPkgs) then
+          if builtins.pathExists (path + "/default.nix") then
             if overlay then
               { "${name}" = (pkgs.callPackage path { source = sources.${name}; }); }
             else

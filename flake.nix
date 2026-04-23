@@ -178,14 +178,11 @@
           name = "tb14";
           extraMods = [
             nixosModules.tb-conservation
-            nixosModules.clash
             nixosModules.base
             nixosModules.lanzaboote
-            nixosModules.uxplay
             nixosModules.home
             nixosModules.gnome-desktop
             nixosModules.dcompass
-            nixosModules.sing-box
             nixosModules.timezone
             impermanence.nixosModules.impermanence
             disko.nixosModules.disko
@@ -233,7 +230,7 @@
         };
 
         diskoConfigurations = {
-          tb14 = (import ./modules/disko/disk.nix { swap = 40; });
+          tb14 = (import ./misc/disk.nix { swap = 40; });
           shards = (import ./cfgs/shards/disk-config.nix { });
         };
 
@@ -245,8 +242,6 @@
             disko.nixosModules.disko
             impermanence.nixosModules.impermanence
             agenix.nixosModules.age
-            nixosModules.weathermon
-            nixosModules.orderbookmon
           ];
           system = system.x86_64-linux;
         };
