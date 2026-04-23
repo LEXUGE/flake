@@ -13,7 +13,7 @@ jobs:
       date: ${{ steps.current_time.outputs.formattedTime }}
       log-num: ${{ steps.get_log.outputs.log-num }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - name: Get current time
         uses: 1466587594/get-current-time@v2
         id: current_time
@@ -41,7 +41,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: ["imgs.deck", "imgs.tb14" ]
+        target: ["imgs.tb14" ]
+        # target: ["imgs.deck", "imgs.tb14" ]
         # GitHub Action may not have enough space to build the deck image.
         # target: ["imgs.x1c7"]
 
@@ -71,13 +72,13 @@ jobs:
       uses: actions/checkout@v3
     - name: Install nixFlake
       uses: cachix/install-nix-action@v31
-    - uses: cachix/cachix-action@v14
+    - uses: cachix/cachix-action@v17
       with:
         name: lexuge
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
         # Don't push source or .iso files as they are pointless to take up precious cache space.
         pushFilter: '(-source$|nixpkgs\.tar\.gz$|\.iso$|-squashfs.img$|crate-$)'
-    - uses: cachix/cachix-action@v14
+    - uses: cachix/cachix-action@v17
       with:
         name: dcompass
         skipPush: true
