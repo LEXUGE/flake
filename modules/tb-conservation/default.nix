@@ -21,13 +21,10 @@ in
       description = "Turn on the ThinkBook power conservation mode for battery health";
       wantedBy = [ "multi-user.target" ];
 
+      unitConfig.RequiresMountsFor = "/sys";
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
-      };
-
-      unitConfig.RequiresMountsFor = "/sys";
-      serviceConfig = {
         ExecStart = (
           pkgs.writeShellScript "start_conservation_mode" ''
             echo 1 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode
