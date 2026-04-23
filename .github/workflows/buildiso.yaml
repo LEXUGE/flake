@@ -4,80 +4,84 @@ on:
   schedule:
     - cron: '30 1 * * 1'
 
+permissions:
+  contents: write
+
 jobs:
   create-release:
     if: (startsWith(github.event.head_commit.message, 'build:') || (github.event_name == 'schedule'))
     name: Create release
     runs-on: ubuntu-latest
     outputs:
-      date: ${{ steps.current_time.outputs.formattedTime }}
-      log-num: ${{ steps.get_log.outputs.log-num }}
+      tag_name: ${{ steps.release_meta.outputs.tag_name }}
+      release_name: ${{ steps.release_meta.outputs.release_name }}
+      should_build: ${{ steps.get_log.outputs.log_num != '0' }}
     steps:
-      - uses: actions/checkout@v3
-      - name: Get current time
-        uses: 1466587594/get-current-time@v2
-        id: current_time
-        with:
-          format: YYYYMMDD_HHmm
-          utcOffset: "+08:00"
+      - uses: actions/checkout@v6
+      - name: Compute release metadata
+        id: release_meta
+        run: |
+          timestamp="$(date -u +'%Y%m%d_%H%M')"
+          echo "tag_name=build-${timestamp}" >> "$GITHUB_OUTPUT"
+          echo "release_name=Automated build ${timestamp}" >> "$GITHUB_OUTPUT"
       - name: Get log
         id: get_log
         run: |
-          echo "log-num=$(git --no-pager log --since yesterday --pretty=format:%h%x09%an%x09%ad%x09%s --date short | grep -c '')" >> $GITHUB_OUTPUT
+          echo "log_num=$(git --no-pager log --since '24 hours ago' --pretty=format:%h%x09%an%x09%ad%x09%s --date short | grep -c '')" >> "$GITHUB_OUTPUT"
       - name: Create release
-        id: create_release
-        if: ${{steps.get_log.outputs.log-num > 0}}
-        uses: actions/create-release@v1
+        if: ${{ steps.get_log.outputs.log_num != '0' }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: build-${{ steps.current_time.outputs.formattedTime }}
-          release_name: Automated build ${{ steps.current_time.outputs.formattedTime }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh release view "${{ steps.release_meta.outputs.tag_name }}" >/dev/null 2>&1; then
+            gh release edit "${{ steps.release_meta.outputs.tag_name }}" \
+              --title "${{ steps.release_meta.outputs.release_name }}"
+          else
+            gh release create "${{ steps.release_meta.outputs.tag_name }}" \
+              --target "${GITHUB_SHA}" \
+              --title "${{ steps.release_meta.outputs.release_name }}" \
+              --notes ""
+          fi
 
   buildiso:
     name: Build ISO for ${{ matrix.target }}
-    if: (startsWith(github.event.head_commit.message, 'build:') || (github.event_name == 'schedule'))
+    if: ${{ needs.create-release.outputs.should_build == 'true' }}
     needs: create-release
     strategy:
       fail-fast: false
       matrix:
-        target: ["imgs.deck", "imgs.tb14" ]
+        target: ["imgs.tb14" ]
+        # target: ["imgs.deck", "imgs.tb14" ]
         # GitHub Action may not have enough space to build the deck image.
         # target: ["imgs.x1c7"]
 
     runs-on: ubuntu-latest
     steps:
-    - name: Maximize build space
-      uses: easimon/maximize-build-space@master
-      with:
-        # Reserved for /tmp
-        root-reserve-mb: 25600
-        swap-size-mb: 1024
-        temp-reserve-mb: 100
-        build-mount-path: '/nix'
-        build-mount-path-ownership: 'root:root'
-        remove-dotnet: 'true'
-        remove-android: 'true'
-        remove-haskell: 'true'
-        remove-codeql: 'true'
-        remove-docker-images: 'true'
-    - name: Get current time
-      uses: 1466587594/get-current-time@v2
-      id: current_time
-      with:
-        format: YYYYMMDD_HHmm
-        utcOffset: "+08:00"
+    # - name: Maximize build space
+    #   uses: easimon/maximize-build-space@master
+    #   with:
+    #     # Reserved for /tmp
+    #     root-reserve-mb: 25600
+    #     swap-size-mb: 1024
+    #     temp-reserve-mb: 100
+    #     build-mount-path: '/nix'
+    #     build-mount-path-ownership: 'root:root'
+    #     remove-dotnet: 'true'
+    #     remove-android: 'true'
+    #     remove-haskell: 'true'
+    #     remove-codeql: 'true'
+    #     remove-docker-images: 'true'
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v6
     - name: Install nixFlake
       uses: cachix/install-nix-action@v31
-    - uses: cachix/cachix-action@v14
+    - uses: cachix/cachix-action@v17
       with:
         name: lexuge
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
         # Don't push source or .iso files as they are pointless to take up precious cache space.
         pushFilter: '(-source$|nixpkgs\.tar\.gz$|\.iso$|-squashfs.img$|crate-$)'
-    - uses: cachix/cachix-action@v14
+    - uses: cachix/cachix-action@v17
       with:
         name: dcompass
         skipPush: true
@@ -98,26 +102,39 @@ jobs:
         rm ./${{ matrix.target }}.iso
 
     - name: Publish
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2.6.2
       with:
+        token: ${{ secrets.GITHUB_TOKEN }}
         files: '${{ matrix.target }}*'
         append_body: true
         body: |
           The SHA-512 checksum of image ${{ matrix.target }} is ${{ steps.iso.outputs.iso-checksum }}.
-        tag_name: build-${{ needs.create-release.outputs.date }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        name: ${{ needs.create-release.outputs.release_name }}
+        tag_name: ${{ needs.create-release.outputs.tag_name }}
 
   remove-release:
     name: Clean up release(s)
-    if: (startsWith(github.event.head_commit.message, 'build:') || (github.event_name == 'schedule'))
-    needs: buildiso
+    if: ${{ needs.create-release.outputs.should_build == 'true' }}
+    needs:
+      - create-release
+      - buildiso
     runs-on: ubuntu-latest
     steps:
     - name: Clean-up releases
-      uses: dev-drprasad/delete-older-releases@v0.1.0
-      with:
-        keep_latest: 7
-        delete_tags: true
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        mapfile -t old_tags < <(
+          gh release list \
+            --limit 100 \
+            --json tagName,createdAt,isDraft \
+            --jq 'map(select((.tagName | startswith("build-")) and (.isDraft | not))) | sort_by(.createdAt) | reverse | .[7:] | .[].tagName'
+        )
+
+        if [ "${#old_tags[@]}" -eq 0 ]; then
+          exit 0
+        fi
+
+        for tag in "${old_tags[@]}"; do
+          gh release delete "$tag" --cleanup-tag -y
+        done
