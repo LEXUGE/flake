@@ -97,6 +97,7 @@
           ripgrep
           lmstudio
           anki
+          amdgpu_top
         ];
         extraDconf = {
           "org/gnome/desktop/interface"."scaling-factor" = hm.gvariant.mkUint32 2;
@@ -109,6 +110,7 @@
           options.programs.nix-ld.libraries.default
           ++ (with pkgs; [
             glib # libglib-2.0.so.0
+            numactl
           ]);
       };
 
@@ -213,6 +215,8 @@
               "networkmanager"
               "wireshark"
               "tss"
+              "video"
+              "render"
             ];
           };
         };

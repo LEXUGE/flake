@@ -22,6 +22,9 @@
     # Workaround random GPU crash
     # https://gitlab.freedesktop.org/drm/amd/-/issues/3647
     "amdgpu.dcdebugmask=0x10"
+    # Workaround ROCm GPU hang
+    # https://github.com/ROCm/TheRock/issues/1264
+    "amdgpu.cwsr_enable=0"
   ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
