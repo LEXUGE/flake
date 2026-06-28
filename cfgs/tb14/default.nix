@@ -98,6 +98,7 @@
           lmstudio
           anki
           amdgpu_top
+          uv
         ];
         extraDconf = {
           "org/gnome/desktop/interface"."scaling-factor" = hm.gvariant.mkUint32 2;

@@ -85,26 +85,28 @@
     };
   };
 
-  # For distrobox
-  virtualisation.podman = {
+  # For containerd + gVisor
+  environment.systemPackages = with pkgs; [
+    gvisor
+    nerdctl
+    iptables
+  ];
+  networking.nftables.enable = true;
+  virtualisation.containerd = {
     enable = true;
-    dockerCompat = true;
-  };
-  environment.systemPackages = [ pkgs.distrobox ];
 
-  # services.livebook = {
-  #   enableUserService = true;
-  #   environment = {
-  #     LIVEBOOK_PORT = 20123;
-  #     LIVEBOOK_PASSWORD = "mypassword123";
-  #   };
-  # };
+    settings = {
+      plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runsc = {
+        runtime_type = "io.containerd.runsc.v1";
+      };
+    };
+  };
 
   services.tailscale = {
     enable = true;
   };
   systemd.services.tailscaled.serviceConfig.Environment = [
-    "TS_DEBUG_FIREWALL_MODE=nftables"
+    "TS_DEBUG_FIREWALL_MODE=on"
   ];
   networking.firewall.checkReversePath = "loose";
   networking.firewall = {
