@@ -30,7 +30,7 @@
     pinlab.url = "github:LEXUGE/pinlab";
 
     # SecureBoot Management
-    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.3";
+    lanzaboote.url = "github:nix-community/lanzaboote/v1.1.0";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
 
     # Tool for NixOS on tmpfs

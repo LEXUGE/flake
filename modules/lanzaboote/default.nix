@@ -17,7 +17,7 @@ in
 
   config = mkIf cfg.enable {
     # needed by lanzaboote
-    boot.bootspec.enable = true;
+    # boot.bootspec.enable = true;
 
     # Lanzaboote should be the only bootloader
     boot.loader.systemd-boot.enable = lib.mkForce false;
