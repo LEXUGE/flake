@@ -80,6 +80,12 @@ in
             EDITOR = "nvim";
           };
 
+          # Extra PATH
+          home.sessionPath = [
+            "$HOME/.local/bin"
+            "$HOME/.cargo/bin"
+          ];
+
           # Allow fonts to be discovered
           fonts.fontconfig.enable = true;
 

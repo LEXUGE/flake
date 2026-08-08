@@ -85,22 +85,11 @@
     };
   };
 
-  # For containerd + gVisor
   environment.systemPackages = with pkgs; [
     gvisor
-    nerdctl
-    iptables
   ];
   networking.nftables.enable = true;
-  virtualisation.containerd = {
-    enable = true;
-
-    settings = {
-      plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runsc = {
-        runtime_type = "io.containerd.runsc.v1";
-      };
-    };
-  };
+  virtualisation.podman.enable = true;
 
   services.tailscale = {
     enable = true;

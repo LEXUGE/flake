@@ -160,18 +160,14 @@
             ".mozilla"
             ".thunderbird"
             ".config/qBittorrent"
-            ".config/coyim"
             ".config/Zulip"
             ".config/Signal"
-            ".config/news-flash"
-            ".config/marimo"
             ".config/google-chrome"
             ".config/JetBrains"
             ".codex"
+            ".pi"
             ".tor project"
-            ".julia-distrbox-home"
             ".Wolfram"
-            "org-files"
             # Both git-credentials and zsh_hist_dir doesn't seem to play well with impermanence
             {
               directory = ".git_creds_dir";
