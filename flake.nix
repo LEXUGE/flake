@@ -45,8 +45,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # sandbox
     guardian.url = "github:LEXUGE/guardian";
     guardian.inputs.nixpkgs.follows = "nixpkgs";
+
+    # pi-coding agent
+    pi-flake.url = "github:ChauDucToan/pi-flake";
   };
 
   outputs =
@@ -65,6 +69,7 @@
       lanzaboote,
       pre-commit-hooks,
       guardian,
+      pi-flake,
     }@inputs:
     with utils.lib;
     let

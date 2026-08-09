@@ -5,6 +5,7 @@
 }:
 let
   hm = inputs.home-manager.lib.hm;
+  system = pkgs.stdenv.hostPlatform.system;
 in
 {
   home = {
@@ -48,7 +49,8 @@ in
       anki
       amdgpu_top
       uv
-      inputs.guardian.packages.${pkgs.system}.default
+      inputs.guardian.packages.${system}.default
+      inputs.pi-flake.packages.${system}.default
     ];
     extraDconf = {
       "org/gnome/desktop/interface"."scaling-factor" = hm.gvariant.mkUint32 2;
