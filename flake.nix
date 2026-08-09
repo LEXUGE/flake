@@ -17,17 +17,9 @@
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
-    # My emacs config
-    # ash-emacs.url = "/home/ash/Documents/git/emacs.d";
-    ash-emacs.url = "github:LEXUGE/emacs.d";
-    ash-emacs.inputs.nixpkgs.follows = "nixpkgs";
-
     # My nvim configuration.
     vimrc.url = "github:LEXUGE/vimrc";
     # vimrc.inputs.nixpkgs.follows = "nixpkgs";
-
-    # Pinlab software
-    pinlab.url = "github:LEXUGE/pinlab";
 
     # SecureBoot Management
     lanzaboote.url = "github:nix-community/lanzaboote/v1.1.0";
@@ -40,6 +32,9 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    # Reactivate standalone Home Manager profiles on ephemeral homes.
+    rehomify.url = "github:nostorix/rehomify/0885d21d4653f4e514e1efe7d8fe9c1c7a1f96cd";
+
     # Secrets management
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
@@ -49,6 +44,9 @@
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    guardian.url = "github:LEXUGE/guardian";
+    guardian.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -60,13 +58,13 @@
       dcompass,
       impermanence,
       vimrc,
-      ash-emacs,
       home-manager,
+      rehomify,
       agenix,
       disko,
       lanzaboote,
       pre-commit-hooks,
-      pinlab,
+      guardian,
     }@inputs:
     with utils.lib;
     let
@@ -77,8 +75,6 @@
           name,
           extraMods ? [ ],
           extraOverlays ? [ ],
-          extraSubstituters ? [ ],
-          extraPublicKeys ? [ ],
           extraArgs ? { },
           system,
         }:
@@ -91,21 +87,7 @@
               {
                 config = {
                   nixpkgs.overlays = [ self.overlays.default ] ++ extraOverlays;
-                  nix.settings = {
-                    substituters = [
-                      # "https://dcompass.cachix.org"
-                      # "https://nix-community.cachix.org"
-                      # "https://lexuge.cachix.org"
-                    ]
-                    ++ extraSubstituters;
-                    trusted-public-keys = [
-                      dcompass.publicKey
-                      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-                      self.publicKey
-                    ]
-                    ++ extraPublicKeys;
-                    trusted-users = [ "@wheel" ];
-                  };
+                  nix.settings.trusted-users = [ "@wheel" ];
                   nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
                   nix.package = pkgs.nixVersions.latest;
                 };
@@ -131,47 +113,23 @@
               overlay = true;
             });
 
-          tweaks = final: prev: {
-            zotero = prev.buildEnv {
-              name = "zotero-mem-cap-suite";
-              # Intentional, other schemes may take up twice of storage and possibly a rebuild
-              ignoreCollisions = false;
-              paths = [
-                # uncapped version
-                (prev.writeShellScriptBin "zotero-mem-uncapped" ''
-                  ${prev.zotero}/bin/zotero "$@"
-                '')
-                # capped version
-                (lib.hiPrio (
-                  prev.writeShellScriptBin "zotero" ''
-                    ${prev.systemd}/bin/systemd-run --user --scope -p MemoryHigh=4G -p MemorySwapMax=4G ${prev.zotero}/bin/zotero "$@"
-                  ''
-                ))
-                prev.zotero
-              ];
-            };
-
-            tor-browser = prev.buildEnv {
-              name = "tor-browser-tweaks";
-              # Intentional, other schemes may take up twice of storage and possibly a rebuild
-              ignoreCollisions = false;
-              paths = [
-                (prev.writeShellScriptBin "tor-browser-vanilla" ''
-                  ${prev.tor-browser}/bin/tor-browser "$@"
-                '')
-                (lib.hiPrio (
-                  prev.writeShellScriptBin "tor-browser" ''
-                    ${prev.tor-browser}/bin/tor-browser --allow-remote "$@"
-                  ''
-                ))
-                prev.tor-browser
-              ];
-            };
-          };
         };
 
-        # Export modules under ./modules as NixOS modules
-        nixosModules = (import ./modules { inherit lib; });
+        nixosModules = import ./modules/system { inherit lib; };
+        homeModules = import ./modules/hm { inherit lib; };
+
+        homeConfigurations.ash = home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs {
+            system = system.x86_64-linux;
+            config.allowUnfree = true;
+            overlays = [ vimrc.overlays.default ];
+          };
+          extraSpecialArgs = { inherit inputs; };
+          modules = [
+            homeModules.home
+            ./cfgs/tb14/home.nix
+          ];
+        };
 
         # Export system cfgs
         nixosConfigurations.tb14 = mkSystem {
@@ -180,24 +138,18 @@
             nixosModules.tb-conservation
             nixosModules.base
             nixosModules.lanzaboote
-            nixosModules.home
             nixosModules.gnome-desktop
             nixosModules.dcompass
             nixosModules.timezone
             impermanence.nixosModules.impermanence
+            rehomify.nixosModules.rehomify
             disko.nixosModules.disko
-            home-manager.nixosModules.home-manager
             lanzaboote.nixosModules.lanzaboote
             agenix.nixosModules.age
             { disko.devices = diskoConfigurations.tb14; }
           ];
           extraOverlays = [
             dcompass.overlays.default
-            ash-emacs.overlays.emacs-overlay
-            ash-emacs.overlays.default
-            vimrc.overlays.default
-            self.overlays.tweaks
-            pinlab.overlays.default
             # WARN: Directly pulling in the overlay seems to break it due to nixpkgs incompatibility
             # (final: prev: {
             #   dcompass = {
@@ -211,7 +163,6 @@
         nixosConfigurations.img-tb14 = mkSystem {
           name = "img-tb14";
           extraMods = [
-            nixosModules.home
             nixosModules.base
             nixosModules.gnome-desktop
             nixosModules.dcompass
@@ -249,7 +200,6 @@
         imgs.tb14 = nixosConfigurations.img-tb14.config.system.build.isoImage;
         imgs.shards-script = nixosConfigurations.shards.config.system.build.diskoImagesScript;
 
-        publicKey = "lexuge.cachix.org-1:RRFg8AxcexeBd33smnmcayMLU6r2wbVKbZHWtg2dKnY=";
       }
       (
         eachSystem [ system.x86_64-linux ] (

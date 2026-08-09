@@ -1,7 +1,5 @@
 {
-  inputs,
   options,
-  lib,
   config,
   pkgs,
   ...
@@ -52,8 +50,6 @@
 
           echo "Blessed current PCRs"
         '';
-
-      hm = inputs.home-manager.lib.hm;
     in
     {
       my.gnome-desktop.enable = true;
@@ -62,47 +58,12 @@
         hostname = "tb14";
       };
 
-      # home-manager.users.ash.systemd.user.sessionVariables = config.home-manager.users.ash.home.sessionVariables;
-      my.home.ash = {
-        extraPackages = with pkgs; [
-          restic
-          newsflash
-          mat2
-          signal-desktop
-          zulip
-          # minecraft
-          tor-browser
-          tpm2-tools
-          sbctl
-          firefox
-          telegram-desktop
-          htop
-          qbittorrent
-          zoom-us
-          thunderbird-bin
-          pavucontrol
-          resources
-          kiwix
-          keepassxc
-          dnsperf
-          bless
-          dnsutils
-          smartmontools
-          powertop
-          steam
-          pinlab
-          zotero
-          profanity
-          jetbrains.idea-oss
-          ripgrep
-          lmstudio
-          anki
-          amdgpu_top
-          uv
-        ];
-        extraDconf = {
-          "org/gnome/desktop/interface"."scaling-factor" = hm.gvariant.mkUint32 2;
-        };
+      # Restore the persisted standalone Home Manager generation on every boot.
+      # `.local` is persisted below, including `.local/state/nix/profiles`.
+      nix.settings.use-xdg-base-directories = true;
+      rehomify = {
+        enable = true;
+        users = [ "ash" ];
       };
 
       programs.nix-ld = {
@@ -125,7 +86,10 @@
         nerd-fonts.fira-code
       ];
 
-      environment.systemPackages = with pkgs; [ kdiskmark ];
+      environment.systemPackages = with pkgs; [
+        kdiskmark
+        bless
+      ];
 
       environment.persistence."/persist" = {
         hideMounts = true;
@@ -166,6 +130,7 @@
             ".config/JetBrains"
             ".codex"
             ".pi"
+            ".cargo"
             ".tor project"
             ".Wolfram"
             # Both git-credentials and zsh_hist_dir doesn't seem to play well with impermanence

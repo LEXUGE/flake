@@ -11,7 +11,7 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  my.home.nixos = {
+  home-manager.users.nixos.my.home = {
     extraDconf =
       let
         hm = inputs.home-manager.lib.hm;

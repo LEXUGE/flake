@@ -1,6 +1,7 @@
 # This is a base module for building an installation image
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
@@ -31,7 +32,7 @@ in
     # This is a dummy key in ISO image, we shall not worry about its security.
     # Agenix breaks in LiveCD due to https://github.com/ryantm/agenix/issues/165.
     age.identityPaths = [
-      (pkgs.writeText "img_key_ed25519" (builtins.readFile ../../secrets/raw/img_key_ed25519))
+      (pkgs.writeText "img_key_ed25519" (builtins.readFile ../../../secrets/raw/img_key_ed25519))
     ];
 
     # GPG agent that makes GPG work in LiveCD.
@@ -117,13 +118,19 @@ in
       enable = true;
       hostname = "img";
     };
-    my.home.nixos = {
-      extraPackages = with pkgs; [
-        firefox
-        htop
-        dnsutils
-        smartmontools
-      ];
+    home-manager.useGlobalPkgs = true;
+    home-manager.sharedModules = [ inputs.self.homeModules.home ];
+    home-manager.users.nixos = {
+      home.stateVersion = config.system.stateVersion;
+      my.home = {
+        gnomeEnable = config.services.desktopManager.gnome.enable;
+        extraPackages = with pkgs; [
+          firefox
+          htop
+          dnsutils
+          smartmontools
+        ];
+      };
     };
 
     # This is a LiveCD, please don't enable disk config in NixOS.

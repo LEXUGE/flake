@@ -16,6 +16,6 @@
   my.dcompass = {
     enable = true;
     package = pkgs.dcompass.dcompass-maxmind;
-    settings = (import ../../misc/dcompass_settings.nix { inherit pkgs; });
+    settings = (import ../../../misc/dcompass_settings.nix { inherit pkgs; });
   };
 }
