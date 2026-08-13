@@ -89,7 +89,12 @@
     gvisor
   ];
   networking.nftables.enable = true;
-  virtualisation.podman.enable = true;
+  virtualisation.podman = {
+    enable = true;
+    extraRuntimes = with pkgs; [
+      gvisor
+    ];
+  };
 
   services.tailscale = {
     enable = true;

@@ -121,7 +121,6 @@
         };
 
         nixosModules = import ./modules/system { inherit lib; };
-        homeModules = import ./modules/hm { inherit lib; };
 
         homeConfigurations.ash = home-manager.lib.homeManagerConfiguration {
           pkgs = import nixpkgs {
@@ -130,10 +129,7 @@
             overlays = [ vimrc.overlays.default ];
           };
           extraSpecialArgs = { inherit inputs; };
-          modules = [
-            homeModules.home
-            ./cfgs/tb14/home.nix
-          ];
+          modules = [ ./cfgs/tb14/home.nix ];
         };
 
         # Export system cfgs

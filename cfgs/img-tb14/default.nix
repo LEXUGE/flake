@@ -11,13 +11,6 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  home-manager.users.nixos.my.home = {
-    extraDconf =
-      let
-        hm = inputs.home-manager.lib.hm;
-      in
-      {
-        "org/gnome/desktop/interface"."scaling-factor" = hm.gvariant.mkUint32 2;
-      };
-  };
+  home-manager.users.nixos.dconf.settings."org/gnome/desktop/interface"."scaling-factor" =
+    inputs.home-manager.lib.hm.gvariant.mkUint32 2;
 }

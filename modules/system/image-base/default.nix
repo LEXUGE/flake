@@ -1,7 +1,6 @@
 # This is a base module for building an installation image
 {
   config,
-  inputs,
   lib,
   pkgs,
   ...
@@ -119,12 +118,14 @@ in
       hostname = "img";
     };
     home-manager.useGlobalPkgs = true;
-    home-manager.sharedModules = [ inputs.self.homeModules.home ];
     home-manager.users.nixos = {
-      home.stateVersion = config.system.stateVersion;
-      my.home = {
-        gnomeEnable = config.services.desktopManager.gnome.enable;
-        extraPackages = with pkgs; [
+      imports = [
+        ../../../cfgs/home/core.nix
+        ../../../cfgs/home/gnome.nix
+      ];
+      home = {
+        stateVersion = config.system.stateVersion;
+        packages = with pkgs; [
           firefox
           htop
           dnsutils

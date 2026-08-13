@@ -331,11 +331,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1786200836,
-        "narHash": "sha256-8ZqGAnn9uKukaeoD8RhulwvfhygyJynuYf4wiIIrshc=",
+        "lastModified": 1786615713,
+        "narHash": "sha256-kZqWWpra5wTpox4U+9V4lVY37dDoWtAHUw4wNIsu+ls=",
         "owner": "LEXUGE",
         "repo": "guardian",
-        "rev": "54e6090f83c9441628a062e8384abc980a140f56",
+        "rev": "2b4ae971008d9d81fc1aa1db3b89c2c52b1213e0",
         "type": "github"
       },
       "original": {
