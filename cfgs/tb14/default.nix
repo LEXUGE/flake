@@ -179,6 +179,7 @@
               "tss"
               "video"
               "render"
+              "kvm"
             ];
           };
         };

@@ -331,11 +331,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1786615713,
-        "narHash": "sha256-kZqWWpra5wTpox4U+9V4lVY37dDoWtAHUw4wNIsu+ls=",
+        "lastModified": 1787749030,
+        "narHash": "sha256-tG+IXCNGns+TBvQ2IWTcPDMASEz7I3Y94pA+EpwZQp4=",
         "owner": "LEXUGE",
         "repo": "guardian",
-        "rev": "2b4ae971008d9d81fc1aa1db3b89c2c52b1213e0",
+        "rev": "c162bb86d0c831843c577db9f1d1a18044e3be69",
         "type": "github"
       },
       "original": {
@@ -719,11 +719,11 @@
         "nixpkgs": "nixpkgs_6"
       },
       "locked": {
-        "lastModified": 1786149934,
-        "narHash": "sha256-hyJ9R6io8PvxXcQnrp8GG00onn/PKiqtb7TImnrrTFU=",
+        "lastModified": 1787574887,
+        "narHash": "sha256-w/lBj8PtMS+gbrIKAUWkLOXyi7ynQUv3N4+ZltAMTwQ=",
         "owner": "ChauDucToan",
         "repo": "pi-flake",
-        "rev": "de9a1b5624f4a935d72797726889ffc97796f069",
+        "rev": "9543bb294b396f1d73817819bb82cf8755ee12e5",
         "type": "github"
       },
       "original": {
